@@ -35,7 +35,7 @@
         <!--Create New Role-->
         <actionGroup ref="AdminOpenCreateRolePageActionGroup" stepKey="goToNewRolePage"/>
         <actionGroup ref="AdminFillUserRoleFormActionGroup" stepKey="fillNewRoleForm">
-            <argument name="role" value="restrictedRole"/>
+            <argument name="role" value="roleSales"/>
         </actionGroup>
         <actionGroup ref="AdminClickSaveButtonOnUserRoleFormActionGroup" stepKey="saveNewRole"/>
 
@@ -44,7 +44,7 @@
             <argument name="user" value="NewAdminUser"/>
         </actionGroup>
         <actionGroup ref="AdminUpdateUserRoleActionGroup" stepKey="assignNewUserRole">
-            <argument name="role" value="restrictedRole"/>
+            <argument name="roleName" value="{{roleSales.name}}"/>
         </actionGroup>
         <actionGroup ref="AdminClickSaveButtonOnUserFormActionGroup" stepKey="saveUser"/>
         <actionGroup ref="logout" stepKey="logOutAsDefaultAdminUser"/>
@@ -54,11 +54,11 @@
 
         <!--Assert Impossible Delete Your Own Role-->
         <actionGroup ref="AdminOpenRoleEditPageActionGroup" stepKey="openRoleEditPage">
-            <argument name="role" value="restrictedRole"/>
+            <argument name="roleName" value="{{roleSales.name}}"/>
         </actionGroup>
         <actionGroup ref="AssertImpossibleDeleteYourOwnRoleActionGroup" stepKey="assertErrorMessage"/>
         <actionGroup ref="AssertRoleInGridActionGroup" stepKey="assertRoleInGrid">
-            <argument name="roleName" value="{{restrictedRole.name}}"/>
+            <argument name="roleName" value="{{roleSales.name}}"/>
         </actionGroup>
 
         <actionGroup ref="logout" stepKey="logOutAsNewUser"/>
@@ -66,13 +66,13 @@
 
         <!--Delete New Role-->
         <actionGroup ref="AdminDeleteUserRoleActionGroup" stepKey="deleteCustomRole">
-            <argument name="roleName" value="{{restrictedRole.name}}"/>
+            <argument name="roleName" value="{{roleSales.name}}"/>
         </actionGroup>
         <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessMessage">
             <argument name="message" value="You deleted the role."/>
         </actionGroup>
         <actionGroup ref="AssertRoleNotGridActionGroup" stepKey="assertRoleNotGrid">
-            <argument name="roleName" value="{{restrictedRole.name}}"/>
+            <argument name="roleName" value="{{roleSales.name}}"/>
         </actionGroup>
 
         <!--Delete New User-->
