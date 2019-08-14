@@ -40,7 +40,7 @@
 
         <!--Update the role resource access-->
         <actionGroup ref="AdminOpenRoleEditPageActionGroup" stepKey="openRoleEditPage">
-            <argument name="role" value="roleSales"/>
+            <argument name="roleName" value="{{roleSales.name}}"/>
         </actionGroup>
         <actionGroup ref="AdminUpdateRoleResourceAccessActionGroup" stepKey="setNewResourceAccess">
             <argument name="role" value="roleAdministrator"/>
