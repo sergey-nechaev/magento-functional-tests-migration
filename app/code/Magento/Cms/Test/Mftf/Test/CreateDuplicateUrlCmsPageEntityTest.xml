@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="CreateDuplicateUrlCmsPageEntityTest">
+        <annotations>
+            <features value="Cms"/>
+            <title value="Create Duplicate Url CMS Content Page"/>
+            <description value="Create Duplicate Url CMS Content Page"/>
+            <group value="cMSContent"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <actionGroup ref="LoginActionGroup" stepKey="loginGetFromGeneralFile"/>
+        </before>
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+        <amOnPage url="{{CmsNewPagePage.url}}" stepKey="amOnPageCreationForm"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+
+        <fillField selector="{{CmsNewPagePageBasicFieldsSection.pageTitle}}" userInput="Page Title" stepKey="fillFieldTitle"/>
+
+        <click selector="{{CmsNewPagePageSeoSection.header}}" stepKey="clickExpandSearchEngineOptimization"/>
+        <!--Using the URL of default Magento CMS page 404-->
+        <fillField selector="{{CmsNewPagePageSeoSection.urlKey}}" userInput="no-route" stepKey="fillFieldURLKey"/>
+
+        <waitForElementVisible selector="{{CmsNewPagePageActionsSection.expandSplitButton}}" stepKey="waitForSplitButton"/>
+        <click selector="{{CmsNewPagePageActionsSection.expandSplitButton}}" stepKey="expandSplitButton"/>
+        <waitForElementVisible selector="{{CmsNewPagePageActionsSection.savePage}}" stepKey="waitForSaveCmsPage"/>
+        <click selector="{{CmsNewPagePageActionsSection.savePage}}" stepKey="clickSaveCmsPage"/>
+
+        <see userInput="The value specified in the URL Key field would generate a URL that already exists." stepKey="FailureSavedCMSPageMsgOnGrid"/>
+    </test>
+</tests>
