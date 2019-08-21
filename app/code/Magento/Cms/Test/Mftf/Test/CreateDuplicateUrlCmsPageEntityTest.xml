@@ -22,20 +22,10 @@
         <after>
             <actionGroup ref="logout" stepKey="logout"/>
         </after>
-        <amOnPage url="{{CmsNewPagePage.url}}" stepKey="amOnPageCreationForm"/>
-        <waitForPageLoad stepKey="waitForPageLoad1"/>
-
-        <fillField selector="{{CmsNewPagePageBasicFieldsSection.pageTitle}}" userInput="Page Title" stepKey="fillFieldTitle"/>
-
-        <click selector="{{CmsNewPagePageSeoSection.header}}" stepKey="clickExpandSearchEngineOptimization"/>
-        <!--Using the URL of default Magento CMS page 404-->
-        <fillField selector="{{CmsNewPagePageSeoSection.urlKey}}" userInput="no-route" stepKey="fillFieldURLKey"/>
-
-        <waitForElementVisible selector="{{CmsNewPagePageActionsSection.expandSplitButton}}" stepKey="waitForSplitButton"/>
-        <click selector="{{CmsNewPagePageActionsSection.expandSplitButton}}" stepKey="expandSplitButton"/>
-        <waitForElementVisible selector="{{CmsNewPagePageActionsSection.savePage}}" stepKey="waitForSaveCmsPage"/>
-        <click selector="{{CmsNewPagePageActionsSection.savePage}}" stepKey="clickSaveCmsPage"/>
-
-        <see userInput="The value specified in the URL Key field would generate a URL that already exists." stepKey="FailureSavedCMSPageMsgOnGrid"/>
+        <actionGroup ref="CreateNewPageWithDuplicateUrlActionGroup" stepKey="CreateNewPageWithDuplicateUrlActionGroup">
+            <argument name="PageTitle" value="Page title"/>
+            <argument name="UrlKey" value="no-route"/>
+        </actionGroup>
+        <actionGroup ref="VerifySaveCMSPageFailureOnDuplicationUrlActionGroup" stepKey="FailureSavedCMSPageMsgOnGrid"/>
     </test>
 </tests>

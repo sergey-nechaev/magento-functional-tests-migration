@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="CreateNewPageWithDuplicateUrlActionGroup">
+        <annotations>
+            <description>Goes to the Admin CMS creation page. Fills in the provided Page details (Title, URL).</description>
+        </annotations>
+        <arguments>
+            <argument name="PageTitle" type="string"/>
+            <argument name="UrlKey" type="string"/>
+        </arguments>
+
+        <amOnPage url="{{CmsNewPagePage.url}}" stepKey="amOnPageCreationForm"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+
+        <fillField selector="{{CmsNewPagePageBasicFieldsSection.pageTitle}}" userInput="{{PageTitle}}" stepKey="fillFieldTitle"/>
+
+        <click selector="{{CmsNewPagePageSeoSection.header}}" stepKey="clickExpandSearchEngineOptimization"/>
+        <fillField selector="{{CmsNewPagePageSeoSection.urlKey}}" userInput="{{UrlKey}}" stepKey="fillFieldURLKey"/>
+
+        <waitForElementVisible selector="{{CmsNewPagePageActionsSection.expandSplitButton}}" stepKey="waitForSplitButton"/>
+        <click selector="{{CmsNewPagePageActionsSection.expandSplitButton}}" stepKey="expandSplitButton"/>
+        <waitForElementVisible selector="{{CmsNewPagePageActionsSection.savePage}}" stepKey="waitForSaveCmsPage"/>
+        <click selector="{{CmsNewPagePageActionsSection.savePage}}" stepKey="clickSaveCmsPage"/>
+    </actionGroup>
+</actionGroups>
