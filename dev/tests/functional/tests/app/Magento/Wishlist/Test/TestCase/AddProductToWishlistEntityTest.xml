@@ -15,24 +15,28 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInCustomerBackendWishlist" />
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation2">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product/0" xsi:type="string">catalogProductVirtual::default</data>
             <constraint name="Magento\Wishlist\Test\Constraint\AssertAddProductToWishlistSuccessMessage" />
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInWishlist" />
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInCustomerBackendWishlist" />
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation3">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product/0" xsi:type="string">downloadableProduct::with_two_separately_links</data>
             <constraint name="Magento\Wishlist\Test\Constraint\AssertAddProductToWishlistSuccessMessage" />
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInWishlist" />
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInCustomerBackendWishlist" />
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation4">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product/0" xsi:type="string">groupedProduct::three_simple_products</data>
             <constraint name="Magento\Wishlist\Test\Constraint\AssertAddProductToWishlistSuccessMessage" />
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInWishlist" />
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInCustomerBackendWishlist" />
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation5">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product/0" xsi:type="string">configurableProduct::default</data>
             <constraint name="Magento\Wishlist\Test\Constraint\AssertAddProductToWishlistSuccessMessage" />
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInWishlist" />
@@ -53,6 +57,7 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductIsPresentInCustomerBackendWishlist" />
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation8">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product/0" xsi:type="string">configurableProduct::default</data>
             <data name="configure" xsi:type="boolean">false</data>
             <constraint name="Magento\Wishlist\Test\Constraint\AssertAddProductToWishlistSuccessMessage" />
@@ -60,6 +65,7 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductPriceIsNotZero" />
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation9" ticketId="MAGETWO-90131">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product" xsi:type="array">
                 <item name="0" xsi:type="string">catalogProductSimple::withSpecialPrice</item>
             </data>
@@ -69,6 +75,7 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductRegularPriceOnStorefront"/>
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation10" ticketId="MAGETWO-90131">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product" xsi:type="array">
                 <item name="0" xsi:type="string">catalogProductVirtual::product_with_special_price</item>
             </data>
@@ -78,6 +85,7 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductRegularPriceOnStorefront"/>
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation11" ticketId="MAGETWO-90131">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product" xsi:type="array">
                 <item name="0" xsi:type="string">
                     downloadableProduct::with_two_separately_links_special_price_and_category
@@ -89,6 +97,7 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductRegularPriceOnStorefront"/>
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation12" ticketId="MAGETWO-90131">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product" xsi:type="array">
                 <item name="0" xsi:type="string">groupedProduct::grouped_product_with_special_price</item>
             </data>
@@ -98,6 +107,7 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductRegularPriceOnStorefront"/>
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation13" ticketId="MAGETWO-90131">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product" xsi:type="array">
                 <item name="0" xsi:type="string">configurableProduct::product_with_special_price</item>
             </data>
@@ -107,6 +117,7 @@
             <constraint name="Magento\Wishlist\Test\Constraint\AssertProductRegularPriceOnStorefront"/>
         </variation>
         <variation name="AddProductToWishlistEntityTestVariation14" ticketId="MAGETWO-90131">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product" xsi:type="array">
                 <item name="0" xsi:type="string">bundleProduct::default_with_one_simple_product</item>
             </data>

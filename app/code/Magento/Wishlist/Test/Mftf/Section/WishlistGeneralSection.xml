@@ -11,5 +11,9 @@
     <section name="WishlistGeneralSection">
         <element name="GeneralOptionsTab" type="button" selector="#wishlist_general-head"/>
         <element name="CheckIfGeneralOptionsTabExpand" type="button" selector="#wishlist_general-head:not(.open)"/>
+        <element name="WishlistTab" type="button" selector="#tab_wishlist_content"/>
+        <element name="productNameInGrid" type="text" selector="td.col-product_name"/>
+        <element name="deleteProductFromWishlistByName" type="button" selector="//td[contains(text(), '{{productName}}')]/following-sibling::td/a[contains(text(), 'Delete')]" parameterized="true"/>
+        <element name="deleteConfigProductFromWishlistByName" type="button" selector="//td/div[contains(text(), '{{productName}}')]/../following-sibling::td/a[contains(text(), 'Delete')]" parameterized="true"/>
     </section>
 </sections>

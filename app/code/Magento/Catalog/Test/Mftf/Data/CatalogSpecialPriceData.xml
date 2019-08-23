@@ -17,4 +17,14 @@
         <data key="store_id">0</data>
         <var key="sku" entityType="product" entityKey="sku" />
     </entity>
+    <entity name="specialProductPrice9" type="catalogSpecialPrice">
+        <data key="price">9.00</data>
+        <data key="store_id">0</data>
+        <var key="sku" entityType="product" entityKey="sku" />
+    </entity>
+    <entity name="specialProductPrice20" type="catalogSpecialPrice">
+        <data key="price">20.00</data>
+        <data key="store_id">0</data>
+        <var key="sku" entityType="product" entityKey="sku" />
+    </entity>
 </entities>
