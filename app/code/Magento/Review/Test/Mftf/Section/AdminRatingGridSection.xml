@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminRatingGridSection">
+        <element name="ratingIdFilter" type="input" selector="#ratingsGrid_filter_rating_id"/>
+        <element name="ratingCodeFilter" type="select" selector="#ratingsGrid_filter_rating_code"/>
+        <element name="positionFilter" type="select" selector="#ratingsGrid_filter_position"/>
+        <element name="isActiveFilter" type="select" selector="#ratingsGrid_filter_is_active"/>
+        <element name="firstRow" type="block" selector=".data-grid tbody tr:nth-of-type(1)"/>
+        <element name="search" type="button" selector="#ratingsGrid .admin__data-grid-header.admin__data-grid-toolbar [data-action='grid-filter-apply']" />
+        <element name="resetFilter" type="button" selector="#ratingsGrid .admin__data-grid-header.admin__data-grid-toolbar [data-action='grid-filter-reset']" />
+    </section>
+</sections>

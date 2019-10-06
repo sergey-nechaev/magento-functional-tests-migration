@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+
+    <test name="AdminCreateInactiveProductRatingTest">
+        <annotations>
+            <features value="Review"/>
+            <stories value="Create custom inactive product rating in admin"/>
+            <title value="Create custom inactive product rating in admin"/>
+            <description value="Create custom inactive product rating in admin"/>
+            <severity value="MAJOR"/>
+            <testCaseId value=""/>
+            <group value="review"/>
+            <group value="mtf_migrated" />
+        </annotations>
+
+        <before>
+            <createData entity="SimpleProductWithDescription" stepKey="createProduct"/>
+            <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+        </after>
+
+        <amOnPage url="{{AdminRatingGridPage.url}}" stepKey="amOnRatingGridPage" />
+        <click selector="#add" stepKey="clickNewRatingButton" />
+        <waitForPageLoad stepKey="waitForNewRatingPageToLoad"/>
+
+        <!-- Fill out rating and save -->
+        <actionGroup ref="AdminFillInInactiveRatingActionGroup" stepKey="fillInRating" />
+        <grabValueFrom selector="{{AdminNewRatingSection.ratingCode}}" stepKey="grabRatingCode"/>
+        <actionGroup ref="AdminSaveProductRatingActionGroup" stepKey="saveRating" />
+
+        <!-- Assert rating is in grid -->
+        <click selector="{{AdminRatingGridSection.resetFilter}}" stepKey="resetGridFilter"/>
+        <waitForPageLoad stepKey="waitForFiltersReset"/>
+        <fillField userInput="{$grabRatingCode}" selector="{{AdminRatingGridSection.ratingCodeFilter}}"
+                   stepKey="fillRatingCodeFilter"/>
+        <click selector="{{AdminRatingGridSection.search}}" stepKey="clickSearchButton"/>
+        <see selector="{{AdminRatingGridSection.firstRow}}" userInput="{$grabRatingCode}"
+             stepKey="seeRatingCodeInGrid"/>
+
+        <actionGroup ref="logout" stepKey="logout"/>
+
+        <!-- Assert rating is noton product view page -->
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="openCreatedProductPage">
+            <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
+        </actionGroup>
+        <click selector="{{StorefrontProductReviewsSection.reviewsTab}}" stepKey="openReviewTab"/>
+
+        <dontSeeElement selector="#{$grabRatingCode}_rating_label" stepKey="dontSeeProductRating"/>
+    </test>
+
+</tests>

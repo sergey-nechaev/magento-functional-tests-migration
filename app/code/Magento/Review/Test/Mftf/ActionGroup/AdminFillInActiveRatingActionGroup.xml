@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminFillInActiveRatingActionGroup">
+        <annotations>
+            <description>Fills in the fields on a product rating and sets it to active</description>
+        </annotations>
+        <arguments>
+            <argument name="rating" defaultValue="ProductRating" />
+        </arguments>
+        <fillField selector="{{AdminNewRatingSection.ratingCode}}" userInput="{{rating.ratingCode}}" stepKey="fillRatingTitle" />
+        <selectOption selector="{{AdminNewRatingSection.stores}}" parameterArray="{{rating.stores}}" stepKey="selectStore"/>
+        <checkOption selector="{{AdminNewRatingSection.isActive}}" stepKey="setIsActive" />
+        <fillField selector="{{AdminNewRatingSection.position}}" userInput="{{rating.position}}" stepKey="fillPosition" />
+    </actionGroup>
+</actionGroups>
