@@ -11,5 +11,9 @@
     <section name="AdminSearchSynonymsGridSection">
         <element name="newSynonymGroup" type="button" selector="button[title='New Synonym Group']"/>
         <element name="column" type="text" selector="//tr//td[count(//div[@data-role='grid-wrapper']//tr//th[contains(., '{{col}}')]/preceding-sibling::th) +1 ]" parameterized="true"/>
+        <element name="selectFirstRow" type="checkbox" selector="//td[@class='data-grid-checkbox-cell']"/>
+        <element name="actions" type="button" selector="//div[@class='col-xs-2']/div[@class='action-select-wrap']/button[@class='action-select']" timeout="30"/>
+        <element name="delete" type="button" selector="//*[contains(@class,'admin__data-grid-header-row row row-gutter')]//*[text()='Delete']" timeout="30"/>
+        <element name="ok" type="button" selector="//button[@data-role='action']//span[text()='OK']" timeout="30"/>
     </section>
 </sections>
