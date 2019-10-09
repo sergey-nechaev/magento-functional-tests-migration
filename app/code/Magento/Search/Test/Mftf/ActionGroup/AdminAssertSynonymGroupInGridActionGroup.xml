@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAssertSynonymGroupInGridActionGroup">
+        <annotations>
+            <description>Validates that the provided synonyms group is present on the Search Synonyms grid page.</description>
+        </annotations>
+        <arguments>
+            <argument name="text" type="string"/>
+        </arguments>
+
+        <click selector="{{AdminDataGridHeaderSection.filters}}" stepKey="openFiltersSectionOnCustomerGroupIndexPage"/>
+        <conditionalClick selector="{{AdminDataGridHeaderSection.clearFilters}}" dependentSelector="{{AdminDataGridHeaderSection.clearFilters}}" visible="true" stepKey="cleanFiltersIfTheySet"/>
+        <fillField selector="{{AdminDataGridHeaderSection.filterFieldInput('synonyms')}}" userInput="{{text}}" stepKey="fillNameFieldOnFiltersSection"/>
+        <click selector="{{AdminDataGridHeaderSection.applyFilters}}" stepKey="clickApplyFiltersButton"/>
+        <waitForPageLoad stepKey="waitForGridToLoad" time="15"/>
+        <see  selector="{{AdminSearchSynonymsGridSection.column('Synonym')}}" userInput="{{text}}" stepKey="seeSynonymGroupInGrid"/>
+    </actionGroup>
+</actionGroups>

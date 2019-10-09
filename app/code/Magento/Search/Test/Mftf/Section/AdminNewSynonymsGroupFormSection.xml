@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminNewSynonymsGroupFormSection">
+        <element name="scopeValue" type="select" selector="//select[@class='admin__control-select']//option[contains(., '{{var}}')]" parameterized="true" />
+        <element name="synonyms" type="input" selector="//textarea[@class='admin__control-textarea']"/>
+        <element name="save" type="button" selector="//button[@title='Save Synonym Group']"/>
+    </section>
+</sections>
