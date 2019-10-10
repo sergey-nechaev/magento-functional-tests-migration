@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminDeleteProductRatingActionGroup">
+        <annotations>
+            <description>Deletes a product rating</description>
+        </annotations>
+
+        <arguments>
+            <argument name="productRatingTitle" type="string"/>
+        </arguments>
+
+        <amOnPage url="{{AdminRatingGridPage.url}}" stepKey="amOnRatingGridPage"/>
+        <click selector="{{AdminRatingGridSection.resetFilter}}" stepKey="resetGridFilter"/>
+        <waitForPageLoad stepKey="waitForFiltersReset"/>
+        <fillField userInput="{{productRatingTitle}}" selector="{{AdminRatingGridSection.ratingCodeFilter}}"
+                   stepKey="fillRatingCodeFilter"/>
+        <click selector="{{AdminRatingGridSection.search}}" stepKey="clickSearchButton"/>
+        <click selector="{{AdminRatingGridSection.firstRow}}" stepKey="clickProductRatingInGrid"/>
+        <waitForPageLoad stepKey="waitForRatingEditPage"/>
+        <click selector="{{AdminEditRatingSection.deleteButton}}" stepKey="deleteRating"/>
+        <waitForText userInput="Are you sure you want to do this?" stepKey="waitForDeleteConfirmation"/>
+        <click selector="{{AdminEditRatingSection.confirmDelete}}" stepKey="confirmDelete"/>
+        <waitForPageLoad stepKey="waitForSaveResultLoad"/>
+        <see userInput="You deleted the rating." stepKey="seeSuccessMessage" />
+    </actionGroup>
+</actionGroups>

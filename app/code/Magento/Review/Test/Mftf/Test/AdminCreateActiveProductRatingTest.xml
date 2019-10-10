@@ -54,6 +54,12 @@
         </actionGroup>
         <click selector="{{StorefrontProductReviewsSection.reviewsTab}}" stepKey="openReviewTab"/>
         <seeElement selector="#{$grabRatingCode}_rating_label" stepKey="seeProductRating"/>
+
+        <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
+            <argument name="productRatingTitle" value="{$grabRatingCode}" />
+        </actionGroup>
+
     </test>
 
 </tests>
