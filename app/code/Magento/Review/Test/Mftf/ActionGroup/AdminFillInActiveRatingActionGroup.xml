@@ -12,7 +12,7 @@
             <description>Fills in the fields on a product rating and sets it to active</description>
         </annotations>
         <arguments>
-            <argument name="rating" defaultValue="ProductRating" />
+            <argument name="rating" defaultValue="ProductRatingActiveDefaultStore" />
         </arguments>
         <fillField selector="{{AdminNewRatingSection.ratingCode}}" userInput="{{rating.ratingCode}}" stepKey="fillRatingTitle" />
         <selectOption selector="{{AdminNewRatingSection.stores}}" parameterArray="{{rating.stores}}" stepKey="selectStore"/>
