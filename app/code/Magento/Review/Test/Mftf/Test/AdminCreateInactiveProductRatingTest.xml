@@ -53,8 +53,13 @@
             <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
         </actionGroup>
         <click selector="{{StorefrontProductReviewsSection.reviewsTab}}" stepKey="openReviewTab"/>
-
         <dontSeeElement selector="#{$grabRatingCode}_rating_label" stepKey="dontSeeProductRating"/>
+
+        <!-- delete rating -->
+        <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
+            <argument name="productRatingTitle" value="{$grabRatingCode}" />
+        </actionGroup>
     </test>
 
 </tests>
