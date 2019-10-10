@@ -34,52 +34,50 @@
         <actionGroup ref="AdminOpenSearchSynonymsPageActionGroup" stepKey="openSearchSynonymsPageFistAttempt"/>
         <actionGroup ref="AdminClickNewSynonymGroupButtonActionGroup" stepKey="clickNewSynonymGroupButtonFistAttempt"/>
         <actionGroup ref="AdminFillNewSynonymGroupFormRequiredFieldsActionGroup" stepKey="fillNewSynonymsGroupFormFistAttempt">
-            <argument name="synonyms" value="synonym"/>
+            <argument name="synonyms" value="test synonym group"/>
         </actionGroup>
         <actionGroup ref="AdminClickSaveButtonOnSynonymGroupFormActionGroup" stepKey="saveSynonymGroupFistAttempt"/>
         <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessMessageFirstTimeFistAttempt">
             <argument name="message" value="You saved the synonym group."/>
         </actionGroup>
-        <actionGroup ref="AdminAssertSynonymGroupInGridActionGroup" stepKey="checkCustomerInGridFistAttempt">
-            <argument name="text" value="synonym"/>
+        <actionGroup ref="AdminSearchSynonymGroupBySynonymsActionGroup" stepKey="searchForSynonymsGroupFistAttempt">
+            <argument name="text" value="test synonym group"/>
         </actionGroup>
-
-        <actionGroup ref="AdminDeleteSynonymGroupActionGroup" stepKey="deleteSynonymsGroupFistAttempt">
-            <argument name="text" value="synonym"/>
+        <actionGroup ref="AdminAssertSynonymGroupInGridActionGroup" stepKey="checkSynonymGroupInGridFistAttempt">
+            <argument name="text" value="test synonym group"/>
         </actionGroup>
 
         <!-- Create Synonym Group Second Attempt-->
-        <!--<actionGroup ref="AdminOpenSearchSynonymsPageActionGroup" stepKey="openSearchSynonymsPageSecondAttempt"/>-->
-        <!--<actionGroup ref="AdminClickNewSynonymGroupButtonActionGroup" stepKey="clickNewSynonymGroupButtonSecondAttempt"/>-->
-        <!--<actionGroup ref="AdminFillNewSynonymGroupFormRequiredFieldsActionGroup" stepKey="fillNewSynonymsGroupFormSecondAttempt">-->
-            <!--<argument name="scopeValue" value="All Store Views"/>-->
-            <!--<argument name="synonyms" value="shoes,foot wear,mens shoes,women shoes"/>-->
-        <!--</actionGroup>-->
-        <!--<actionGroup ref="AdminClickSaveButtonOnSynonymGroupFormActionGroup" stepKey="saveSynonymGroupSecondAttempt"/>-->
-        <!--<actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessMessageFirstTimeSecondAttempt">-->
-            <!--<argument name="message" value="You saved the synonym group."/>-->
-        <!--</actionGroup>-->
-        <!--<actionGroup ref="AdminAssertSynonymGroupInGridActionGroup" stepKey="checkCustomerInGridSecondAttempt">-->
-            <!--<argument name="text" value="shoes,foot wear,mens shoes,women shoes"/>-->
-        <!--</actionGroup>-->
+        <actionGroup ref="AdminOpenSearchSynonymsPageActionGroup" stepKey="openSearchSynonymsPageSecondAttempt"/>
+        <actionGroup ref="AdminClickNewSynonymGroupButtonActionGroup" stepKey="clickNewSynonymGroupButtonSecondAttempt"/>
+        <actionGroup ref="AdminFillNewSynonymGroupFormRequiredFieldsActionGroup" stepKey="fillNewSynonymsGroupFormSecondAttempt">
+            <argument name="scopeValue" value="All Store Views"/>
+            <argument name="synonyms" value="shoes,foot wear,mens shoes,women shoes"/>
+        </actionGroup>
+        <actionGroup ref="AdminClickSaveButtonOnSynonymGroupFormActionGroup" stepKey="saveSynonymGroupSecondAttempt"/>
+        <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessMessageFirstTimeSecondAttempt">
+            <argument name="message" value="You saved the synonym group."/>
+        </actionGroup>
+        <actionGroup ref="AdminSearchSynonymGroupBySynonymsActionGroup" stepKey="searchForSynonymsGroupSecondAttempt">
+            <argument name="text" value="shoes,foot wear,mens shoes,women shoes"/>
+        </actionGroup>
+        <actionGroup ref="AdminAssertSynonymGroupInGridActionGroup" stepKey="checkCustomerInGridSecondAttempt">
+            <argument name="text" value="shoes,foot wear,mens shoes,women shoes"/>
+        </actionGroup>
 
-        <!--&lt;!&ndash; Create Synonym Group Third Attempt&ndash;&gt;-->
-        <!--<actionGroup ref="AdminOpenSearchSynonymsPageActionGroup" stepKey="openSearchSynonymsPageThirdAttempt"/>-->
-        <!--<actionGroup ref="AdminClickNewSynonymGroupButtonActionGroup" stepKey="clickNewSynonymGroupButtonThirdAttempt"/>-->
-        <!--<actionGroup ref="AdminFillNewSynonymGroupFormRequiredFieldsActionGroup" stepKey="fillNewSynonymsGroupFormThirdAttempt">-->
-            <!--<argument name="scopeValue" value="{{customStore.name}}"/>-->
-            <!--<argument name="synonyms" value="shoes,foot wear,mens shoes,women shoes"/>-->
-        <!--</actionGroup>-->
-        <!--<actionGroup ref="AdminClickSaveButtonOnSynonymGroupFormActionGroup" stepKey="saveSynonymGroupThirdAttempt"/>-->
-        <!--<actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessMessageFirstTimeThirdAttempt">-->
-            <!--<argument name="message" value="You saved the synonym group."/>-->
-        <!--</actionGroup>-->
-        <!--<actionGroup ref="AdminAssertSynonymGroupInGridActionGroup" stepKey="checkCustomerInGridThirdAttempt">-->
-            <!--<argument name="text" value="shoes,foot wear,mens shoes,women shoes"/>-->
-        <!--</actionGroup>-->
+        <!-- Delete synonyms groups -->
+        <actionGroup ref="AdminDeleteSynonymGroupActionGroup" stepKey="deleteSynonymsGroupFistAttempt">
+            <argument name="text" value="synonym"/>
+        </actionGroup>
+        <actionGroup ref="AdminSearchSynonymGroupBySynonymsActionGroup" stepKey="searchForSynonymsGroupThirdAttempt">
+            <argument name="text" value="synonym"/>
+        </actionGroup>
+        <actionGroup ref="AdminDeleteSynonymGroupActionGroup" stepKey="deleteSynonymsGroupSecondAttempt">
+            <argument name="text" value="test synonym group"/>
+        </actionGroup>
+
         <!-- Delete store view -->
         <!--<actionGroup ref="AdminDeleteStoreViewActionGroup" stepKey="deleteCreatedStoreView"/>-->
-
 
     </test>
 </tests>

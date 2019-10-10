@@ -15,8 +15,7 @@
         <arguments>
             <argument name="text" type="string"/>
         </arguments>
-
-        <click selector="{{AdminSearchSynonymsGridSection.selectFirstRow}}" stepKey="clickOnEditButton1"/>
+        <click selector="{{AdminSearchSynonymsGridSection.selectFirstRow}}" stepKey="clickOnCheckboxButton"/>
         <click selector="{{AdminSearchSynonymsGridSection.actions}}" stepKey="clickActionsDropdown"/>
         <click selector="{{AdminSearchSynonymsGridSection.delete}}" stepKey="clickDelete"/>
         <waitForElementVisible selector="{{AdminSearchSynonymsGridSection.ok}}" stepKey="waitForOkToVisible"/>
