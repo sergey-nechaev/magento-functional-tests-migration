@@ -14,7 +14,7 @@
         <arguments>
             <argument name="rating" defaultValue="ProductRatingActiveDefaultStore" />
         </arguments>
-        <fillField selector="{{AdminNewRatingSection.ratingCode}}" userInput="{{rating.ratingCode}}" stepKey="fillRatingTitle" />
+        <fillField selector="{{AdminNewRatingSection.ratingCode}}" userInput="{{rating.rating_code}}" stepKey="fillRatingTitle" />
         <selectOption selector="{{AdminNewRatingSection.stores}}" parameterArray="{{rating.stores}}" stepKey="selectStore"/>
         <checkOption selector="{{AdminNewRatingSection.isActive}}" stepKey="setIsActive" />
         <fillField selector="{{AdminNewRatingSection.position}}" userInput="{{rating.position}}" stepKey="fillPosition" />

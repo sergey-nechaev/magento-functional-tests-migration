@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+
+    <test name="AdminDeleteProductRatingTest">
+        <annotations>
+            <features value="Review"/>
+            <stories value="Delete a product rating from the admin"/>
+            <title value="Delete a product rating from the admin"/>
+            <description value="Admin should be able to delete a product rating"/>
+            <severity value="MAJOR"/>
+            <testCaseId value=""/>
+            <group value="review"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+            <createData entity="SimpleProductWithDescription" stepKey="createProduct"/>
+            <createData entity="ProductRatingActiveDefaultStore" stepKey="createProductRating" />
+            <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+        </after>
+
+        <!-- Delete rating -->
+        <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
+            <argument name="productRatingTitle" value="$createProductRating.rating_code$" />
+        </actionGroup>
+
+        <!-- Assert rating is not in grid -->
+        <click selector="{{AdminRatingGridSection.resetFilter}}" stepKey="resetGridFilter"/>
+        <waitForPageLoad stepKey="waitForFiltersReset"/>
+        <fillField userInput="$createProductRating.rating_code$" selector="{{AdminRatingGridSection.ratingCodeFilter}}"
+                   stepKey="fillRatingCodeFilter"/>
+        <click selector="{{AdminRatingGridSection.search}}" stepKey="clickSearchButton"/>
+        <dontSee selector="{{AdminRatingGridSection.firstRow}}" userInput="$createProductRating.rating_code$"
+             stepKey="dontSeeRatingCodeInGrid"/>
+
+        <actionGroup ref="logout" stepKey="logout"/>
+
+        <!-- Assert rating is not on product view page -->
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="openCreatedProductPage">
+            <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
+        </actionGroup>
+        <click selector="{{StorefrontProductReviewsSection.reviewsTab}}" stepKey="openReviewTab"/>
+        <dontSeeElement selector="#$createProductRating.rating_code$_rating_label" stepKey="dontSeeProductRating"/>
+
+    </test>
+
+</tests>

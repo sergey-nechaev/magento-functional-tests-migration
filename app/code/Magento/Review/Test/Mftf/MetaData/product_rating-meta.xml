@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<operations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataOperation.xsd">
+    <operation name="CreateProductRating" dataType="productRating" type="create"
+               auth="adminFormKey" url="/review/rating/save/" method="POST" successRegex="/messages-message-success/">
+        <contentType>application/x-www-form-urlencoded</contentType>
+        <field key="rating_code" required="true">string</field>
+        <array key="stores">
+            <value>integer</value>
+        </array>
+        <field key="option_title[add_1]" type="hidden">integer</field>
+        <field key="option_title[add_2]" type="hidden">integer</field>
+        <field key="option_title[add_3]" type="hidden">integer</field>
+        <field key="option_title[add_4]" type="hidden">integer</field>
+        <field key="option_title[add_5]" type="hidden">integer</field>
+        <field key="is_active">string</field>
+        <field key="position">int</field>
+    </operation>
+</operations>
+
