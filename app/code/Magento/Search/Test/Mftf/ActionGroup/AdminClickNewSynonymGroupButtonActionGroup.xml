@@ -12,7 +12,6 @@
         <annotations>
             <description>Clicks on "New Synonym Group" button on the Search Synonyms page.</description>
         </annotations>
-
         <click selector="{{AdminSearchSynonymsGridSection.newSynonymGroup}}" stepKey="presNewSynonymGroupButton"/>
         <waitForPageLoad stepKey="waitForPageLoad"/>
     </actionGroup>

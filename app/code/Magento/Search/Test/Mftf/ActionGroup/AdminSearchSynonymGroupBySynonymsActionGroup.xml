@@ -14,7 +14,7 @@
         <arguments>
             <argument name="text" type="string"/>
         </arguments>
-        <click selector="{{AdminDataGridHeaderSection.filters}}" stepKey="openFiltersSectionOnCustomerGroupIndexPage"/>
+        <click selector="{{AdminDataGridHeaderSection.filters}}" stepKey="openFiltersSectionOnSearchSynonymsPage"/>
         <conditionalClick selector="{{AdminDataGridHeaderSection.clearFilters}}" dependentSelector="{{AdminDataGridHeaderSection.clearFilters}}" visible="true" stepKey="cleanFiltersIfTheySet"/>
         <fillField selector="{{AdminDataGridHeaderSection.filterFieldInput('synonyms')}}" userInput="{{text}}" stepKey="fillNameFieldOnFiltersSection"/>
         <click selector="{{AdminDataGridHeaderSection.applyFilters}}" stepKey="clickApplyFiltersButton"/>

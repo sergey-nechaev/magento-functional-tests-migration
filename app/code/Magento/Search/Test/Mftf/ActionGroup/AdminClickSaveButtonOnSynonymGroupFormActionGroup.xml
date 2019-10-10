@@ -12,7 +12,6 @@
         <annotations>
             <description>Clicks on Save on the Synonyms Group creation/edit page.</description>
         </annotations>
-
         <click selector="{{AdminNewSynonymsGroupFormSection.save}}" stepKey="saveSynonymGroup"/>
         <waitForPageLoad stepKey="waitForSaveResultLoad"/>
     </actionGroup>
