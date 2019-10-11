@@ -60,6 +60,7 @@
         <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
             <argument name="productRatingTitle" value="{$grabRatingCode}" />
         </actionGroup>
+        <actionGroup ref="logout" stepKey="logoutAfterDeletingRating"/>
 
     </test>
 

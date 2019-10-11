@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+
+    <test name="StorefrontCreateProductReviewWithRatingTest">
+        <annotations>
+            <features value="Review"/>
+            <stories value="Create product review with a rating as a guest on frontend"/>
+            <title value="Create product review with a rating as a guest on frontend"/>
+            <description value="Create product review with a rating as a guest on frontend"/>
+            <severity value="MAJOR"/>
+            <testCaseId value=""/>
+            <group value="review"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+            <!-- Create product with description -->
+            <createData entity="SimpleProductWithDescription" stepKey="createProduct"/>
+            <createData entity="ProductRatingActiveDefaultStore" stepKey="createProductRating" />
+        </before>
+        <after>
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+        </after>
+
+        <!-- Go to the product view page -->
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="openCreatedProductPage">
+            <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
+        </actionGroup>
+
+        <!-- Click on reviews and add review with current user -->
+        <actionGroup ref="StorefrontAddProductReviewWithRatingActionGroup" stepKey="addReview"/>
+
+        <!-- delete rating -->
+        <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
+            <argument name="productRatingTitle" value="$$createProductRating.rating_code$$" />
+        </actionGroup>
+        <actionGroup ref="logout" stepKey="logout"/>
+    </test>
+</tests>

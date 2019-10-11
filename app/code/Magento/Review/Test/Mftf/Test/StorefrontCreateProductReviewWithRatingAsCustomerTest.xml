@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+
+    <test name="StorefrontCreateProductReviewWithRatingAsCustomerTest"
+          extends="StorefrontCreateProductReviewWithRatingTest">
+        <annotations>
+            <features value="Review"/>
+            <stories value="Create product review with a rating as a customer on frontend"/>
+            <title value="Create product review with a rating as a customer on frontend"/>
+            <description value="Create product review with a rating as a customer on frontend"/>
+            <severity value="MAJOR"/>
+            <testCaseId value=""/>
+            <group value="review"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+            <createData entity="CustomerEntityOne" stepKey="createCustomerEntity"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createCustomerEntity" stepKey="deleteCustomerEntity"/>
+        </after>
+
+        <!-- login as customer -->
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer" before="openCreatedProductPage">
+            <argument name="Customer" value="$$createCustomerEntity$$"/>
+        </actionGroup>
+
+        <!-- Click on reviews and add review with logged in customer -->
+        <actionGroup ref="StorefrontAddProductReviewWithRatingAsCustomerActionGroup" stepKey="addReview">
+            <argument name="review" value="simpleProductReviewAsCustomer"/>
+        </actionGroup>
+    </test>
+</tests>

@@ -8,9 +8,11 @@
 
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
-    <entity name="simpleProductReview">
-        <data key="nickname" unique="suffix">user</data>
+    <entity name="simpleProductReviewAsCustomer">
         <data key="title">Review title</data>
-        <data key="detail">Simple product review</data>
+        <data key="detail">Simple product review as customer</data>
+    </entity>
+    <entity name="simpleProductReview" extends="simpleProductReviewAsCustomer">
+        <data key="nickname" unique="suffix">user</data>
     </entity>
 </entities>
