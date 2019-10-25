@@ -8,6 +8,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/etc/variations.xsd">
     <testCase name="Magento\Bundle\Test\TestCase\CreateBundleProductEntityTest" summary="Create Bundle Product" ticketId="MAGETWO-24118">
         <variation name="CreateBundleProductEntityTestVariation4" summary="Create bundle product with out of stock simple product" ticketId="MAGETWO-12801">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="description" xsi:type="string">Create fixed bundle</data>
             <data name="product/data/url_key" xsi:type="string">bundle-product-%isolation%</data>
             <data name="product/data/name" xsi:type="string">BundleProduct %isolation%</data>
@@ -67,6 +68,7 @@
             <constraint name="Magento\Bundle\Test\Constraint\AssertBundlePriceType" />
         </variation>
         <variation name="CreateBundleProductEntityTestVariation6">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="description" xsi:type="string">Create fixed bundle which is out of stock</data>
             <data name="product/data/url_key" xsi:type="string">bundle-product-%isolation%</data>
             <data name="product/data/name" xsi:type="string">BundleProduct %isolation%</data>
@@ -96,6 +98,7 @@
             <constraint name="Magento\Bundle\Test\Constraint\AssertBundlePriceView" />
         </variation>
         <variation name="CreateBundleProductEntityTestVariation12">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="description" xsi:type="string">Create fixed product with checkout second option</data>
             <data name="product/data/url_key" xsi:type="string">bundle-product-%isolation%</data>
             <data name="product/data/name" xsi:type="string">Bundle Fixed %isolation%</data>
@@ -114,6 +117,7 @@
             <constraint name="Magento\Bundle\Test\Constraint\AssertBundlePriceType" />
         </variation>
         <variation name="CreateBundleProductEntityTestVariation14">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="description" xsi:type="string">Create default fixed bundle</data>
             <data name="product/data/url_key" xsi:type="string">bundle-product-%isolation%</data>
             <data name="product/data/name" xsi:type="string">Bundle Fixed %isolation%</data>
@@ -140,7 +144,7 @@
             <data name="product/data/category" xsi:type="string">category_%isolation%</data>
             <data name="product/data/shipment_type" xsi:type="string">Together</data>
             <data name="product/data/bundle_selections/dataset" xsi:type="string">two_options_with_fixed_and_percent_prices</data>
-            <data name="tag" xsi:type="string">test_type:acceptance_test, test_type:extended_acceptance_test</data>
+            <data name="tag" xsi:type="string">test_type:acceptance_test, test_type:extended_acceptance_test, mftf_migrated:yes</data>
             <constraint name="Magento\Catalog\Test\Constraint\AssertProductSaveMessage" />
             <constraint name="Magento\Catalog\Test\Constraint\AssertProductInGrid" />
             <constraint name="Magento\Bundle\Test\Constraint\AssertBundleInCategory" />
@@ -188,6 +192,7 @@
             <constraint name="Magento\Catalog\Test\Constraint\AssertProductOnCustomWebsite" />
         </variation>
         <variation name="CreateBundleProductEntityTestVariation22" summary="Create Bundle (fixed) Product with special price and Custom options with fixed price">
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <data name="product/data/url_key" xsi:type="string">bundle-product-%isolation%</data>
             <data name="product/data/name" xsi:type="string">Bundle Fixed %isolation%</data>
             <data name="product/data/sku_type" xsi:type="string">No</data>
