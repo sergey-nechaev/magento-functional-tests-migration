@@ -38,5 +38,9 @@
         <element name="currencyTrigger" type="select" selector="#switcher-currency-trigger" timeout="30"/>
         <element name="currency" type="select" selector="//a[text()='{{arg}}']" parameterized="true"/>
         <element name="multiSelectOption" type="select" selector="//div[@class='field option  required']//select"/>
+        <element name="bundleOptionsItemSelect" type="select" selector="//select[contains(string(), '{{itemName}}')]" parameterized="true"/>
+        <element name="bundleCustomOption" type="select" selector="//select[contains(string(), '{{customValueTitle}}')]" parameterized="true"/>
+        <element name="bundleOptionsBlock" type="block" selector="//fieldset[@class='fieldset fieldset-bundle-options']"/>
+        <element name="bundleOptionRequired" type="block" selector="//div[@class='field option  required']//span[contains(string(), '{{optionName}}')]" parameterized="true"/>
     </section>
 </sections>

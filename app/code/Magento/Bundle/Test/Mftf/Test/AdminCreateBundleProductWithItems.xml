@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCreateBundleProductWithItems">
+        <annotations>
+            <features value="Bundle"/>
+            <stories value="Create Bundle Product"/>
+            <title value="Create Bundle Product With Only Bundle Items"/>
+            <description value="Create Bundle Product With Only Bundle Items"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="MG-12804"/>
+            <group value="Bundle"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!--Creating data-->
+            <createData entity="SimpleSubCategory" stepKey="createCategoryForTest"/>
+            <createData entity="SimpleProduct100Dollars" stepKey="createSimpleProduct100Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <createData entity="SimpleProductOutOfStock" stepKey="createSimpleProductOutOfStock">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <!-- Login as admin -->
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+        </before>
+        <after>
+            <!-- Delete Created Product For Test -->
+            <deleteData createDataKey="createCategoryForTest" stepKey="deleteCategoryForTest"/>
+            <deleteData createDataKey="createSimpleProduct100Dollars" stepKey="deleteSimpleProduct100Dollars"/>
+            <deleteData createDataKey="createSimpleProductOutOfStock" stepKey="deleteSimpleProductOutOfStock"/>
+            <!-- Delete the bundled product we created in the test body -->
+            <actionGroup ref="deleteProductBySku" stepKey="deleteBundleProduct">
+                <argument name="sku" value="{{BundleProduct10Dollars.sku}}"/>
+            </actionGroup>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create new bundle product and fill the main fields-->
+        <actionGroup ref="AdminCreateBundleProductWithDescriptionAndWeight" stepKey="OpenAndFillNewBundleProductForm">
+            <argument name="bundleProduct" value="BundleProduct10Dollars"/>
+            <argument name="category" value="$$createCategoryForTest.name$$"/>
+        </actionGroup>
+
+        <!-- Add Bundle Drop-down Option With Two Product -->
+        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addOptionsWithOneProduct">
+            <argument name="x" value="0"/>
+            <argument name="n" value="1"/>
+            <argument name="prodOneSku" value="$$createSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createSimpleProductOutOfStock.sku$$"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="inputType" value="{{DropDownBundleOption.type}}"/>
+            <argument name="prodOnePriceType" value="Fixed"/>
+            <argument name="prodTwoPriceType" value="Fixed"/>
+            <argument name="prodOnePriceValue" value="5.00"/>
+            <argument name="prodTwoPriceValue" value="6.00"/>
+        </actionGroup>
+
+        <!-- Save Product Configuration And Assert Success Message -->
+        <actionGroup ref="saveProductForm" stepKey="saveProductAndAssertSuccessMessage"/>
+        <magentoCLI command="indexer:reindex" stepKey="reindex"/>
+        <magentoCLI command="cache:flush" stepKey="flushCache"/>
+
+        <!-- Assert Product In Admin Grid -->
+        <actionGroup ref="viewProductInAdminGrid" stepKey="seeProductInGrid">
+            <argument name="product" value="BundleProduct10Dollars"/>
+        </actionGroup>
+
+        <!-- Assert Product Form For Drop-down Option-->
+        <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageWithBundleOption">
+            <argument name="product" value="BundleProduct10Dollars"/>
+            <argument name="x" value="0"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="inputType" value="Drop-down"/>
+            <argument name="prodOneSku" value="$$createSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createSimpleProductOutOfStock.sku$$"/>
+        </actionGroup>
+
+        <!-- Assert Serachable Bundle Options By Sku On The Storefront -->
+        <actionGroup ref="AssertProductSearchableBySku" stepKey="seeProductInSearchablePage">
+            <argument name="product" value="BundleProduct10Dollars"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product In Product Page -->
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceAndDescription" stepKey="AssertProductPageWithPriceRange">
+            <argument name="product" value="BundleProduct10Dollars"/>
+            <argument name="price" value="bundleFixed15.priceFrom"/>
+        </actionGroup>
+
+        <!-- See Only First Product, Because Second Product is "Out Of Stock" -->
+        <actionGroup ref="AssertBundleProductItemsInStorefrontProductPage" stepKey="AssertItemsOnProductPage">
+            <argument name="product" value="BundleProduct10Dollars"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="productItemName" value="$$createSimpleProduct100Dollars.name$$"/>
+        </actionGroup>
+
+    </test>
+</tests>

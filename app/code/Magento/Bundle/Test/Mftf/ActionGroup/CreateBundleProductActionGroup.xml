@@ -146,4 +146,126 @@
         <fillField selector="{{AdminProductFormBundleSection.bundleOptionXProductYQuantity(x, '4')}}" userInput="2" stepKey="fillQuantity5" after="fillQuantity4"/>
         <fillField selector="{{AdminProductFormBundleSection.bundleOptionXProductYQuantity(x, '5')}}" userInput="2" stepKey="fillQuantity6" after="fillQuantity5"/>
     </actionGroup>
+
+    <actionGroup name="AdminCreateBundleProductActionGroup">
+        <arguments>
+            <argument name="bundleProduct"/>
+            <argument name="category" type="string"/>
+        </arguments>
+        <!-- Open Product Grid and Click Add Bundle Product-->
+        <amOnPage url="{{ProductCatalogPage.url}}" stepKey="GoToProductCatalog"/>
+        <waitForPageLoad stepKey="waitForLoadProductGrid"/>
+        <click selector="{{AdminProductGridActionSection.addProductToggle}}" stepKey="clickForChooseCreateInProdType"/>
+        <click selector="{{AdminProductGridActionSection.addBundleProduct}}" stepKey="chooseCreateBundleProduct"/>
+        <!-- Add Category and SEO-->
+        <scrollTo selector="{{AdminProductFormBundleSection.priceField}}" stepKey="scrollToPriceField"/>
+        <searchAndMultiSelectOption selector="{{AdminProductFormSection.categoriesDropdown}}"
+                                    parameterArray="[{{category}}]"
+                                    stepKey="searchAndSelectCategory"/>
+        <scrollTo selector="{{AdminProductFormBundleSection.seoDropdown}}" stepKey="scrollToSearchEngineOptimisdszateweionTab"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.seoDropdown}}"
+                          dependentSelector="{{AdminProductFormBundleSection.urlKey}}"
+                          visible="false" stepKey="openDropDownIfClosed"/>
+        <fillField userInput="{{bundleProduct.urlKey}}" selector="{{AdminProductFormBundleSection.urlKey}}" stepKey="fillsInSeoLinkExtension"/>
+        <!-- Go To General Setting and disable Dynamic SKU, Dynamic Price, Fill Price, Name, SKU. -->
+        <scrollTo selector="{{AdminProductFormBundleSection.productName}}" stepKey="scrollProductName"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicPriceToggle}}"
+                          dependentSelector="{{AdminProductFormBundleSection.dynamicPriceToggleOff}}"
+                          visible="false"
+                          stepKey="disableDynamicPrice"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicSkuToggle}}"
+                          dependentSelector="{{AdminProductFormBundleSection.dynamicSkuToggleOff}}"
+                          visible="false"
+                          stepKey="disableDynamicSku"/>
+        <fillField selector="{{AdminProductFormBundleSection.priceField}}" userInput="{{bundleProduct.price}}" stepKey="fillProductPrice"/>
+        <fillField selector="{{AdminProductFormBundleSection.productName}}" userInput="{{bundleProduct.name}}" stepKey="fillProductName"/>
+        <fillField selector="{{AdminProductFormBundleSection.productSku}}" userInput="{{bundleProduct.sku}}" stepKey="fillProductSku"/>
+    </actionGroup>
+
+    <!-- Select Tax Class For Product -->
+    <actionGroup name="AdminCreateBundleProductWithTaxClassActionGroup" extends="AdminCreateBundleProductActionGroup">
+              <selectOption selector="{{AdminProductFormBundleSection.taxClassDropDown}}" userInput="{{bundleProduct.tax_class_id}}" stepKey="selectTaxClass"/>
+    </actionGroup>
+
+    <!-- Select Tax Class, Stock Status, Visibility, Disable Dynamic Weight And Fill Filed -->
+    <actionGroup name="AdminCreateBundleProductWithTaxStockVisibilityAndWeight" extends="AdminCreateBundleProductActionGroup">
+        <selectOption selector="{{AdminProductFormBundleSection.taxClassDropDown}}"
+                      userInput="{{bundleProduct.tax_class_id}}" stepKey="selectTaxClass"/>
+        <selectOption selector="{{AdminProductFormBundleSection.stockStatusField}}"
+                      userInput="{{bundleProduct.status}}" stepKey="selectStockStatus"/>
+        <selectOption selector="{{AdminProductFormBundleSection.visibilityDropDown}}"
+                      userInput="{{bundleProduct.visibility}}" stepKey="selectVisibility"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicWeightToggle}}"
+                          dependentSelector="{{AdminProductFormBundleSection.dynamicWeightToggleOff}}"
+                          visible="false"
+                          stepKey="disableDynamicWeight"/>
+        <fillField selector="{{AdminProductFormBundleSection.weightField}}"
+                   userInput="{{bundleProduct.weight}}" stepKey="fillProductWeight"/>
+    </actionGroup>
+
+    <!-- Fill Product Description, Disable Dynamic Weight And Fill Filed -->
+    <actionGroup name="AdminCreateBundleProductWithDescriptionAndWeight" extends="AdminCreateBundleProductActionGroup">
+        <scrollTo selector="{{AdminProductFormBundleSection.weightField}}" stepKey="scrollWeightField"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicWeightToggle}}"
+                          dependentSelector="{{AdminProductFormBundleSection.dynamicWeightToggleOff}}"
+                          visible="false"
+                          stepKey="disableDynamicWeight"/>
+        <fillField selector="{{AdminProductFormBundleSection.weightField}}"
+                   userInput="{{bundleProduct.weight}}" stepKey="fillProductWeight"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.contentDropDown}}"
+                          dependentSelector="{{AdminProductFormBundleSection.shortDescription}}"
+                          visible="false" stepKey="openContentTabIfClosed"/>
+        <fillField userInput="{{bundleProduct.description}}" selector="{{AdminProductFormBundleSection.shortDescription}}" stepKey="FillDescription"/>
+    </actionGroup>
+
+    <!-- Extensions for Add Price Options in Bundle Options -->
+    <actionGroup name="addBundleOptionTwoProductsWithPriceTypeAndValue" extends="addBundleOptionWithTwoProducts">
+        <arguments>
+            <argument name="prodOnePriceType" type="string"/>
+            <argument name="prodTwoPriceType" type="string"/>
+            <argument name="prodOnePriceValue" type="string"/>
+            <argument name="prodTwoPriceValue" type="string"/>
+        </arguments>
+        <remove keyForRemoval="fillQuantity1"/>
+        <remove keyForRemoval="fillQuantity2"/>
+        <selectOption selector="{{AdminProductFormBundleSection.bundlePriceTypeXOptionYProduct(x, '0')}}"
+                      userInput="{{prodOnePriceType}}" stepKey="selectFirstPriceType"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundlePriceValueXOptionYProduct(x, '0')}}"
+                   userInput="{{prodOnePriceValue}}" stepKey="fillFirstPriceValue"/>
+        <selectOption selector="{{AdminProductFormBundleSection.bundlePriceTypeXOptionYProduct(x, '1')}}"
+                      userInput="{{prodTwoPriceType}}" stepKey="selectSecondPriceType"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundlePriceValueXOptionYProduct(x, '1')}}"
+                   userInput="{{prodTwoPriceValue}}" stepKey="fillSecondPriceValue"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundleOptionXProductYQuantity(x, '0')}}"
+                   userInput="1" stepKey="fillNewQuantity1"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundleOptionXProductYQuantity(x, '1')}}"
+                   userInput="1" stepKey="fillNewQuantity2"/>
+    </actionGroup>
+
+    <!-- Add Custom Options In Bundle Product -->
+    <actionGroup name="AddProductCustomOptionSelectWithOneValue">
+        <arguments>
+            <argument name="option"/>
+        </arguments>
+        <conditionalClick selector="{{AdminProductCustomizableOptionsSection.customizableOptions}}"
+                          dependentSelector="{{AdminProductCustomizableOptionsSection.addOptionBtn}}"
+                          visible="false" stepKey="openCustomOptionSection"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.addOptionBtn}}" stepKey="clickAddOption"/>
+        <waitForElementVisible selector="{{AdminProductCustomizableOptionsSection.lastOptionTitle}}" stepKey="waitForOption"/>
+        <fillField selector="{{AdminProductCustomizableOptionsSection.lastOptionTitle}}" userInput="{{option.optionTitle}}"
+                   stepKey="fillOptionTitle"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.lastOptionTypeParent}}" stepKey="openTypeSelect"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.optionType(option.optionType)}}" stepKey="selectTypeFile"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.addValue}}" stepKey="addFirstValue"/>
+        <waitForElementVisible selector="{{AdminProductCustomizableOptionsSection.valueTitle}}" stepKey="waitForElements"/>
+        <fillField selector="{{AdminProductCustomizableOptionsSection.valueTitle}}"
+                   userInput="{{option.valueTitle}}" stepKey="fillValueTitle"/>
+        <fillField selector="{{AdminProductCustomizableOptionsSection.valuePrice}}"
+                   userInput="{{option.valuePrice}}" stepKey="fillPrice"/>
+        <selectOption selector="{{AdminProductFormBundleSection.priceTypeOptionValue}}"
+                      userInput="{{option.valuePriceType}}" stepKey="selectPriceTypeForValue"/>
+        <fillField selector="{{AdminProductFormBundleSection.skuOptionValue}}"
+                   userInput="{{option.valueSku}}" stepKey="fillSkuValue"/>
+    </actionGroup>
+
 </actionGroups>

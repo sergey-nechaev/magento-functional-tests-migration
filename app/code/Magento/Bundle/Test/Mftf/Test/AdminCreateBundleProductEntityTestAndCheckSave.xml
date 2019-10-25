@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCreateBundleProductEntityTestAndCheckSave">
+        <annotations>
+            <features value="Bundle"/>
+            <stories value="Create Bundle Product"/>
+            <title value="Create Bundle Product And Check Save"/>
+            <description value="Create Bundle Product And Check Save"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="MG-12814"/>
+            <group value="Bundle"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!--Creating data-->
+            <createData entity="SimpleSubCategory" stepKey="createCategoryForTest"/>
+            <createData entity="SimpleProduct100Dollars" stepKey="createSimpleProduct100Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <createData entity="SimpleProduct40Dollars" stepKey="createSimpleProduct40Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <!-- Login as admin -->
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+        </before>
+        <after>
+            <!-- Delete Created Product For Test -->
+            <deleteData createDataKey="createCategoryForTest" stepKey="deleteCategoryForTest"/>
+            <deleteData createDataKey="createSimpleProduct100Dollars" stepKey="deleteSimpleProduct100Dollars"/>
+            <deleteData createDataKey="createSimpleProduct40Dollars" stepKey="deleteSimpleProduct40Dollars"/>
+            <!-- Delete the bundled product we created in the test body -->
+            <actionGroup ref="deleteProductBySku" stepKey="deleteBundleProduct">
+                <argument name="sku" value="{{BundleProductFixedPriceAndSku100Dollars.sku}}"/>
+            </actionGroup>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create new bundle product and fill the main fields-->
+        <actionGroup ref="AdminCreateBundleProductActionGroup" stepKey="OpenAndFillNewBundleProductForm">
+            <argument name="bundleProduct" value="BundleProductFixedPriceAndSku100Dollars"/>
+            <argument name="category" value="Default Category"/>
+        </actionGroup>
+
+        <!-- Add Bundle Drop-down Option With Two Product -->
+        <actionGroup ref="addBundleOptionWithOneProduct" stepKey="addOptionsWithTwoProducts">
+            <argument name="x" value="0"/>
+            <argument name="n" value="1"/>
+            <argument name="prodOneSku" value="$$createSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createSimpleProduct40Dollars.sku$$"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="inputType" value="{{DropDownBundleOption.type}}"/>
+        </actionGroup>
+
+        <!-- Save Product Configuration And Assert Success Message -->
+        <actionGroup ref="saveProductForm" stepKey="saveProductAndAssertSuccessMessage"/>
+
+    </test>
+</tests>

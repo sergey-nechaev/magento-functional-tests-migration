@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+    <entity name="productDropDownOptionWithOneValueFixed30" type="product_option">
+        <data key="optionTitle" unique="suffix">custom option drop down</data>
+        <data key="optionType">Drop-down</data>
+        <data key="valueTitle">30 bucks</data>
+        <data key="valuePrice">30</data>
+        <data key="valuePriceType">Fixed</data>
+        <data key="valueSku">sku_drop_down_row_1</data>
+    </entity>
+    <entity name="productDropDownOptionWithOneValuePercent40" type="product_option">
+        <data key="optionTitle" unique="suffix">custom option drop down</data>
+        <data key="optionType">Drop-down</data>
+        <data key="valueTitle">40 percent</data>
+        <data key="valuePrice">40</data>
+        <data key="valuePriceType">Percent</data>
+        <data key="valueSku">sku_drop_down_row_1</data>
+    </entity>
+</entities>

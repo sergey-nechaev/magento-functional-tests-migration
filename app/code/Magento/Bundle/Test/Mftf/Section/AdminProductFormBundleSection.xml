@@ -44,6 +44,14 @@
         <!--BundleOptionsDropDown-->
         <element name="bundleOptionsDropDown" type="button" selector="div[data-index='bundle-items']" timeout="30"/>
         <element name="currentBundleOption" type="text" selector="//div[@data-index='bundle-items']//div[contains(@class, 'admin__collapsible-title')]/span"/>
+        <element name="bundlePriceTypeXOptionYProduct" type="select" selector="bundle_options[bundle_options][{{x}}][bundle_selections][{{y}}][selection_price_type]" parameterized="true"/>
+        <element name="bundlePriceValueXOptionYProduct" type="input" selector="bundle_options[bundle_options][{{x}}][bundle_selections][{{y}}][selection_price_value]" parameterized="true"/>
+        <element name="bundleOptionsTable" type="block" selector="[data-index='bundle_options']"/>
+        <!--BundleCustomOptionsSelect-->
+        <element name="priceTypeOptionValue" type="select"
+                 selector="//*[@data-index='custom_options']//*[@data-index='options']/tbody/tr[last()]//*[contains(@class, 'admin__control-table')]//tbody/tr[last()]//*[@data-index='price_type']//select"/>
+        <element name="skuOptionValue" type="input"
+                 selector="//*[@data-index='custom_options']//*[@data-index='options']/tbody/tr[last()]//*[contains(@class, 'admin__control-table')]//tbody/tr[last()]//*[@data-index='sku']//input"/>
         <!--AddingAnOption-->
         <element name="addOptions" type="button" selector="//tr[@data-repeat-index='0']//td[4]" timeout="30"/>
         <!--SEODropdownTab-->

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Go to Storefront Product Page and Assert Product Name, SKU and Price Range -->
+    <actionGroup name="AssertBundleProductInStorefrontProductPageWithPriceRange" extends="AssertProductNameAndSkuInStorefrontProductPage">
+        <arguments>
+            <argument name="priceRange"/>
+        </arguments>
+        <see userInput="{{priceRange.priceFrom}}" selector="{{StorefrontProductInfoMainSection.priceFrom}}"
+             stepKey="assertProductPriceFrom"/>
+        <see userInput="{{priceRange.priceTo}}" selector="{{StorefrontProductInfoMainSection.priceTo}}"
+             stepKey="assertProductPriceTo"/>
+    </actionGroup>
+
+    <!-- Go to Storefront Product Page and Assert Product Name, SKU, Price With Item and Description -->
+    <actionGroup name="AssertBundleProductInStorefrontProductPageWithPriceAndDescription" extends="AssertProductNameAndSkuInStorefrontProductPage">
+        <arguments>
+            <argument name="price"/>
+        </arguments>
+        <see userInput="{{price}}" selector="{{StorefrontProductInfoMainSection.productPrice}}"
+             stepKey="assertProductPrice"/>
+        <see userInput="{{product.description}}" selector="{{StorefrontProductInfoMainSection.productShortDescription}}"
+             stepKey="assertProductDescription"/>
+    </actionGroup>
+
+    <!-- Go to Storefront Product Page and Assert Product Name, SKU, Special And Regular Price-->
+    <actionGroup name="AssertBundleProductInStorefrontProductPageWithRegularPrice" extends="AssertProductNameAndSkuInStorefrontProductPage">
+        <arguments>
+            <argument name="regularPrice"/>
+        </arguments>
+        <see userInput="{{regularPrice}}" selector="{{StorefrontProductInfoMainSection.productPrice}}"
+             stepKey="assertProductRegularPrice"/>
+    </actionGroup>
+
+    <!-- Go to Storefront Product Page and Assert Product Name And Stock Status-->
+    <actionGroup name="AssertBundleProductInStorefrontProductPageWithStock" extends="AssertProductNameAndSkuInStorefrontProductPage">
+        <arguments>
+            <argument name="stockStatus"/>
+        </arguments>
+        <see userInput="{{stockStatus}}" selector="{{StorefrontProductInfoMainSection.stockIndication}}"
+             stepKey="assertProductStockStatus"/>
+    </actionGroup>
+
+    <!-- Go to Storefront Product Page and Assert Product Item And Bundle Option Title-->
+    <actionGroup name="AssertBundleProductItemsInStorefrontProductPage" extends="AssertProductNameAndSkuInStorefrontProductPage">
+        <arguments>
+            <argument name="optionTitle" type="string"/>
+            <argument name="productItemName" type="string"/>
+        </arguments>
+        <remove keyForRemoval="assertProductSku"/>
+        <click selector="{{StorefrontBundledSection.addToCart}}" stepKey="clickCustomizeAndAddToCart"/>
+        <waitForElementVisible selector="{{StorefrontBundledSection.bundleOptionsBlock}}"
+                               stepKey="waitForElementVisible"/>
+        <see selector="{{StorefrontBundledSection.bundleOptionsBlock}}"
+             userInput="{{optionTitle}}" stepKey="assertBundleOptionTitle"/>
+        <seeElement selector="{{StorefrontBundledSection.bundleOptionRequired(optionTitle)}}"
+                    stepKey="assertBundleOptionIsRequired"/>
+        <see selector="{{StorefrontBundledSection.bundleOptionsBlock}}"
+             userInput="{{productItemName}}" stepKey="assertFirstProductItem"/>
+    </actionGroup>
+</actionGroups>

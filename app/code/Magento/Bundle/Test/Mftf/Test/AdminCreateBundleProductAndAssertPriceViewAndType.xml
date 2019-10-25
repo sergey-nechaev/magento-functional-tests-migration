@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCreateBundleProductAndAssertPriceViewAndType">
+        <annotations>
+            <features value="Bundle"/>
+            <stories value="Create Bundle Product"/>
+            <title value="Create Bundle Product With Custom Options And Bundle Items"/>
+            <description value="Create Bundle Product With Custom Options And Bundle Items"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="MG-12812"/>
+            <group value="Bundle"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!--Creating data-->
+            <createData entity="SimpleSubCategory" stepKey="createCategoryForTest"/>
+            <createData entity="SimpleProduct100Dollars" stepKey="createSimpleProduct100Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <createData entity="SimpleProduct40Dollars" stepKey="createSimpleProduct40Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <!-- Login as admin -->
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+        </before>
+        <after>
+            <!-- Delete Created Product For Test -->
+            <deleteData createDataKey="createCategoryForTest" stepKey="deleteCategoryForTest"/>
+            <deleteData createDataKey="createSimpleProduct100Dollars" stepKey="deleteSimpleProduct100Dollars"/>
+            <deleteData createDataKey="createSimpleProduct40Dollars" stepKey="deleteSimpleProduct40Dollars"/>
+            <!-- Delete the bundled product we created in the test body -->
+            <actionGroup ref="deleteProductBySku" stepKey="deleteBundleProduct">
+                <argument name="sku" value="{{BundleProductFixedPriceAndSku110Dollars.sku}}"/>
+            </actionGroup>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create new bundle product and fill the main fields-->
+        <actionGroup ref="AdminCreateBundleProductActionGroup" stepKey="OpenAndFillNewBundleProductForm">
+            <argument name="bundleProduct" value="BundleProductFixedPriceAndSku110Dollars"/>
+            <argument name="category" value="$$createCategoryForTest.name$$"/>
+        </actionGroup>
+
+        <!-- Add Bundle Drop-down Option With Two Product -->
+        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addOptionsWithOneProduct">
+            <argument name="x" value="0"/>
+            <argument name="n" value="1"/>
+            <argument name="prodOneSku" value="$$createSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createSimpleProduct40Dollars.sku$$"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="inputType" value="{{DropDownBundleOption.type}}"/>
+            <argument name="prodOnePriceType" value="Fixed"/>
+            <argument name="prodTwoPriceType" value="Fixed"/>
+            <argument name="prodOnePriceValue" value="5.00"/>
+            <argument name="prodTwoPriceValue" value="10.00"/>
+        </actionGroup>
+
+        <!-- Add Custom Option With Select In Bundle Product -->
+        <actionGroup ref="AddProductCustomOptionSelectWithOneValue" stepKey="addCustomOptions">
+            <argument name="option" value="productDropDownOptionWithOneValuePercent40"/>
+        </actionGroup>
+
+        <!-- Save Product Configuration And Assert Success Message -->
+        <actionGroup ref="saveProductForm" stepKey="saveProductAndAssertSuccessMessage"/>
+        <magentoCLI command="indexer:reindex" stepKey="reindex"/>
+        <magentoCLI command="cache:flush" stepKey="flushCache"/>
+
+        <!-- Assert Bundle Product In Category -->
+        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithPriceRange" stepKey="assertProductInStorefront1">
+            <argument name="category" value="$$createCategoryForTest$$"/>
+            <argument name="product" value="BundleProductFixedPriceAndSku110Dollars"/>
+            <argument name="priceRange" value="bundleFixed110"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product In Product Page -->
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceRange" stepKey="AssertProductPage1">
+            <argument name="product" value="BundleProductFixedPriceAndSku110Dollars"/>
+            <argument name="priceRange" value="bundleFixed110"/>
+        </actionGroup>
+
+        <!-- Add Bundle Product With Custom Options And Product Item In Cart -->
+        <actionGroup ref="StorefrontAddBundleProductWithCustomOptionsToCartFromProdPage" stepKey="AddBundleToCart">
+            <argument name="product" value="BundleProductFixedPriceAndSku110Dollars"/>
+            <argument name="bundleOptionItem" value="$$createSimpleProduct100Dollars.name$$"/>
+            <argument name="customBundleOptionValueTitle" value="productDropDownOptionWithOneValuePercent40.valueTitle"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product Price Type -->
+        <actionGroup ref="StorefrontOpenCartFromMinicartActionGroup" stepKey="cartOpenCart"/>
+        <actionGroup ref="StorefrontCheckCartActionGroup" stepKey="cartAssertCart" after="cartOpenCart">
+            <argument name="subtotal" value="{{bundleFixed110.cartPrice}}"/>
+            <argument name="shipping" value="5.00"/>
+            <argument name="shippingMethod" value="Flat Rate - Fixed"/>
+            <argument name="total" value="164.00"/>
+        </actionGroup>
+
+    </test>
+</tests>

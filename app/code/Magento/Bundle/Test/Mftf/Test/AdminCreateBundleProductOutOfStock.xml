@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCreateBundleProductOutOfStock">
+        <annotations>
+            <features value="Bundle"/>
+            <stories value="Create Bundle Product"/>
+            <title value="Create Bundle Product Out Of Stock"/>
+            <description value="Create Bundle Product Out Of Stock"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="MG-12806"/>
+            <group value="Bundle"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!--Creating data-->
+            <createData entity="SimpleSubCategory" stepKey="createCategoryForTest"/>
+            <createData entity="SimpleProduct100Dollars" stepKey="createFirstSimpleProduct100Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <createData entity="SimpleProduct100Dollars" stepKey="createSecondSimpleProduct100Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <createData entity="VirtualProduct" stepKey="createFirstVirtualProduct">
+                <field key="price">50.00</field>
+            </createData>
+            <createData entity="VirtualProduct" stepKey="createSecondVirtualProduct">
+                <field key="price">50.00</field>
+            </createData>
+            <!-- Login as admin -->
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+        </before>
+        <after>
+            <!-- Delete Created Product For Test -->
+            <deleteData createDataKey="createCategoryForTest" stepKey="deleteCategoryForTest"/>
+            <deleteData createDataKey="createFirstSimpleProduct100Dollars" stepKey="deleteFirstSimpleProduct100Dollars"/>
+            <deleteData createDataKey="createSecondSimpleProduct100Dollars" stepKey="deleteSecondSimpleProduct100Dollars"/>
+            <deleteData createDataKey="createFirstVirtualProduct" stepKey="deleteFirstVirtualProduct"/>
+            <deleteData createDataKey="createSecondVirtualProduct" stepKey="deleteSecondVirtualProduct"/>
+            <!-- Delete the bundled product we created in the test body -->
+            <actionGroup ref="deleteProductBySku" stepKey="deleteBundleProduct">
+                <argument name="sku" value="{{BundleProductOutOfStock.sku}}"/>
+            </actionGroup>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create new bundle product and fill the main fields-->
+        <actionGroup ref="AdminCreateBundleProductWithTaxStockVisibilityAndWeight" stepKey="OpenAndFillNewBundleProductForm">
+            <argument name="bundleProduct" value="BundleProductOutOfStock"/>
+            <argument name="category" value="$$createCategoryForTest.name$$"/>
+        </actionGroup>
+
+        <!-- Add Bundle Drop-down Option With Two Product -->
+        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addFIrstOptionsWithTwoProduct">
+            <argument name="x" value="0"/>
+            <argument name="n" value="1"/>
+            <argument name="prodOneSku" value="$$createFirstSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createFirstVirtualProduct.sku$$"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="inputType" value="{{DropDownBundleOption.type}}"/>
+            <argument name="prodOnePriceType" value="Fixed"/>
+            <argument name="prodTwoPriceType" value="Fixed"/>
+            <argument name="prodOnePriceValue" value="45.00"/>
+            <argument name="prodTwoPriceValue" value="43.00"/>
+        </actionGroup>
+        <uncheckOption selector="{{AdminProductFormBundleSection.bundleOptionXRequired('0')}}"
+                       stepKey="uncheckRequiredFirstOption"/>
+
+        <!-- Add Bundle Radio Buttons Option With Two Product -->
+        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addSecondOptionsWithTwoProduct">
+            <argument name="x" value="1"/>
+            <argument name="n" value="2"/>
+            <argument name="prodOneSku" value="$$createSecondSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createSecondVirtualProduct.sku$$"/>
+            <argument name="optionTitle" value="{{RadioButtonsOption.title}}"/>
+            <argument name="inputType" value="{{RadioButtonsOption.type}}"/>
+            <argument name="prodOnePriceType" value="Fixed"/>
+            <argument name="prodTwoPriceType" value="Fixed"/>
+            <argument name="prodOnePriceValue" value="45.00"/>
+            <argument name="prodTwoPriceValue" value="43.00"/>
+        </actionGroup>
+        <uncheckOption selector="{{AdminProductFormBundleSection.bundleOptionXRequired('1')}}"
+                       stepKey="uncheckRequiredSecondOption"/>
+
+        <!-- Save Product Configuration And Assert Success Message -->
+        <actionGroup ref="saveProductForm" stepKey="saveProductAndAssertSuccessMessage"/>
+        <magentoCLI command="indexer:reindex" stepKey="reindex"/>
+        <magentoCLI command="cache:flush" stepKey="flushCache"/>
+
+        <!-- Assert Product In Admin Grid -->
+        <actionGroup ref="viewProductInAdminGrid" stepKey="seeSimpleProductInGrid">
+            <argument name="product" value="BundleProductOutOfStock"/>
+        </actionGroup>
+
+        <!-- Assert Product Form For Drop-down Option-->
+        <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageFirstBundleOption">
+            <argument name="product" value="BundleProductOutOfStock"/>
+            <argument name="x" value="0"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="inputType" value="Drop-down"/>
+            <argument name="prodOneSku" value="$$createFirstSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createFirstVirtualProduct.sku$$"/>
+        </actionGroup>
+
+        <!-- Assert Product Form For Radio Buttons Option-->
+        <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageSecondBundleOption">
+            <argument name="product" value="BundleProductOutOfStock"/>
+            <argument name="x" value="1"/>
+            <argument name="optionTitle" value="{{RadioButtonsOption.title}}"/>
+            <argument name="inputType" value="Radio Buttons"/>
+            <argument name="prodOneSku" value="$$createSecondSimpleProduct100Dollars.sku$$"/>
+            <argument name="prodTwoSku" value="$$createSecondVirtualProduct.sku$$"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product In Product Page Stock Status -->
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithStock" stepKey="AssertProductPage1">
+            <argument name="product" value="BundleProductOutOfStock"/>
+            <argument name="stockStatus" value="BundleProductOutOfStock.storefrontStatus"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product In Product Page -->
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceRange" stepKey="AssertProductPage">
+            <argument name="product" value="BundleProductOutOfStock"/>
+            <argument name="priceRange" value="bundleFixed10"/>
+        </actionGroup>
+
+
+
+    </test>
+</tests>

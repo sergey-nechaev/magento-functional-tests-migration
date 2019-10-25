@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCreateBundleProductWithCustOptionsAndSpecPrice">
+        <annotations>
+            <features value="Bundle"/>
+            <stories value="Create Bundle Product"/>
+            <title value="Create Bundle Product With Custom Options And Special Price"/>
+            <description value="Create Bundle Product Two Options With Fixed And Percent Price"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="MG-12822"/>
+            <group value="Bundle"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!--Creating data-->
+            <createData entity="SimpleSubCategory" stepKey="createCategoryForTest"/>
+            <createData entity="defaultSimpleProduct" stepKey="createDefaultSimpleProduct"/>
+            <createData entity="SimpleProduct10Dollars" stepKey="createSimpleProduct10Dollars">
+                <requiredEntity createDataKey="createCategoryForTest"/>
+            </createData>
+            <!-- Login as admin -->
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+        </before>
+        <after>
+            <!-- Delete Created Product For Test -->
+            <deleteData createDataKey="createCategoryForTest" stepKey="deleteCategoryForTest"/>
+            <deleteData createDataKey="createDefaultSimpleProduct" stepKey="deleteDefaultSimpleProduct"/>
+            <deleteData createDataKey="createSimpleProduct10Dollars" stepKey="deleteSimpleProduct10Dollars"/>
+            <!-- Delete the bundled product we created in the test body -->
+            <actionGroup ref="deleteProductBySku" stepKey="deleteBundleProduct">
+                <argument name="sku" value="{{BundleProductFixedPriceAndSku100Dollars.sku}}"/>
+            </actionGroup>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create new bundle product and fill the main fields-->
+        <actionGroup ref="AdminCreateBundleProductActionGroup" stepKey="OpenAndFillNewBundleProductForm">
+            <argument name="bundleProduct" value="BundleProductFixedPriceAndSku100Dollars"/>
+            <argument name="category" value="$$createCategoryForTest.name$$"/>
+        </actionGroup>
+        <click selector="{{AdminProductFormSection.advancedPricingLink}}" stepKey="clickAdvancedPricingLink"/>
+        <actionGroup ref="AddSpecialPriceToProductActionGroup" stepKey="addSpecialPrice">
+            <argument name="price" value="{{BundleProductFixedPriceAndSku100Dollars.special_price}}"/>
+        </actionGroup>
+
+        <!-- Add Bundle Drop-down Option With Two Product -->
+        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addOptionsWithOneProduct">
+            <argument name="x" value="0"/>
+            <argument name="n" value="1"/>
+            <argument name="prodOneSku" value="$$createDefaultSimpleProduct.sku$$"/>
+            <argument name="prodTwoSku" value="$$createSimpleProduct10Dollars.sku$$"/>
+            <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
+            <argument name="inputType" value="{{DropDownBundleOption.type}}"/>
+            <argument name="prodOnePriceType" value="Fixed"/>
+            <argument name="prodTwoPriceType" value="Fixed"/>
+            <argument name="prodOnePriceValue" value="5.00"/>
+            <argument name="prodTwoPriceValue" value="10.00"/>
+        </actionGroup>
+
+        <!-- Add Custom Option With Select In Bundle Product -->
+        <actionGroup ref="AddProductCustomOptionSelectWithOneValue" stepKey="addCustomOptions">
+            <argument name="option" value="productDropDownOptionWithOneValueFixed30"/>
+        </actionGroup>
+
+        <!-- Save Product Configuration And Assert Success Message -->
+        <actionGroup ref="saveProductForm" stepKey="saveProductAndAssertSuccessMessage"/>
+        <magentoCLI command="indexer:reindex" stepKey="reindex"/>
+        <magentoCLI command="cache:flush" stepKey="flushCache"/>
+
+        <!-- Assert Product In Admin Grid -->
+        <actionGroup ref="viewProductInAdminGrid" stepKey="seeSimpleProductInGrid">
+            <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product In Category -->
+        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithPriceRange" stepKey="assertProductInStorefront1">
+            <argument name="category" value="$$createCategoryForTest$$"/>
+            <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
+            <argument name="priceRange" value="bundleFixed51"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product In Category -->
+        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithRegularPrice" stepKey="assertProductInStorefront2">
+            <argument name="category" value="$$createCategoryForTest$$"/>
+            <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
+            <argument name="regularPrice" value="bundleFixed51.regularPrice"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product In Product Page -->
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceRange" stepKey="AssertProductPage1">
+            <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
+            <argument name="priceRange" value="bundleFixed51"/>
+        </actionGroup>
+
+        <!-- Assert Bundle Product Regular Price In Product Page -->
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithRegularPrice" stepKey="AssertProductPage2">
+            <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
+            <argument name="regularPrice" value="bundleFixed51.regularPrice"/>
+        </actionGroup>
+
+    </test>
+</tests>
