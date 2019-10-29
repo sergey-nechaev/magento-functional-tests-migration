@@ -101,6 +101,5 @@
             <argument name="shippingMethod" value="Flat Rate - Fixed"/>
             <argument name="total" value="164.00"/>
         </actionGroup>
-
     </test>
 </tests>

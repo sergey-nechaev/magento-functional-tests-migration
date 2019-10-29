@@ -100,6 +100,7 @@
         </actionGroup>
 
         <!-- Assert Product Form For Drop-down Option-->
+        <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="GoToAdminProductsGrid1"/>
         <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageFirstBundleOption">
             <argument name="product" value="BundleProductOutOfStock"/>
             <argument name="x" value="0"/>
@@ -110,6 +111,7 @@
         </actionGroup>
 
         <!-- Assert Product Form For Radio Buttons Option-->
+        <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="GoToAdminProductsGrid2"/>
         <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageSecondBundleOption">
             <argument name="product" value="BundleProductOutOfStock"/>
             <argument name="x" value="1"/>
@@ -130,8 +132,5 @@
             <argument name="product" value="BundleProductOutOfStock"/>
             <argument name="priceRange" value="bundleFixed10"/>
         </actionGroup>
-
-
-
     </test>
 </tests>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Go to Storefront Product Page and Assert Product Item And Bundle Option Title-->
+    <actionGroup name="AssertBundleProductItemsInStorefrontProductPage" extends="AssertProductNameAndSkuInStorefrontProductPage">
+        <arguments>
+            <argument name="optionTitle" type="string"/>
+            <argument name="productItemName" type="string"/>
+        </arguments>
+        <remove keyForRemoval="assertProductSku"/>
+        <click selector="{{StorefrontBundledSection.addToCart}}" stepKey="clickCustomizeAndAddToCart"/>
+        <waitForElementVisible selector="{{StorefrontBundledSection.bundleOptionsBlock}}"
+                               stepKey="waitForElementVisible"/>
+        <see selector="{{StorefrontBundledSection.bundleOptionsBlock}}"
+             userInput="{{optionTitle}}" stepKey="assertBundleOptionTitle"/>
+        <seeElement selector="{{StorefrontBundledSection.bundleOptionRequired(optionTitle)}}"
+                    stepKey="assertBundleOptionIsRequired"/>
+        <see selector="{{StorefrontBundledSection.bundleOptionsBlock}}"
+             userInput="{{productItemName}}" stepKey="assertFirstProductItem"/>
+    </actionGroup>
+</actionGroups>

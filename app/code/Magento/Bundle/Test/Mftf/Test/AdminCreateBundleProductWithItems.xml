@@ -74,6 +74,7 @@
         </actionGroup>
 
         <!-- Assert Product Form For Drop-down Option-->
+        <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="GoToAdminProductsGrid"/>
         <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageWithBundleOption">
             <argument name="product" value="BundleProduct10Dollars"/>
             <argument name="x" value="0"/>
@@ -100,6 +101,5 @@
             <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
             <argument name="productItemName" value="$$createSimpleProduct100Dollars.name$$"/>
         </actionGroup>
-
     </test>
 </tests>

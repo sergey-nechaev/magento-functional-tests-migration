@@ -61,6 +61,5 @@
 
         <!-- Save Product Configuration And Assert Success Message -->
         <actionGroup ref="saveProductForm" stepKey="saveProductAndAssertSuccessMessage"/>
-
     </test>
 </tests>

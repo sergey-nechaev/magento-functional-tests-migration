@@ -19,28 +19,4 @@
         <see selector="{{StorefrontCategoryMainSection.productPrice}}"  userInput="{{priceRange.priceTo}}"
              stepKey="assertProductPriceToPresent"/>
     </actionGroup>
-
-    <!-- Go to Storefront Category and Assert Product in Category With Special And Regular Price -->
-    <actionGroup name="AssertBundleProductInStorefrontCategoryPageWithRegularPrice" extends="AssertProductInStorefrontCategoryPage">
-        <arguments>
-            <argument name="regularPrice"/>
-        </arguments>
-        <remove keyForRemoval="assertProductPricePresent"/>
-        <see userInput="{{regularPrice}}" selector="{{StorefrontProductInfoMainSection.productPrice}}"
-             stepKey="assertProductRegularPrice"/>
-    </actionGroup>
-
-    <!-- Go to Home Page, Search Product By Sku and Assert Product Name -->
-    <actionGroup name="AssertProductSearchableBySku">
-        <arguments>
-            <argument name="product"/>
-        </arguments>
-        <amOnPage url="{{StorefrontHomePage.url}}" stepKey="goToStorefront"/>
-        <waitForPageLoad stepKey="waitForStoreFrontProductPageLoad"/>
-        <fillField selector="{{StorefrontQuickSearchResultsSection.searchTextBox}}" userInput="{{product.sku}}" stepKey="fillVirtualProductName"/>
-        <waitForPageLoad stepKey="waitForSearchTextBox"/>
-        <click selector="{{StorefrontQuickSearchResultsSection.searchTextBoxButton}}" stepKey="clickSearchTextBoxButton"/>
-        <waitForPageLoad stepKey="waitForSearch"/>
-        <see selector="{{StorefrontQuickSearchResultsSection.productLink}}" userInput="{{product.name}}" stepKey="seeProductName"/>
-    </actionGroup>
 </actionGroups>

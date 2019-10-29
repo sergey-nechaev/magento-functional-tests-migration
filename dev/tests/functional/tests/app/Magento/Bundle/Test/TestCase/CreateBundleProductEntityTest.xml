@@ -144,7 +144,7 @@
             <data name="product/data/category" xsi:type="string">category_%isolation%</data>
             <data name="product/data/shipment_type" xsi:type="string">Together</data>
             <data name="product/data/bundle_selections/dataset" xsi:type="string">two_options_with_fixed_and_percent_prices</data>
-            <data name="tag" xsi:type="string">test_type:acceptance_test, test_type:extended_acceptance_test, mftf_migrated:yes</data>
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <constraint name="Magento\Catalog\Test\Constraint\AssertProductSaveMessage" />
             <constraint name="Magento\Catalog\Test\Constraint\AssertProductInGrid" />
             <constraint name="Magento\Bundle\Test\Constraint\AssertBundleInCategory" />

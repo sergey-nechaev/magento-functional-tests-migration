@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Go to Storefront Category and Assert Product in Category With Special And Regular Price -->
+    <actionGroup name="AssertBundleProductInStorefrontCategoryPageWithRegularPrice" extends="AssertProductInStorefrontCategoryPage">
+        <arguments>
+            <argument name="regularPrice"/>
+        </arguments>
+        <remove keyForRemoval="assertProductPricePresent"/>
+        <see userInput="{{regularPrice}}" selector="{{StorefrontProductInfoMainSection.productPrice}}"
+             stepKey="assertProductRegularPrice"/>
+    </actionGroup>
+</actionGroups>

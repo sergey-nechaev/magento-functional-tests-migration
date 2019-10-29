@@ -105,6 +105,5 @@
             <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
             <argument name="regularPrice" value="bundleFixed51.regularPrice"/>
         </actionGroup>
-
     </test>
 </tests>

@@ -9,7 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <!-- Open Product Form and Assert Product SKU, Name, Price And Bundle Option Title, Type, Products -->
-    <actionGroup name="AssertProductFormInAdminWithBundleOption">
+    <actionGroup name="AssertProductFormInAdminWithBundleOption" extends="filterProductGridBySku">
         <arguments>
             <argument name="product" defaultValue="_defaultProduct"/>
             <argument name="x" type="string"/>
@@ -18,15 +18,6 @@
             <argument name="prodOneSku" type="string"/>
             <argument name="prodTwoSku" type="string"/>
         </arguments>
-        <amOnPage url="{{AdminProductIndexPage.url}}" stepKey="visitAdminProductPage"/>
-        <waitForPageLoad stepKey="waitForPageLoadInitial"/>
-        <conditionalClick selector="{{AdminProductGridFilterSection.clearFilters}}"
-                          dependentSelector="{{AdminProductGridFilterSection.clearFilters}}"
-                          visible="true" stepKey="clickClearFiltersInitial"/>
-        <click selector="{{AdminProductGridFilterSection.filters}}" stepKey="openProductFilters"/>
-        <fillField selector="{{AdminProductGridFilterSection.skuFilter}}"
-                   userInput="{{product.sku}}" stepKey="fillProductSkuFilter"/>
-        <click selector="{{AdminProductGridFilterSection.applyFilters}}" stepKey="clickApplyFilters"/>
         <click selector="{{AdminProductGridSection.productGridNameProduct(product.name)}}" stepKey="openProductForm"/>
         <waitForPageLoad stepKey="waitForPageProductFormLoad"/>
         <seeInField selector="{{AdminProductFormSection.productName}}"

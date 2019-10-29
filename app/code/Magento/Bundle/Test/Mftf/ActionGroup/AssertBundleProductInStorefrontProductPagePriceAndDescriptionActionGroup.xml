@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Go to Storefront Product Page and Assert Product Name, SKU, Price With Item and Description -->
+    <actionGroup name="AssertBundleProductInStorefrontProductPageWithPriceAndDescription" extends="AssertProductNameAndSkuInStorefrontProductPage">
+        <arguments>
+            <argument name="price"/>
+        </arguments>
+        <see userInput="{{price}}" selector="{{StorefrontProductInfoMainSection.productPrice}}"
+             stepKey="assertProductPrice"/>
+        <see userInput="{{product.description}}" selector="{{StorefrontProductInfoMainSection.productShortDescription}}"
+             stepKey="assertProductDescription"/>
+    </actionGroup>
+</actionGroups>
