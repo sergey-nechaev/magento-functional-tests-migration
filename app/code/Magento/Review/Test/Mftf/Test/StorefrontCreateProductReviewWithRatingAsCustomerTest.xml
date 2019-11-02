@@ -19,7 +19,6 @@
             <testCaseId value=""/>
             <group value="review"/>
             <group value="mtf_migrated"/>
-            <group value="debug"/>
         </annotations>
 
         <before>

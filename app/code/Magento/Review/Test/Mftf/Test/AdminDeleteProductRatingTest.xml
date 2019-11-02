@@ -18,12 +18,11 @@
             <testCaseId value=""/>
             <group value="review"/>
             <group value="mtf_migrated"/>
-            <group value="debug"/>
         </annotations>
 
         <before>
             <createData entity="SimpleProductWithDescription" stepKey="createProduct"/>
-            <createData entity="ProductRatingActiveDefaultStore" stepKey="createProductRating" />
+            <createData entity="ProductRatingActiveDefaultStore" stepKey="createProductRating"/>
             <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
         </before>
         <after>
@@ -31,21 +30,20 @@
         </after>
 
         <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
-            <argument name="productRatingTitle" value="$createProductRating.rating_code$" />
+            <argument name="productRatingTitle" value="$createProductRating.rating_code$"/>
         </actionGroup>
 
         <actionGroup ref="AdminSearchForRatingCodeInGridActionGroup" stepKey="assertRatingCodeInGrid">
-            <argument name="ratingCode" value="$createProductRating.rating_code$" />
+            <argument name="ratingCode" value="$createProductRating.rating_code$"/>
         </actionGroup>
         <dontSee selector="{{AdminRatingGridSection.firstRow}}" userInput="$createProductRating.rating_code$"
-             stepKey="dontSeeRatingCodeInGrid"/>
+                 stepKey="dontSeeRatingCodeInGrid"/>
 
         <actionGroup ref="logout" stepKey="logout"/>
 
-        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="openCreatedProductPage">
+        <actionGroup ref="StorefrontOpenProductPageReviewsActionGroup" stepKey="openProductPageReviewsTab">
             <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
         </actionGroup>
-        <click selector="{{StorefrontProductReviewsSection.reviewsTab}}" stepKey="openReviewTab"/>
         <dontSeeElement selector="#$createProductRating.rating_code$_rating_label" stepKey="dontSeeProductRating"/>
 
     </test>
