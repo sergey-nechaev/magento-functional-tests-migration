@@ -18,10 +18,10 @@
             <testCaseId value=""/>
             <group value="review"/>
             <group value="mtf_migrated"/>
+            <group value="debug"/>
         </annotations>
 
         <before>
-            <!-- Create product with description -->
             <createData entity="SimpleProductWithDescription" stepKey="createProduct"/>
             <createData entity="ProductRatingActiveDefaultStore" stepKey="createProductRating" />
         </before>
@@ -29,15 +29,12 @@
             <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
         </after>
 
-        <!-- Go to the product view page -->
         <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="openCreatedProductPage">
             <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
         </actionGroup>
 
-        <!-- Click on reviews and add review with current user -->
         <actionGroup ref="StorefrontAddProductReviewWithRatingActionGroup" stepKey="addReview"/>
 
-        <!-- delete rating -->
         <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
         <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
             <argument name="productRatingTitle" value="$$createProductRating.rating_code$$" />

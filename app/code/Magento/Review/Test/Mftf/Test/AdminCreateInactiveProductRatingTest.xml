@@ -18,6 +18,7 @@
             <testCaseId value=""/>
             <group value="review"/>
             <group value="mtf_migrated" />
+            <group value="debug"/>
         </annotations>
 
         <before>
@@ -28,34 +29,26 @@
             <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
         </after>
 
-        <amOnPage url="{{AdminRatingGridPage.url}}" stepKey="amOnRatingGridPage" />
-        <click selector="#add" stepKey="clickNewRatingButton" />
-        <waitForPageLoad stepKey="waitForNewRatingPageToLoad"/>
+        <actionGroup ref="AdminOpenNewRatingFormActionGroup" stepKey="openNewRatingForm" />
 
-        <!-- Fill out rating and save -->
         <actionGroup ref="AdminFillInInactiveRatingActionGroup" stepKey="fillInRating" />
         <grabValueFrom selector="{{AdminNewRatingSection.ratingCode}}" stepKey="grabRatingCode"/>
         <actionGroup ref="AdminSaveProductRatingActionGroup" stepKey="saveRating" />
 
-        <!-- Assert rating is in grid -->
-        <click selector="{{AdminRatingGridSection.resetFilter}}" stepKey="resetGridFilter"/>
-        <waitForPageLoad stepKey="waitForFiltersReset"/>
-        <fillField userInput="{$grabRatingCode}" selector="{{AdminRatingGridSection.ratingCodeFilter}}"
-                   stepKey="fillRatingCodeFilter"/>
-        <click selector="{{AdminRatingGridSection.search}}" stepKey="clickSearchButton"/>
+        <actionGroup ref="AdminSearchForRatingCodeInGridActionGroup" stepKey="searchForRatingCodeInGrid">
+            <argument name="ratingCode" value="{$grabRatingCode}" />
+        </actionGroup>
         <see selector="{{AdminRatingGridSection.firstRow}}" userInput="{$grabRatingCode}"
-             stepKey="seeRatingCodeInGrid"/>
+             stepKey="dontSeeRatingCodeInGrid"/>
 
         <actionGroup ref="logout" stepKey="logout"/>
 
-        <!-- Assert rating is not on product view page -->
         <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="openCreatedProductPage">
             <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
         </actionGroup>
         <click selector="{{StorefrontProductReviewsSection.reviewsTab}}" stepKey="openReviewTab"/>
         <dontSeeElement selector="#{$grabRatingCode}_rating_label" stepKey="dontSeeProductRating"/>
 
-        <!-- delete rating -->
         <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
         <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
             <argument name="productRatingTitle" value="{$grabRatingCode}" />

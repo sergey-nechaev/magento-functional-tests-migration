@@ -19,6 +19,7 @@
             <testCaseId value=""/>
             <group value="review"/>
             <group value="mtf_migrated"/>
+            <group value="debug"/>
         </annotations>
 
         <before>
@@ -28,12 +29,10 @@
             <deleteData createDataKey="createCustomerEntity" stepKey="deleteCustomerEntity"/>
         </after>
 
-        <!-- login as customer -->
         <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer" before="openCreatedProductPage">
             <argument name="Customer" value="$$createCustomerEntity$$"/>
         </actionGroup>
 
-        <!-- Click on reviews and add review with logged in customer -->
         <actionGroup ref="StorefrontAddProductReviewWithRatingAsCustomerActionGroup" stepKey="addReview">
             <argument name="review" value="simpleProductReviewAsCustomer"/>
         </actionGroup>

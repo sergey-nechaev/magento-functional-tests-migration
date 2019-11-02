@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminSearchForRatingCodeInGridActionGroup">
+        <annotations>
+            <description>Search for the given rating code in the product rating grid.</description>
+        </annotations>
+        <arguments>
+            <argument name="ratingCode" type="string"/>
+        </arguments>
+        <click selector="{{AdminRatingGridSection.resetFilter}}" stepKey="resetGridFilter"/>
+        <waitForPageLoad stepKey="waitForFiltersReset"/>
+        <fillField userInput="{{ratingCode}}" selector="{{AdminRatingGridSection.ratingCodeFilter}}"
+                   stepKey="fillRatingCodeFilter"/>
+        <click selector="{{AdminRatingGridSection.search}}" stepKey="clickSearchButton"/>
+    </actionGroup>
+</actionGroups>
