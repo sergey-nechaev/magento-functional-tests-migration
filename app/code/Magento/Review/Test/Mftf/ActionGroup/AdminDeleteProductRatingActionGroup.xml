@@ -27,7 +27,7 @@
         <waitForPageLoad stepKey="waitForRatingEditPage"/>
         <click selector="{{AdminEditRatingSection.deleteButton}}" stepKey="deleteRating"/>
         <waitForText userInput="Are you sure you want to do this?" stepKey="waitForDeleteConfirmation"/>
-        <click selector="{{AdminEditRatingSection.confirmDelete}}" stepKey="confirmDelete"/>
+        <click selector="{{AdminConfirmationModalSection.ok}}" stepKey="clickOkConfirmDelete"/>
         <waitForPageLoad stepKey="waitForSaveResultLoad"/>
         <see userInput="You deleted the rating." stepKey="seeSuccessMessage" />
     </actionGroup>
