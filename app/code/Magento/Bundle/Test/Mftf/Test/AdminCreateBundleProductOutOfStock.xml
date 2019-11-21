@@ -101,7 +101,7 @@
 
         <!-- Assert Product Form For Drop-down Option-->
         <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="GoToAdminProductsGrid1"/>
-        <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageFirstBundleOption">
+        <actionGroup ref="AssertProductFormInAdminWithBundleOptionActionGroup" stepKey="assertProductFormPageFirstBundleOption">
             <argument name="product" value="BundleProductOutOfStock"/>
             <argument name="x" value="0"/>
             <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
@@ -112,7 +112,7 @@
 
         <!-- Assert Product Form For Radio Buttons Option-->
         <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="GoToAdminProductsGrid2"/>
-        <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageSecondBundleOption">
+        <actionGroup ref="AssertProductFormInAdminWithBundleOptionActionGroup" stepKey="assertProductFormPageSecondBundleOption">
             <argument name="product" value="BundleProductOutOfStock"/>
             <argument name="x" value="1"/>
             <argument name="optionTitle" value="{{RadioButtonsOption.title}}"/>
@@ -122,7 +122,7 @@
         </actionGroup>
 
         <!-- Assert Bundle Product In Product Page Stock Status -->
-        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithStock" stepKey="AssertProductPage1">
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithStockActionGroup" stepKey="AssertProductPage1">
             <argument name="product" value="BundleProductOutOfStock"/>
             <argument name="stockStatus" value="BundleProductOutOfStock.storefrontStatus"/>
         </actionGroup>

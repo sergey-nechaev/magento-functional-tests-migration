@@ -9,7 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <!-- Go to Storefront Product Page and Assert Product Item And Bundle Option Title-->
-    <actionGroup name="AssertBundleProductItemsInStorefrontProductPage" extends="AssertProductNameAndSkuInStorefrontProductPage">
+    <actionGroup name="AssertBundleProductItemsInStorefrontProductPageActionGroup" extends="AssertProductNameAndSkuInStorefrontProductPage">
         <arguments>
             <argument name="optionTitle" type="string"/>
             <argument name="productItemName" type="string"/>

@@ -81,14 +81,14 @@
         </actionGroup>
 
         <!-- Assert Bundle Product In Category -->
-        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithPriceRange" stepKey="assertProductInStorefront1">
+        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithPriceRangeActionGroup" stepKey="assertProductInStorefront1">
             <argument name="category" value="$$createCategoryForTest$$"/>
             <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
             <argument name="priceRange" value="bundleFixed51"/>
         </actionGroup>
 
         <!-- Assert Bundle Product In Category -->
-        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithRegularPrice" stepKey="assertProductInStorefront2">
+        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithRegularPriceActionGroup" stepKey="assertProductInStorefront2">
             <argument name="category" value="$$createCategoryForTest$$"/>
             <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
             <argument name="regularPrice" value="bundleFixed51.regularPrice"/>
@@ -101,7 +101,7 @@
         </actionGroup>
 
         <!-- Assert Bundle Product Regular Price In Product Page -->
-        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithRegularPrice" stepKey="AssertProductPage2">
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithRegularPriceActionGroup" stepKey="AssertProductPage2">
             <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
             <argument name="regularPrice" value="bundleFixed51.regularPrice"/>
         </actionGroup>

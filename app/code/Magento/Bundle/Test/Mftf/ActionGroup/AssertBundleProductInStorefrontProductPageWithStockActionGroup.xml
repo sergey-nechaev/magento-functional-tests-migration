@@ -9,7 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <!-- Go to Storefront Product Page and Assert Product Name And Stock Status-->
-    <actionGroup name="AssertBundleProductInStorefrontProductPageWithStock" extends="AssertProductNameAndSkuInStorefrontProductPage">
+    <actionGroup name="AssertBundleProductInStorefrontProductPageWithStockActionGroup" extends="AssertProductNameAndSkuInStorefrontProductPage">
         <arguments>
             <argument name="stockStatus"/>
         </arguments>

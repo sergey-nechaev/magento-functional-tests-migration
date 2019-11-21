@@ -74,7 +74,7 @@
         <magentoCLI command="cache:flush" stepKey="flushCache"/>
 
         <!-- Assert Bundle Product In Category -->
-        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithPriceRange" stepKey="assertProductInStorefront1">
+        <actionGroup ref="AssertBundleProductInStorefrontCategoryPageWithPriceRangeActionGroup" stepKey="assertProductInStorefront1">
             <argument name="category" value="$$createCategoryForTest$$"/>
             <argument name="product" value="BundleProductFixedPriceAndSku110Dollars"/>
             <argument name="priceRange" value="bundleFixed110"/>

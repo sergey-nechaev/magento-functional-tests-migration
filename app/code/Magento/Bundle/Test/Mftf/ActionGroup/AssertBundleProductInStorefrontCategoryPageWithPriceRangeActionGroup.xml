@@ -9,14 +9,12 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <!-- Go to Storefront Category and Assert Product in Category With Price Range -->
-    <actionGroup name="AssertBundleProductInStorefrontCategoryPageWithPriceRange" extends="AssertProductInStorefrontCategoryPage">
+    <actionGroup name="AssertBundleProductInStorefrontCategoryPageWithPriceRangeActionGroup" extends="AssertProductInStorefrontCategoryPage">
         <arguments>
             <argument name="priceRange"/>
         </arguments>
         <remove keyForRemoval="assertProductPricePresent"/>
-        <see selector="{{StorefrontCategoryMainSection.productPrice}}"  userInput="{{priceRange.priceFrom}}"
-             stepKey="assertProductPriceFromPresent"/>
-        <see selector="{{StorefrontCategoryMainSection.productPrice}}"  userInput="{{priceRange.priceTo}}"
-             stepKey="assertProductPriceToPresent"/>
+        <see selector="{{StorefrontCategoryMainSection.productPrice}}"  userInput="{{priceRange.priceFrom}}" stepKey="assertProductPriceFromPresent"/>
+        <see selector="{{StorefrontCategoryMainSection.productPrice}}"  userInput="{{priceRange.priceTo}}" stepKey="assertProductPriceToPresent"/>
     </actionGroup>
 </actionGroups>

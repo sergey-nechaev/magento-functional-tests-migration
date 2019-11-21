@@ -9,7 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <!-- Open Product Form and Assert Product SKU, Name, Price And Bundle Option Title, Type, Products -->
-    <actionGroup name="AssertProductFormInAdminWithBundleOption" extends="filterProductGridBySku">
+    <actionGroup name="AssertProductFormInAdminWithBundleOptionActionGroup" extends="filterProductGridBySku">
         <arguments>
             <argument name="product" defaultValue="_defaultProduct"/>
             <argument name="x" type="string"/>

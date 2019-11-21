@@ -75,7 +75,7 @@
 
         <!-- Assert Product Form For Drop-down Option-->
         <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="GoToAdminProductsGrid"/>
-        <actionGroup ref="AssertProductFormInAdminWithBundleOption" stepKey="assertProductFormPageWithBundleOption">
+        <actionGroup ref="AssertProductFormInAdminWithBundleOptionActionGroup" stepKey="assertProductFormPageWithBundleOption">
             <argument name="product" value="BundleProduct10Dollars"/>
             <argument name="x" value="0"/>
             <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
@@ -85,18 +85,18 @@
         </actionGroup>
 
         <!-- Assert Serachable Bundle Options By Sku On The Storefront -->
-        <actionGroup ref="AssertProductSearchableBySku" stepKey="seeProductInSearchablePage">
+        <actionGroup ref="AssertProductSearchableBySkuActionGroup" stepKey="seeProductInSearchablePage">
             <argument name="product" value="BundleProduct10Dollars"/>
         </actionGroup>
 
         <!-- Assert Bundle Product In Product Page -->
-        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceAndDescription" stepKey="AssertProductPageWithPriceRange">
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceAndDescriptionActionGroup" stepKey="AssertProductPageWithPriceRange">
             <argument name="product" value="BundleProduct10Dollars"/>
             <argument name="price" value="bundleFixed15.priceFrom"/>
         </actionGroup>
 
         <!-- See Only First Product, Because Second Product is "Out Of Stock" -->
-        <actionGroup ref="AssertBundleProductItemsInStorefrontProductPage" stepKey="AssertItemsOnProductPage">
+        <actionGroup ref="AssertBundleProductItemsInStorefrontProductPageActionGroup" stepKey="AssertItemsOnProductPage">
             <argument name="product" value="BundleProduct10Dollars"/>
             <argument name="optionTitle" value="{{DropDownBundleOption.title}}"/>
             <argument name="productItemName" value="$$createSimpleProduct100Dollars.name$$"/>

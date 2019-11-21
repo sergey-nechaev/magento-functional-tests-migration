@@ -9,11 +9,10 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <!-- Go to Storefront Product Page and Assert Product Name, SKU, Special And Regular Price-->
-    <actionGroup name="AssertBundleProductInStorefrontProductPageWithRegularPrice" extends="AssertProductNameAndSkuInStorefrontProductPage">
+    <actionGroup name="AssertBundleProductInStorefrontProductPageWithRegularPriceActionGroup" extends="AssertProductNameAndSkuInStorefrontProductPage">
         <arguments>
             <argument name="regularPrice"/>
         </arguments>
-        <see userInput="{{regularPrice}}" selector="{{StorefrontProductInfoMainSection.productPrice}}"
-             stepKey="assertProductRegularPrice"/>
+        <see userInput="{{regularPrice}}" selector="{{StorefrontProductInfoMainSection.productPrice}}" stepKey="assertProductRegularPrice"/>
     </actionGroup>
 </actionGroups>
