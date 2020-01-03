@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminMergeSynonymGroupEntityTest">
+        <annotations>
+            <features value="Search"/>
+            <title value="Admin merge synonym group test"/>
+            <description value="Convert merge synonym group test"/>
+            <group value="search"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!-- Login as admin -->
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+        <after>
+            <!-- Logout -->
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+        <!-- Create synonym -->
+        <actionGroup ref="AssertAdminCreateSynonymWithMergeActionGroup" stepKey="CreateSynonym"/>
+        <actionGroup ref="AssertAdminCheckSuccessSaveSynonymActionGroup" stepKey="checkSynonymSuccess1"/>
+        <!-- Create duplicate synonym -->
+        <actionGroup ref="AssertAdminCreateSynonymWithMergeActionGroup" stepKey="CreateMergeSynonym"/>
+        <actionGroup ref="AssertAdminCheckSuccessSaveSynonymActionGroup" stepKey="checkSynonymSuccess2"/>
+        <!-- Save duplicate synonym without marge -->
+        <actionGroup ref="AssertAdminCreateSynonymActionGroup" stepKey="CreateDuplicatedSynonym"/>
+        <actionGroup ref="AssertAdminCheckFailSaveSynonymActionGroup" stepKey="checkSynonymFail"/>
+    </test>
+</tests>

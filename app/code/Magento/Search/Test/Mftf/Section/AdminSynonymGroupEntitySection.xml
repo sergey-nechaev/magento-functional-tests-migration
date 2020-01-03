@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminSynonymGroupEntitySection">
+        <element name="scopeSelect" type="select" selector="select[name='scope_id']"/>
+        <element name="synonymsTextarea" type="textarea" selector="textarea[name='synonyms']"/>
+        <element name="mergeSynonymsCheckbox" type="input" selector="input[name='mergeOnConflict']"/>
+        <element name="save" type="button" selector="#save"/>
+    </section>
+</sections>
