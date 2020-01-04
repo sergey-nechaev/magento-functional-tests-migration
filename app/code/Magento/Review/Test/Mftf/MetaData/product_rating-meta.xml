@@ -7,7 +7,7 @@
 -->
 <operations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataOperation.xsd">
-    <operation name="CreateProductRating" dataType="productRating" type="create"
+    <operation name="CreateProductRating" dataType="ProductRating" type="create"
                auth="adminFormKey" url="/review/rating/save/" method="POST" successRegex="/messages-message-success/">
         <contentType>application/x-www-form-urlencoded</contentType>
         <field key="rating_code" required="true">string</field>

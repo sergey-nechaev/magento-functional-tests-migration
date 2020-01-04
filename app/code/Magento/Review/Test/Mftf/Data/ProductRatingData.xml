@@ -7,7 +7,7 @@
 -->
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
-    <entity name="ProductRatingActiveDefaultStore" type="productRating">
+    <entity name="ProductRatingActiveDefaultStore" type="ProductRating">
         <data key="rating_code" unique="suffix">productRating_</data>
         <array key="stores">
             <item>1</item>
