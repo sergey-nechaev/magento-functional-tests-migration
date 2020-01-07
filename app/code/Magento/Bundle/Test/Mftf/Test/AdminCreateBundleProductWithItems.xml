@@ -44,13 +44,13 @@
         </after>
 
         <!-- Create new bundle product and fill the main fields-->
-        <actionGroup ref="AdminCreateBundleProductWithDescriptionAndWeight" stepKey="OpenAndFillNewBundleProductForm">
+        <actionGroup ref="AdminCreateBundleProductWithDescriptionAndWeightActionGroup" stepKey="OpenAndFillNewBundleProductForm">
             <argument name="bundleProduct" value="BundleProduct10Dollars"/>
             <argument name="category" value="$$createCategoryForTest.name$$"/>
         </actionGroup>
 
         <!-- Add Bundle Drop-down Option With Two Product -->
-        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addOptionsWithOneProduct">
+        <actionGroup ref="AdminAddBundleOptionTwoProductsWithPriceTypeAndValueActionGroup" stepKey="addOptionsWithOneProduct">
             <argument name="x" value="0"/>
             <argument name="n" value="1"/>
             <argument name="prodOneSku" value="$$createSimpleProduct100Dollars.sku$$"/>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Open Product Grid, Click to Add Bundle Product, Add Category, SEO, Disable Dynamic SKU, Dynamic Price and Fill Price, Name, SKU-->
+    <actionGroup name="AdminCreateBundleProductActionGroup">
+        <arguments>
+            <argument name="bundleProduct"/>
+            <argument name="category" type="string"/>
+        </arguments>
+        <amOnPage url="{{ProductCatalogPage.url}}" stepKey="GoToProductCatalog"/>
+        <waitForPageLoad stepKey="waitForLoadProductGrid"/>
+        <click selector="{{AdminProductGridActionSection.addProductToggle}}" stepKey="clickForChooseCreateInProdType"/>
+        <click selector="{{AdminProductGridActionSection.addBundleProduct}}" stepKey="chooseCreateBundleProduct"/>
+        <scrollTo selector="{{AdminProductFormBundleSection.priceField}}" stepKey="scrollToPriceField"/>
+        <searchAndMultiSelectOption selector="{{AdminProductFormSection.categoriesDropdown}}" parameterArray="[{{category}}]" stepKey="searchAndSelectCategory"/>
+        <scrollTo selector="{{AdminProductFormBundleSection.seoDropdown}}" stepKey="scrollToSearchEngineOptimisationTab"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.seoDropdown}}" dependentSelector="{{AdminProductFormBundleSection.urlKey}}" visible="false" stepKey="openDropDownIfClosed"/>
+        <fillField userInput="{{bundleProduct.urlKey}}" selector="{{AdminProductFormBundleSection.urlKey}}" stepKey="fillsInSeoLinkExtension"/>
+        <scrollTo selector="{{AdminProductFormBundleSection.productName}}" stepKey="scrollProductName"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicPriceToggle}}" dependentSelector="{{AdminProductFormBundleSection.dynamicPriceToggleOff}}" visible="false" stepKey="disableDynamicPrice"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicSkuToggle}}" dependentSelector="{{AdminProductFormBundleSection.dynamicSkuToggleOff}}" visible="false" stepKey="disableDynamicSku"/>
+        <fillField selector="{{AdminProductFormBundleSection.priceField}}" userInput="{{bundleProduct.price}}" stepKey="fillProductPrice"/>
+        <fillField selector="{{AdminProductFormBundleSection.productName}}" userInput="{{bundleProduct.name}}" stepKey="fillProductName"/>
+        <fillField selector="{{AdminProductFormBundleSection.productSku}}" userInput="{{bundleProduct.sku}}" stepKey="fillProductSku"/>
+    </actionGroup>
+</actionGroups>

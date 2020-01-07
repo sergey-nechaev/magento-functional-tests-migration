@@ -52,7 +52,7 @@
         </actionGroup>
 
         <!-- Add Bundle Drop-down Option With Two Product -->
-        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addOptionsWithOneProduct">
+        <actionGroup ref="AdminAddBundleOptionTwoProductsWithPriceTypeAndValueActionGroup" stepKey="addOptionsWithOneProduct">
             <argument name="x" value="0"/>
             <argument name="n" value="1"/>
             <argument name="prodOneSku" value="$$createDefaultSimpleProduct.sku$$"/>
@@ -66,7 +66,7 @@
         </actionGroup>
 
         <!-- Add Custom Option With Select In Bundle Product -->
-        <actionGroup ref="AddProductCustomOptionSelectWithOneValue" stepKey="addCustomOptions">
+        <actionGroup ref="AdminAddProductCustomOptionSelectWithOneValueActionGroup" stepKey="addCustomOptions">
             <argument name="option" value="productDropDownOptionWithOneValueFixed30"/>
         </actionGroup>
 
@@ -95,7 +95,7 @@
         </actionGroup>
 
         <!-- Assert Bundle Product In Product Page -->
-        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceRange" stepKey="AssertProductPage1">
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceRangeActionGroup" stepKey="AssertProductPage1">
             <argument name="product" value="BundleProductFixedPriceAndSku100Dollars"/>
             <argument name="priceRange" value="bundleFixed51"/>
         </actionGroup>

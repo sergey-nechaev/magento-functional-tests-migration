@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Extensions for Add Price Options in Bundle Options -->
+    <actionGroup name="AdminAddBundleOptionTwoProductsWithPriceTypeAndValueActionGroup" extends="addBundleOptionWithTwoProducts">
+        <arguments>
+            <argument name="prodOnePriceType" type="string"/>
+            <argument name="prodTwoPriceType" type="string"/>
+            <argument name="prodOnePriceValue" type="string"/>
+            <argument name="prodTwoPriceValue" type="string"/>
+        </arguments>
+        <remove keyForRemoval="fillQuantity1"/>
+        <remove keyForRemoval="fillQuantity2"/>
+        <selectOption selector="{{AdminProductFormBundleSection.bundlePriceTypeXOptionYProduct(x, '0')}}" userInput="{{prodOnePriceType}}" stepKey="selectFirstPriceType"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundlePriceValueXOptionYProduct(x, '0')}}" userInput="{{prodOnePriceValue}}" stepKey="fillFirstPriceValue"/>
+        <selectOption selector="{{AdminProductFormBundleSection.bundlePriceTypeXOptionYProduct(x, '1')}}" userInput="{{prodTwoPriceType}}" stepKey="selectSecondPriceType"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundlePriceValueXOptionYProduct(x, '1')}}" userInput="{{prodTwoPriceValue}}" stepKey="fillSecondPriceValue"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundleOptionXProductYQuantity(x, '0')}}" userInput="1" stepKey="fillNewQuantity1"/>
+        <fillField selector="{{AdminProductFormBundleSection.bundleOptionXProductYQuantity(x, '1')}}" userInput="1" stepKey="fillNewQuantity2"/>
+    </actionGroup>
+</actionGroups>

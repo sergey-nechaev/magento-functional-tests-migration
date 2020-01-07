@@ -52,13 +52,13 @@
         </after>
 
         <!-- Create new bundle product and fill the main fields-->
-        <actionGroup ref="AdminCreateBundleProductWithTaxStockVisibilityAndWeight" stepKey="OpenAndFillNewBundleProductForm">
+        <actionGroup ref="AdminCreateBundleProductWithTaxStockVisibilityAndWeightActionGroup" stepKey="OpenAndFillNewBundleProductForm">
             <argument name="bundleProduct" value="BundleProductOutOfStock"/>
             <argument name="category" value="$$createCategoryForTest.name$$"/>
         </actionGroup>
 
         <!-- Add Bundle Drop-down Option With Two Product -->
-        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addFIrstOptionsWithTwoProduct">
+        <actionGroup ref="AdminAddBundleOptionTwoProductsWithPriceTypeAndValueActionGroup" stepKey="addFIrstOptionsWithTwoProduct">
             <argument name="x" value="0"/>
             <argument name="n" value="1"/>
             <argument name="prodOneSku" value="$$createFirstSimpleProduct100Dollars.sku$$"/>
@@ -74,7 +74,7 @@
                        stepKey="uncheckRequiredFirstOption"/>
 
         <!-- Add Bundle Radio Buttons Option With Two Product -->
-        <actionGroup ref="addBundleOptionTwoProductsWithPriceTypeAndValue" stepKey="addSecondOptionsWithTwoProduct">
+        <actionGroup ref="AdminAddBundleOptionTwoProductsWithPriceTypeAndValueActionGroup" stepKey="addSecondOptionsWithTwoProduct">
             <argument name="x" value="1"/>
             <argument name="n" value="2"/>
             <argument name="prodOneSku" value="$$createSecondSimpleProduct100Dollars.sku$$"/>
@@ -128,7 +128,7 @@
         </actionGroup>
 
         <!-- Assert Bundle Product In Product Page -->
-        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceRange" stepKey="AssertProductPage">
+        <actionGroup ref="AssertBundleProductInStorefrontProductPageWithPriceRangeActionGroup" stepKey="AssertProductPage">
             <argument name="product" value="BundleProductOutOfStock"/>
             <argument name="priceRange" value="bundleFixed10"/>
         </actionGroup>
