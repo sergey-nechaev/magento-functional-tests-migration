@@ -15,5 +15,7 @@
         <element name="linkUrl" type="input" selector="#integration_properties_identity_link_url"/>
         <element name="save" type="button" selector=".page-actions-buttons .save"/>
         <element name="allow" type="button" selector=".page-actions-buttons .action-primary"/>
+        <element name="resourcesPopup" type="block" selector="#modal-content-17 #integration-popup-container"/>
+        <element name="tokensPopup" type="block" selector="#modal-content-20 #integration_token_base_fieldset"/>
     </section>
 </sections>

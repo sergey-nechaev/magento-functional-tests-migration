@@ -9,6 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AssertAdminIntegrationResourcesPopupActionGroup">
+        <waitForElementVisible selector="{{AdminNewIntegrationSection.resourcesPopup}}" stepKey="waitForPopupLoading"/>
         <see userInput="The integration you selected asks you to approve access to the following:" stepKey="seeContent"/>
     </actionGroup>
 </actionGroups>

@@ -9,6 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AssertAdminIntegrationTokensPopupActionGroup">
+        <waitForElementVisible selector="{{AdminNewIntegrationSection.tokensPopup}}" stepKey="waitForPopupLoading"/>
         <see userInput="Integration Tokens for Extensions" stepKey="seeContent"/>
     </actionGroup>
 </actionGroups>
