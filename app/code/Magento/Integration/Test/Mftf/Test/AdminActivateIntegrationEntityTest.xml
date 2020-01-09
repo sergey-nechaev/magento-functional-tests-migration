@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminActivateIntegrationEntityTest">
+        <annotations>
+            <features value="Integration"/>
+            <stories value="Activation of System Integration"/>
+            <title value="Admin system integration activation"/>
+            <description value="Admin Activates Created Integration"/>
+            <group value="integration"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+        </before>
+        <after>
+            <!-- Delete Integration -->
+            <actionGroup ref="AdminSearchIntegrationInGridActionGroup" stepKey="findCreatedIntegration">
+                <argument name="name" value="Test Integration"/>
+            </actionGroup>
+            <actionGroup ref="AdminDeleteIntegrationEntityActionGroup" stepKey="deleteIntegration"/>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+            <!-- Navigate To Integrations Page -->
+            <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="navigateToIntegrationsPage">
+                <argument name="menuUiId" value="{{AdminMenuSystem.dataUiId}}"/>
+                <argument name="submenuUiId" value="{{AdminMenuSystemExtensionsIntegrations.dataUiId}}"/>
+            </actionGroup>
+            <!-- Click the "Add New Integration" button -->
+            <actionGroup ref="AdminNavigateToCreateIntegrationPageActionGroup" stepKey="clickAddNewIntegrationButton"/>
+            <!-- Create New Integration -->
+            <actionGroup ref="AdminFillIntegrationFormActionGroup" stepKey="createIntegration">
+                <argument name="integration" value="IntegrationConstant"/>
+                <argument name="currentAdminPassword" value="{{_ENV.MAGENTO_ADMIN_PASSWORD}}"/>
+            </actionGroup>
+            <!-- Click Save And Activate Button -->
+            <actionGroup ref="AdminIntegrationSaveAndActivateActionGroup" stepKey="clickSaveAndActivateButton"/>
+            <!-- Assert Integration Resources Popup -->
+            <actionGroup ref="AssertAdminIntegrationResourcesPopupActionGroup" stepKey="assertResourcesPopup"/>
+            <!-- Allow Resources Access -->
+            <actionGroup ref="AdminAllowResourcesAccessIntegrationActionGroup" stepKey="allowAccess"/>
+            <!-- Assert Integration Tokens Popup -->
+            <actionGroup ref="AssertAdminIntegrationTokensPopupActionGroup" stepKey="assertTokensPopup"/>
+            <!-- Finish Integration Activation -->
+            <actionGroup ref="AdminAllowResourcesAccessIntegrationActionGroup" stepKey="clickDoneButton"/>
+            <!-- Assert Success Message -->
+            <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertMessage">
+                <argument name="message" value="The integration 'Test Integration' has been activated."/>
+            </actionGroup>
+    </test>
+</tests>
