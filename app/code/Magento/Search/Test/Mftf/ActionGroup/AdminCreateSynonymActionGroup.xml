@@ -8,14 +8,13 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <actionGroup name="AssertAdminCreateSynonymWithMergeActionGroup">
+    <actionGroup name="AdminCreateSynonymActionGroup">
         <annotations>
             <description>Creating synonym group</description>
         </annotations>
         <amOnPage url="{{AdminSynonymGroupEntityEditPage.url}}" stepKey="CreateSynonymPage"/>
         <waitForPageLoad stepKey="waitForPageLoad"/>
         <fillField selector="{{AdminSynonymGroupEntitySection.synonymsTextarea}}" userInput="test" stepKey="fillSynonymTextarea"/>
-        <click selector="{{AdminSynonymGroupEntitySection.mergeSynonymsCheckbox}}" stepKey="fillSynonymCheckbox"/>
         <click selector="{{AdminSynonymGroupEntitySection.save}}" stepKey="clickSaveButton"/>
     </actionGroup>
 </actionGroups>

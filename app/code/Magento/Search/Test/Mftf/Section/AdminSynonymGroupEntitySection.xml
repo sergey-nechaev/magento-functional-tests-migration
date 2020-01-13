@@ -12,6 +12,6 @@
         <element name="scopeSelect" type="select" selector="select[name='scope_id']"/>
         <element name="synonymsTextarea" type="textarea" selector="textarea[name='synonyms']"/>
         <element name="mergeSynonymsCheckbox" type="input" selector="input[name='mergeOnConflict']"/>
-        <element name="save" type="button" selector="#save"/>
+        <element name="save" type="button" selector=".page-actions-buttons button[id='save']"/>
     </section>
 </sections>
