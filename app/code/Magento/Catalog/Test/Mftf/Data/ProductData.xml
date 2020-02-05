@@ -1333,4 +1333,16 @@
         <requiredEntity type="product_option">ProductOptionField</requiredEntity>
         <requiredEntity type="product_option">ProductOptionField2</requiredEntity>
     </entity>
+    <entity name="SimpleSingleQty" type="product">
+        <data key="sku" unique="suffix">SimpleSingleQtyProduct</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="visibility">4</data>
+        <data key="name" unique="suffix">Simple Single Qty Product</data>
+        <data key="price">123.00</data>
+        <data key="urlKey" unique="suffix">single-qty-product</data>
+        <data key="status">1</data>
+        <data key="quantity">1</data>
+        <requiredEntity type="product_extension_attribute">EavStock1</requiredEntity>
+    </entity>
 </entities>

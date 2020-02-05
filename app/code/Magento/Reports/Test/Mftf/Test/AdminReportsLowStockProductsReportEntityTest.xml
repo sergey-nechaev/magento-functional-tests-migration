@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminReportsLowStockProductsReportEntityTest">
+        <annotations>
+            <features value="Reports"/>
+            <stories value="Low Stock Products Reports"/>
+            <title value="Low Stock Products Report"/>
+            <description value="Admin Should See Low Stock Products Report"/>
+            <group value="reports"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <magentoCLI stepKey="setQtyValue" command="config:set cataloginventory/item_options/notify_stock_qty 2"/>
+            <magentoCLI stepKey="flushCache" command="cache:flush"/>
+            <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+            <createData entity="SimpleSingleQty" stepKey="createProduct"/>
+        </before>
+        <after>
+            <deleteData stepKey="deleteProduct" createDataKey="createProduct"/>
+            <magentoCLI stepKey="setQtyValue" command="config:set cataloginventory/item_options/notify_stock_qty 1"/>
+            <magentoCLI stepKey="flushCache" command="cache:flush"/>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- TEST BODY -->
+        <!-- Navigate To Reports->Products->Low Stock -->
+        <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="navigateToReportsLowStockPage">
+            <argument name="menuUiId" value="{{AdminMenuReports.dataUiId}}"/>
+            <argument name="submenuUiId" value="{{AdminMenuReportsProductsLowStock.dataUiId}}"/>
+        </actionGroup>
+        <!-- Reset Low Stock Report Product Grid  -->
+        <actionGroup ref="AdminReportsLowStockResetFilterActionGroup" stepKey="resetLowStockProductGrid"/>
+        <!-- Find Created Product In Grid -->
+        <actionGroup ref="AdminReportsFindLowStockProductActionGroup" stepKey="findProduct">
+            <argument name="name" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <actionGroup ref="AssertAdminLowStockProductInGridActionGroup" stepKey="seeProduct">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+    </test>
+</tests>
