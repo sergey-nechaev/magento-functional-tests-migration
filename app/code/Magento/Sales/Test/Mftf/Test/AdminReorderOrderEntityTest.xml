@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminReorderOrderEntityTest">
+
+        <annotations>
+            <title value="Reorder Order from Admin for Offline Payment Methods"/>
+            <stories value="Reorder Order from Admin for Offline Payment Methods"/>
+            <description value="Reorder placed order (update products, billing address)."/>
+            <features value="Sales"/>
+            <severity value="MAJOR"/>
+            <group value="Sales, mftf_migrated"/>
+        </annotations>
+
+        <before>
+            <magentoCLI command="config:set {{EnableFlatRateConfigData.path}} {{EnableFlatRateConfigData.value}}" stepKey="enableFlatRate"/>
+            <magentoCLI command="config:set {{enabledCashOnDeliveryPayment.label}} {{enabledCashOnDeliveryPayment.value}}" stepKey="enableCashOnDelivery"/>
+
+            <createData entity="Simple_US_Customer_Two_Addresses" stepKey="simpleCustomer"/>
+
+            <createData entity="SimpleProduct2" stepKey="simpleProduct1">
+                <field key="price">50.99</field>
+            </createData>
+            <createData entity="SimpleProduct2" stepKey="simpleProduct2">
+                <field key="price">60.99</field>
+            </createData>
+
+            <createData entity="ApiSalesRule" stepKey="createCartPriceRule"/>
+
+            <createData entity="SimpleSalesRuleCoupon" stepKey="createCouponForCartPriceRule">
+                <requiredEntity createDataKey="createCartPriceRule"/>
+            </createData>
+
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+
+            <magentoCLI command="indexer:reindex" stepKey="reindex"/>
+            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+        </before>
+
+        <!--Create new order for the customer-->
+        <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="navigateToNewOrderWithExistingCustomer">
+            <argument name="customer" value="$$simpleCustomer$$"/>
+        </actionGroup>
+
+        <!--Add both simple products to the order-->
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSimpleProduct1ToOrder">
+            <argument name="product" value="$$simpleProduct1$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSimpleProduct2ToOrder">
+            <argument name="product" value="$$simpleProduct2$$"/>
+        </actionGroup>
+
+        <!--Payment method = Check / Money Order-->
+        <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
+
+        <!--Shipping method = Flat Rate Fixed-->
+        <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="orderSelectFlatRateShippingMethod"/>
+
+        <!--Apply Cart Price Rule with 10% discount-->
+        <actionGroup ref="AdminApplyCouponToOrderActionGroup" stepKey="applyCoupon">
+            <argument name="couponCode" value="$$createCouponForCartPriceRule.code$$"/>
+        </actionGroup>
+
+        <!--Submit Order-->
+        <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
+
+        <!--Check if order is created -->
+        <actionGroup ref="VerifyCreatedOrderInformationActionGroup" stepKey="verifyCreatedOrderInformation"/>
+
+        <grabTextFrom selector="|Order # (\d+)|" stepKey="getOrderId"/>
+
+        <!--Check available buttons-->
+        <actionGroup ref="AssertOrderButtonsAvailableActionGroup" stepKey="verifyAllButtonsAvailable"/>
+
+        <!--Click Reorder-->
+        <actionGroup ref="AdminReorderActionGroup" stepKey="reorderOrder"/>
+
+        <!--Add one more product to reorder-->
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addOneMoreSimpleProduct1ToOrder">
+            <argument name="product" value="$$simpleProduct1$$"/>
+        </actionGroup>
+
+        <!--Select another billing address-->
+        <actionGroup ref="AdminChangeBillingAddressOnCreateOrderPageActionGroup" stepKey="changeBillingAddress">
+            <argument name="address" value="{{US_Address_NY_Not_Default_Address.state}}"/>
+        </actionGroup>
+
+        <!--Shipping method = Flat Rate Fixed-->
+        <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="selectFlatRateShippingMethodForReorder"/>
+
+        <!--Payment method = Check / Money Order-->
+        <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectPaymentMethodForReorder"/>
+
+        <!--Submit Reorder-->
+        <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitReorder"/>
+
+        <!--Check if reorder is created -->
+        <actionGroup ref="VerifyCreatedOrderInformationActionGroup" stepKey="verifyCreatedReorderInformation"/>
+        <grabTextFrom selector="|Order # (\d+)|" stepKey="getReorderId"/>
+
+        <!--Check available buttons-->
+        <actionGroup ref="AssertOrderButtonsAvailableActionGroup" stepKey="verifyAllButtonsAvailableForReorder"/>
+
+        <!-- Via Order Grid: check if order status and grand total are correct-->
+        <actionGroup ref="AssertAdminCheckOrderStatusAndGrandTotalInOrdersGridActionGroup" stepKey="verifyOrderStatusAndGrandTotal">
+            <argument name="orderId" value="$getOrderId"/>
+            <argument name="status" value="Pending"/>
+            <argument name="grandTotal" value="110.78"/>
+        </actionGroup>
+
+        <!-- Via Order Grid: check if reorder status and grand total are correct-->
+        <actionGroup ref="AssertAdminCheckOrderStatusAndGrandTotalInOrdersGridActionGroup" stepKey="verifyReorderStatusAndGrandTotal">
+            <argument name="orderId" value="$getReorderId"/>
+            <argument name="status" value="Pending"/>
+            <argument name="grandTotal" value="161.67"/>
+        </actionGroup>
+
+        <after>
+
+            <magentoCLI command="config:set {{DisableFlatRateConfigData.path}} {{DisableFlatRateConfigData.value}}" stepKey="disableFlatRate"/>
+            <magentoCLI command="config:set {{disabledCashOnDeliveryPayment.label}} {{disabledCashOnDeliveryPayment.value}}" stepKey="disableCashOnDelivery"/>
+
+            <deleteData createDataKey="simpleCustomer" stepKey="deleteSimpleCustomer"/>
+            <deleteData createDataKey="simpleProduct1" stepKey="deleteSimpleProduct1"/>
+            <deleteData createDataKey="simpleProduct2" stepKey="deleteSimpleProduct2"/>
+
+            <deleteData createDataKey="createCartPriceRule" stepKey="deleteCartPriceRule"/>
+
+            <actionGroup ref="logout" stepKey="adminLogout"/>
+        </after>
+    </test>
+</tests>
