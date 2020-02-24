@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontShoppingCartWithFreeShippingTest">
+        <annotations>
+            <features value="SalesRule"/>
+            <stories value="Cart Price Rule for Free Shipping based on product weight"/>
+            <description value="Test sales rule with free shipping applied by product weight"/>
+            <severity value="CRITICAL"/>
+            <group value="salesRule, mtf_migrated"/>
+        </annotations>
+
+        <before>
+            <!-- Enable Free Shipping for orders with Minimum Order Amount>1000000 -->
+            <magentoCLI command="config:set {{AdminFreeshippingActiveConfigData.path}} {{AdminFreeshippingActiveConfigData.enabled}}" stepKey="enableFreeShippingMethod" />
+            <magentoCLI command="config:set {{AdminFreeshippingMinimumOrderAmountConfigData.path}} 1000000" stepKey="setFreeShippingMethodMinimumOrderAmountToBeBillion" />
+
+            <!-- Create category -->
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+
+            <!-- Create simple product with weight=199 -->
+            <createData entity="SimpleProduct" stepKey="simpleProduct199">
+                <field key="price">10.00</field>
+                <field key="weight">199</field>
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+
+            <!-- Create simple product with weight=1 -->
+            <createData entity="SimpleProduct" stepKey="simpleProduct1">
+                <field key="price">10.00</field>
+                <field key="weight">1</field>
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+
+            <!-- Create Sales Rule for free shipping WITHOUT conditions specified -->
+            <createData entity="ApiSalesRule" stepKey="cartPriceRule">
+                <field key="name">Free Shipping Cart Price Rule</field>
+                <field key="description">Free Shipping Cart Price Rule</field>
+                <field key="apply">Percent of product price discount</field>
+                <field key="discountAmount">0</field>
+                <field key="discount_qty">0</field>
+                <field key="apply_to_shipping">true</field>
+                <field key="coupon_type">No Coupon</field>
+                <field key="simple_free_shipping">1</field>
+            </createData>
+
+            <!-- Specify conditions for created Cart Price Rule -->
+            <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+
+            <!-- Add condition: Total Weight>=200-->
+            <actionGroup ref="AdminCreateCartPriceRuleWithOneConditionActionGroup" stepKey="setCondition">
+                <argument name="ruleName" value="$$cartPriceRule.name$$"/>
+                <argument name="condition" value="Total Weight"/>
+                <argument name="logicalExpression" value="equals or greater than"/>
+                <argument name="conditionValue" value="200"/>
+            </actionGroup>
+
+            <actionGroup ref="logout" stepKey="logoutOfAdmin"/>
+
+            <magentoCLI command="indexer:reindex" stepKey="reindex"/>
+            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+
+        </before>
+
+        <after>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
+            <deleteData createDataKey="simpleProduct199" stepKey="deleteProduct199"/>
+            <deleteData createDataKey="simpleProduct1" stepKey="deleteProduct1"/>
+            <deleteData createDataKey="cartPriceRule" stepKey="deleteCartPriceRule"/>
+
+            <magentoCLI command="config:set {{DisableFreeShippingConfigData.path}} {{DisableFreeShippingConfigData.value}}" stepKey="disableFreeShipping"/>
+        </after>
+
+        <!-- Open Product with weight=199 in StoreFront -->
+        <actionGroup ref="AssertProductNameAndSkuInStorefrontProductPageByCustomAttributeUrlKeyActionGroup" stepKey="openProduct199PageAndVerifyProduct">
+            <argument name="product" value="$$simpleProduct199$$"/>
+        </actionGroup>
+
+        <!-- Add Product with weight=199 to the cart -->
+        <actionGroup ref="AddToCartFromStorefrontProductPageActionGroup" stepKey="addProduct199ToTheCart">
+            <argument name="productName" value="$$simpleProduct199.name$$"/>
+        </actionGroup>
+
+        <!-- Go to the Cart-->
+        <actionGroup ref="StorefrontOpenCartPageActionGroup" stepKey="goToCartPage"/>
+
+        <!-- Expand the "Estimate Shipping and Tax" block -->
+        <actionGroup ref="StorefrontCartEstimateShippingAndTaxActionGroup" stepKey="expandEstimateShippingAndTax"/>
+
+        <!-- Check if free shipping is NOT available -->
+        <actionGroup ref="StorefrontAssertShippingMethodNotPresentInCartActionGroup" stepKey="assertShippingMethodFreeShippingIsNotPresentInCart">
+            <argument name="shippingMethod" value="Free Shipping"/>
+        </actionGroup>
+
+        <!-- Open Product with weight=1 in StoreFront -->
+        <actionGroup ref="AssertProductNameAndSkuInStorefrontProductPageByCustomAttributeUrlKeyActionGroup" stepKey="openProduct1PageAndVerifyProduct">
+            <argument name="product" value="$$simpleProduct1$$"/>
+        </actionGroup>
+
+        <!-- Add Product with weight=1 to the cart -->
+        <actionGroup ref="AddToCartFromStorefrontProductPageActionGroup" stepKey="addProduct1ToTheCart">
+            <argument name="productName" value="$$simpleProduct1.name$$"/>
+        </actionGroup>
+
+        <!-- Go to the Cart-->
+        <actionGroup ref="StorefrontOpenCartPageActionGroup" stepKey="goToCartPage1"/>
+
+        <!-- Expand the "Estimate Shipping and Tax" block -->
+        <actionGroup ref="StorefrontCartEstimateShippingAndTaxActionGroup" stepKey="expandEstimateShippingAndTax1"/>
+
+        <!-- Check if free shipping is available -->
+        <actionGroup ref="StorefrontAssertShippingMethodPresentInCartActionGroup" stepKey="assertShippingMethodFreeShippingIsPresentInCart">
+            <argument name="shippingMethod" value="Free Shipping"/>
+        </actionGroup>
+
+    </test>
+</tests>
