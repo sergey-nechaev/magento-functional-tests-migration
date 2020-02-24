@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCreateSearchSynonymGroupEntityTest">
+        <annotations>
+            <features value="Search"/>
+            <stories value="Admin create search synonym group"/>
+            <title value="Admin create search synonym group"/>
+            <description value="Admin create search synonym group"/>
+            <group value="search"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+        <after>
+           <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create Synonym Group -->
+        <actionGroup ref="AdminOpenSearchSynonymsGridActionGroup" stepKey="openSearchSynonymsGrid"/>
+        <actionGroup ref="AdminClickNewSynonymGroupButtonActionGroup" stepKey="clickNewSynonymGroupButton"/>
+        <actionGroup ref="AdminFillNewSynonymGroupFormRequiredFieldsActionGroup" stepKey="fillNewSynonymsGroupForm">
+            <argument name="synonyms" value="{{search_group_1.synonyms}}"/>
+        </actionGroup>
+        <actionGroup ref="AdminClickSaveButtonOnSynonymGroupFormActionGroup" stepKey="saveSynonymGroup"/>
+        <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessMessage">
+            <argument name="message" value="You saved the synonym group."/>
+        </actionGroup>
+        <actionGroup ref="AdminSearchSynonymGroupBySynonymsActionGroup" stepKey="searchForSynonymsGroup">
+            <argument name="text" value="{{search_group_1.synonyms}}"/>
+        </actionGroup>
+        <actionGroup ref="AdminAssertSynonymGroupInGridActionGroup" stepKey="checkSynonymGroupInGrid">
+            <argument name="text" value="{{search_group_1.synonyms}}"/>
+        </actionGroup>
+
+        <!-- Delete synonyms groups -->
+        <actionGroup ref="AdminDeleteFirstSynonymGroupEntityFromTheGridActionGroup" stepKey="deleteSynonymsGroup"/>
+    </test>
+</tests>

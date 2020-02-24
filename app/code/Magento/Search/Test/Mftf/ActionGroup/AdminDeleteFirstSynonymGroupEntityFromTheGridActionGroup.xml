@@ -8,13 +8,10 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <actionGroup name="AdminDeleteSynonymGroupActionGroup">
+    <actionGroup name="AdminDeleteFirstSynonymGroupEntityFromTheGridActionGroup">
         <annotations>
-            <description>Delete synonyms group from grid on Search Synonyms page.</description>
+            <description>Delete a first synonyms group from grid on Search Synonyms page.</description>
         </annotations>
-        <arguments>
-            <argument name="text" type="string"/>
-        </arguments>
         <click selector="{{AdminSearchSynonymsGridSection.selectFirstRow}}" stepKey="clickOnCheckboxButton"/>
         <click selector="{{AdminSearchSynonymsGridSection.actions}}" stepKey="clickActionsDropdown"/>
         <click selector="{{AdminSearchSynonymsGridSection.delete}}" stepKey="clickDelete"/>
