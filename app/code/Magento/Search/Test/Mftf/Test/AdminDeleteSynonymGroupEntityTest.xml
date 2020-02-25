@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminDeleteSynonymGroupEntityTest">
+        <annotations>
+            <features value="Search"/>
+            <stories value="Admin delete synonym group"/>
+            <title value="Admin delete synonym group"/>
+            <description value="Admin delete synonym group"/>
+            <group value="search"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create Synonym Group-->
+        <actionGroup ref="AdminOpenSearchSynonymsGridActionGroup" stepKey="openSearchSynonymsGrid"/>
+        <actionGroup ref="AdminClickNewSynonymGroupButtonActionGroup" stepKey="clickNewSynonymGroupButton"/>
+        <actionGroup ref="AdminFillNewSynonymGroupFormRequiredFieldsActionGroup" stepKey="fillNewSynonymsGroupForm">
+            <argument name="synonyms" value="{{search_group_1.synonyms}}"/>
+        </actionGroup>
+        <actionGroup ref="AdminClickSaveButtonOnSynonymGroupFormActionGroup" stepKey="saveSynonymGroup"/>
+
+        <!-- Delete synonyms groups -->
+        <actionGroup ref="AdminSearchSynonymGroupBySynonymsActionGroup" stepKey="searchForSynonymsGroup">
+            <argument name="text" value="{{search_group_1.synonyms}}"/>
+        </actionGroup>
+        <actionGroup ref="AdminDeleteFirstSynonymGroupEntityFromTheGridActionGroup" stepKey="deleteSynonymsGroup"/>
+        <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessDeleteMessage">
+            <argument name="message" value="A total of 1 synonym group(s) have been deleted."/>
+        </actionGroup>
+    </test>
+</tests>
