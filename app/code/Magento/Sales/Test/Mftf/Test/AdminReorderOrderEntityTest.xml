@@ -40,8 +40,9 @@
 
             <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
 
-            <magentoCLI command="indexer:reindex" stepKey="reindex"/>
-            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+            <wait stepKey="waitBeforeRunCronIndex" time="30"/>
+            <magentoCLI stepKey="runCronIndex" command="cron:run --group=index"/>
+
         </before>
 
         <!--Create new order for the customer-->
@@ -82,6 +83,11 @@
 
         <!--Click Reorder-->
         <actionGroup ref="AdminReorderActionGroup" stepKey="reorderOrder"/>
+
+        <!--Check if Create order page is displayed-->
+        <actionGroup ref="AssertAdminPageTitleActionGroup" stepKey="checkPageTitle">
+            <argument name="pageTitle" value="Create New Order"/>
+        </actionGroup>
 
         <!--Add one more product to reorder-->
         <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addOneMoreSimpleProduct1ToOrder">

@@ -8,9 +8,11 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <!--Click the "Reorder" button and check if the "Create New Order" flow started-->
-    <actionGroup name="AdminReorderActionGroup">
-        <click selector="{{AdminOrderDetailsMainActionsSection.reorder}}" stepKey="clickReorder"/>
-        <waitForPageLoad stepKey="waitForPageLoad"/>
+    <!--Check page title-->
+    <actionGroup name="AssertAdminPageTitleActionGroup">
+        <arguments>
+            <argument name="pageTitle" type="string"/>
+        </arguments>
+        <see selector="{{AdminHeaderSection.pageTitle}}" userInput="{{pageTitle}}" stepKey="seePageTitle"/>
     </actionGroup>
 </actionGroups>
