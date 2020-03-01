@@ -53,9 +53,13 @@
             <!-- Specify conditions for created Cart Price Rule -->
             <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
 
+            <!-- Open created Cart Price Rule -->
+            <actionGroup ref="AdminOpenExistingCartPriceRuleByNameActionGroup" stepKey="openCartPriceRule">
+                <argument name="ruleName" value="$$cartPriceRule.name$$"/>
+            </actionGroup>
+
             <!-- Add condition: Total Weight>=200-->
             <actionGroup ref="AdminCreateCartPriceRuleWithOneConditionActionGroup" stepKey="setCondition">
-                <argument name="ruleName" value="$$cartPriceRule.name$$"/>
                 <argument name="condition" value="Total Weight"/>
                 <argument name="logicalExpression" value="equals or greater than"/>
                 <argument name="conditionValue" value="200"/>
@@ -63,8 +67,8 @@
 
             <actionGroup ref="logout" stepKey="logoutOfAdmin"/>
 
-            <magentoCLI command="indexer:reindex" stepKey="reindex"/>
-            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+            <wait stepKey="waitBeforeRunMagentoCron" time="30"/>
+            <magentoCLI stepKey="runMagentoCron" command="cron:run --group=index"/>
 
         </before>
 

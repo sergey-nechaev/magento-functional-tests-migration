@@ -10,25 +10,16 @@
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminCreateCartPriceRuleWithOneConditionActionGroup">
         <annotations>
-            <description>Update Existing Cart Price Rule with condition: [condition logical_expressio value (as a text input)</description>
+            <description>Update Existing Cart Price Rule with condition: [condition logical_expression value (as a text input)</description>
         </annotations>
 
         <arguments>
-            <argument name="ruleName" type="string"/>
             <argument name="condition" type="string" defaultValue="Total Weight"/>
             <argument name="defaultLogicalExpression" type="string" defaultValue="is"/>
             <argument name="logicalExpression" type="string" defaultValue="equals or greater than"/>
             <argument name="defaultConditionValue" type="string" defaultValue="..."/>
             <argument name="conditionValue" type="string" defaultValue="2"/>
         </arguments>
-
-        <amOnPage url="{{AdminCartPriceRulesPage.url}}" stepKey="amOnCartPriceList"/>
-
-        <!-- open existing Cart Price Rule -->
-        <conditionalClick selector="{{AdminDataGridHeaderSection.clearFilters}}" dependentSelector="{{AdminDataGridHeaderSection.clearFilters}}" visible="true" stepKey="clickClearFilters"/>
-        <fillField selector="{{AdminCartPriceRulesSection.filterByNameInput}}" userInput="{{ruleName}}" stepKey="filterByName"/>
-        <click selector="{{AdminCartPriceRulesSection.searchButton}}" stepKey="doFilter"/>
-        <click selector="{{AdminCartPriceRulesSection.rowByIndex('1')}}" stepKey="goToEditRulePage"/>
 
         <!-- Go to Conditions section -->
         <click selector="{{AdminCartPriceRulesFormSection.conditionsHeader}}" stepKey="openConditionsSection"/>
