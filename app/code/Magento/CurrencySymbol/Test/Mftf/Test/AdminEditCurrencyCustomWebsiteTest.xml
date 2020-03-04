@@ -48,6 +48,7 @@
                 <argument name="websiteName" value="customWebsite.name"/>
             </actionGroup>
             <magentoCLI stepKey="cleanCache" command="cache:clean"/>
+            <actionGroup ref="logout" stepKey="logout"/>
         </after>
 
 
