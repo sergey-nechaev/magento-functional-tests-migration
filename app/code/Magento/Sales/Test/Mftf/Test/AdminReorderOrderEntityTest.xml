@@ -85,8 +85,8 @@
         <actionGroup ref="AdminReorderActionGroup" stepKey="reorderOrder"/>
 
         <!--Check if Create order page is displayed-->
-        <actionGroup ref="AssertAdminPageTitleActionGroup" stepKey="checkPageTitle">
-            <argument name="pageTitle" value="Create New Order"/>
+        <actionGroup ref="AdminAssertPageTitleActionGroup" stepKey="checkPageTitle">
+            <argument name="title" value="Create New Order"/>
         </actionGroup>
 
         <!--Add one more product to reorder-->
