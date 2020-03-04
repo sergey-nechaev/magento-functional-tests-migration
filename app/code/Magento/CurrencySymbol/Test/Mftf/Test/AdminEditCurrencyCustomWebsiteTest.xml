@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminEditCurrencyCustomWebsiteTest">
+        <annotations>
+            <features value="CurrencySymbol"/>
+            <stories value="Custom Website Currency"/>
+            <title value="Currency editing of custom website"/>
+            <description value="Admin Should be able edit custom website currency"/>
+        </annotations>
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <magentoCLI command="config:set {{StorefrontEnableAddStoreCodeToUrls.path}} {{StorefrontEnableAddStoreCodeToUrls.value}}" stepKey="setAddStoreCodeToUrlsToYes"/>
+            <magentoCLI stepKey="setupManWebsiteCurrency" command="config:set {{SetCurrencyUSDBaseConfig.path}} {{SetCurrencyUSDBaseConfig.value}}"/>
+            <actionGroup ref="AdminCreateWebsiteActionGroup" stepKey="createCustomWebsite">
+                <argument name="newWebsiteName" value="{{customWebsite.name}}"/>
+                <argument name="websiteCode" value="{{customWebsite.code}}"/>
+            </actionGroup>
+            <actionGroup ref="AdminCreateNewStoreGroupActionGroup" stepKey="createNewStore">
+                <argument name="website" value="{{customWebsite.name}}"/>
+                <argument name="storeGroupName" value="{{customStoreGroup.name}}"/>
+                <argument name="storeGroupCode" value="{{customStoreGroup.code}}"/>
+            </actionGroup>
+            <actionGroup ref="AdminCreateStoreViewActionGroup" stepKey="createCustomStoreView">
+                <argument name="StoreGroup" value="customStoreGroup"/>
+                <argument name="customStore" value="customStore"/>
+            </actionGroup>
+            <createData entity="ApiSimplePrice100Qty100v2" stepKey="createSimpleProduct"/>
+            <actionGroup ref="FilterAndSelectProductActionGroup" stepKey="openAdminProductPage">
+                <argument name="productSku" value="$$createSimpleProduct.sku$$"/>
+            </actionGroup>
+            <actionGroup ref="AdminAssignProductInWebsiteActionGroup" stepKey="assignProductToSecondWebsite">
+                <argument name="website" value="{{customWebsite.name}}"/>
+            </actionGroup>
+            <actionGroup ref="SaveProductFormActionGroup" stepKey="clickSaveButton"/>
+        </before>
+        <after>
+            <magentoCLI command="config:set {{StorefrontDisableAddStoreCodeToUrls.path}} {{StorefrontDisableAddStoreCodeToUrls.value}}" stepKey="setAddStoreCodeToUrlsToNo"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <actionGroup ref="DeleteCustomWebsiteActionGroup" stepKey="deleteCustomWeWebsite">
+                <argument name="websiteName" value="customWebsite.name"/>
+            </actionGroup>
+            <magentoCLI stepKey="cleanCache" command="cache:clean"/>
+        </after>
+
+
+        <!-- TEST BODY -->
+        <!-- Edit Custom WebSite Currency -->
+        <magentoCLI stepKey="setupCustomCurrency" command='config:set --scope="websites" --scope-code="{{customWebsite.code}}" {{SetCurrencyEURBaseConfig.path}} {{SetCurrencyEURBaseConfig.value}}'/>
+        <magentoCLI command='config:set --scope="websites" --scope-code="{{customWebsite.code}}" {{SetAllowedCurrenciesConfigForEUR.path}} {{SetAllowedCurrenciesConfigForEUR.value}},{{SetAllowedCurrenciesConfigForUSD.value}}' stepKey="setAllowedCurrencyWebsitesForEUR"/>
+        <magentoCLI command='config:set --scope="websites" --scope-code="{{customWebsite.code}}" {{SetDefaultCurrencyEURConfig.path}} {{SetDefaultCurrencyEURConfig.value}}' stepKey="setDefaultCurrencyEUR"/>
+        <magentoCLI stepKey="cacheClean" command="cache:clean"/>
+        <!--Open Product Page on Main Website -->
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="openProductOnMainWebSite">
+            <argument name="productUrl" value="$createSimpleProduct.custom_attributes[url_key]$"/>
+        </actionGroup>
+        <!-- Assert Currency Symbol For USD Website -->
+        <actionGroup ref="AssertStorefrontCurrencySymbolOnProductPageActionGroup" stepKey="seeUSDSymbol">
+            <argument name="symbol" value="$"/>
+        </actionGroup>
+        <!-- Open Product Page On Second WebSite -->
+        <actionGroup ref="StorefrontOpenProductPageOnSecondStoreActionGroup" stepKey="openProductOnSecondStore">
+            <argument name="storeCode" value="{{customStore.code}}"/>
+            <argument name="productUrl" value="$createSimpleProduct.custom_attributes[url_key]$"/>
+        </actionGroup>
+        <!-- Assert Currency Symbol For EUR Website -->
+        <actionGroup ref="AssertStorefrontCurrencySymbolOnProductPageActionGroup" stepKey="seeEURSymbol">
+            <argument name="symbol" value="€"/>
+        </actionGroup>
+    </test>
+</tests>
