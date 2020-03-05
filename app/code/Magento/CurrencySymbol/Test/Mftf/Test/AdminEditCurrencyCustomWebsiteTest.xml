@@ -16,7 +16,7 @@
             <description value="Admin Should be able edit custom website currency"/>
         </annotations>
         <before>
-            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
             <magentoCLI command="config:set {{StorefrontEnableAddStoreCodeToUrls.path}} {{StorefrontEnableAddStoreCodeToUrls.value}}" stepKey="setAddStoreCodeToUrlsToYes"/>
             <magentoCLI stepKey="setupManWebsiteCurrency" command="config:set {{SetCurrencyUSDBaseConfig.path}} {{SetCurrencyUSDBaseConfig.value}}"/>
             <actionGroup ref="AdminCreateWebsiteActionGroup" stepKey="createCustomWebsite">
@@ -48,11 +48,9 @@
                 <argument name="websiteName" value="customWebsite.name"/>
             </actionGroup>
             <magentoCLI stepKey="cleanCache" command="cache:clean"/>
-            <actionGroup ref="logout" stepKey="logout"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
         </after>
 
-
-        <!-- TEST BODY -->
         <!-- Edit Custom WebSite Currency -->
         <magentoCLI stepKey="setupCustomCurrency" command='config:set --scope="websites" --scope-code="{{customWebsite.code}}" {{SetCurrencyEURBaseConfig.path}} {{SetCurrencyEURBaseConfig.value}}'/>
         <magentoCLI command='config:set --scope="websites" --scope-code="{{customWebsite.code}}" {{SetAllowedCurrenciesConfigForEUR.path}} {{SetAllowedCurrenciesConfigForEUR.value}},{{SetAllowedCurrenciesConfigForUSD.value}}' stepKey="setAllowedCurrencyWebsitesForEUR"/>
