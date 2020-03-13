@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontEnableSwatchesOnCategoryPageTest">
+        <annotations>
+            <features value="Swatches"/>
+            <stories value="Check Swatches Visibility on Category Page"/>
+            <title value="Check 'Show Swatches In Product List' configuration option impact on Category page when it is enabled"/>
+            <description value="Check 'Show Swatches In Product List' configuration option impact on Category page when it is enabled"/>
+            <severity value="AVERAGE"/>
+            <group value="swatches"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="adminLogin"/>
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <magentoCLI command="config:set {{StorefrontSwatchesInProductListEnabledConfigData.path}} {{StorefrontSwatchesInProductListEnabledConfigData.value}}" stepKey="setSwatchesInProductListConfig"/>
+        </before>
+        <after>
+            <!-- Rollback config settings to default value -->
+            <magentoCLI command="config:set {{StorefrontSwatchesInProductListDefaultConfigData.path}} {{StorefrontSwatchesInProductListEnabledConfigData.value}}" stepKey="rollbackSwatchesInProductListConfig"/>
+            <!-- Delete configurable product and all child products -->
+            <actionGroup ref="DeleteProductsByKeywordActionGroup" stepKey="deleteProductsByKeyword">
+                <argument name="keyword" value="{{_defaultProduct.sku}}"/>
+            </actionGroup>
+            <!-- Delete category -->
+            <deleteData createDataKey="createCategory" stepKey="deleteCategoryAttribute"/>
+            <!-- Delete product attribute -->
+            <actionGroup ref="DeleteProductAttributeActionGroup" stepKey="deleteProductAttribute">
+                <argument name="ProductAttribute" value="textSwatchAttribute"/>
+            </actionGroup>
+            <!-- Logout -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="adminLogout"/>
+        </after>
+        <!--Create text swatch attribute -->
+        <actionGroup ref="AddTextSwatchToProductActionGroup" stepKey="addProductAttribute">
+            <argument name="attributeName" value="{{textSwatchAttribute.frontend_label}}"/>
+            <argument name="attributeCode" value="{{textSwatchAttribute.attribute_code}}"/>
+            <argument name="usedInProductListing" value="Yes"/>
+        </actionGroup>
+        <!-- Create Configurable product -->
+        <actionGroup ref="AdminCreateConfigurableProductWithOneAttributeActionGroup" stepKey="createProduct">
+            <argument name="product" value="_defaultProduct"/>
+            <argument name="category" value="$$createCategory$$"/>
+            <argument name="attribute1" value="textSwatchAttribute"/>
+        </actionGroup>
+        <!--Save configurable product-->
+        <actionGroup ref="SaveConfigurableProductActionGroup" stepKey="saveProduct">
+            <argument name="product" value="_defaultProduct"/>
+        </actionGroup>
+        <!-- Check swatches on the page -->
+        <actionGroup ref="StorefrontAssertSwatchAttributeOptionsOnProductListIsVisibleActionGroup" stepKey="seeSwatches">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
+    </test>
+    <test name="StorefrontDisableSwatchesOnCategoryPageTest" extends="StorefrontEnableSwatchesOnCategoryPageTest">
+        <annotations>
+            <title value="Check 'Show Swatches In Product List' configuration option impact on Category page when it is disabled"/>
+            <description value="Check 'Show Swatches In Product List' configuration option impact on Category page when it is disabled"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{StorefrontSwatchesInProductListDisabledConfigData.path}} {{StorefrontSwatchesInProductListDisabledConfigData.value}}" stepKey="setSwatchesInProductListConfig"/>
+        </before>
+        <actionGroup ref="StorefrontAssertSwatchAttributeOptionsOnProductListIsNotVisibleActionGroup" stepKey="seeSwatches">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
+    </test>
+</tests>

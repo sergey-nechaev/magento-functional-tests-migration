@@ -16,6 +16,7 @@
     <entity name="textSwatchAttribute" type="SwatchAttribute">
         <data key="input_type">Text Swatch</data>
         <data key="default_label" unique="suffix">TextSwatchAttr</data>
+        <data key="frontend_label" unique="suffix">TextSwatchAttr</data>
         <data key="attribute_code" unique="suffix">text_swatch_attr</data>
     </entity>
 </entities>
