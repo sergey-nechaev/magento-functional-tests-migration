@@ -40,8 +40,7 @@
 
             <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
 
-            <wait stepKey="waitBeforeRunCronIndex" time="30"/>
-            <magentoCLI stepKey="runCronIndex" command="cron:run --group=index"/>
+            <magentoCron stepKey="runCronIndex" groups="index"/>
 
         </before>
 
@@ -82,7 +81,7 @@
         <actionGroup ref="AssertOrderButtonsAvailableActionGroup" stepKey="verifyAllButtonsAvailable"/>
 
         <!--Click Reorder-->
-        <actionGroup ref="AdminReorderActionGroup" stepKey="reorderOrder"/>
+        <actionGroup ref="AdminOpenReorderPageActionGroup" stepKey="reorderOrder"/>
 
         <!--Check if Create order page is displayed-->
         <actionGroup ref="AdminAssertPageTitleActionGroup" stepKey="checkPageTitle">
@@ -140,7 +139,7 @@
 
             <deleteData createDataKey="createCartPriceRule" stepKey="deleteCartPriceRule"/>
 
-            <actionGroup ref="logout" stepKey="adminLogout"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="adminLogout"/>
         </after>
     </test>
 </tests>

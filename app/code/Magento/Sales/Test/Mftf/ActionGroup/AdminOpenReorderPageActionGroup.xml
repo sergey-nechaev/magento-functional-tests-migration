@@ -8,8 +8,7 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <!--Click the "Reorder" button and check if the "Create New Order" flow started-->
-    <actionGroup name="AdminReorderActionGroup">
+    <actionGroup name="AdminOpenReorderPageActionGroup">
         <click selector="{{AdminOrderDetailsMainActionsSection.reorder}}" stepKey="clickReorder"/>
         <waitForPageLoad stepKey="waitForPageLoad"/>
     </actionGroup>
