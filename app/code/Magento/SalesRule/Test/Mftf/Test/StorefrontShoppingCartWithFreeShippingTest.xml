@@ -67,8 +67,7 @@
 
             <actionGroup ref="logout" stepKey="logoutOfAdmin"/>
 
-            <wait stepKey="waitBeforeRunMagentoCron" time="30"/>
-            <magentoCLI stepKey="runMagentoCron" command="cron:run --group=index"/>
+            <magentoCron stepKey="runCronIndex" groups="index"/>
 
         </before>
 
