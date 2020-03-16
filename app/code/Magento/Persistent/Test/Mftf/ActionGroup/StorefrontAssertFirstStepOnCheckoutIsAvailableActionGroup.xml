@@ -12,8 +12,6 @@
         <annotations>
             <description>Assert first step on Checkout page is available.</description>
         </annotations>
-        <amOnPage url="{{CheckoutShippingPage.url}}" stepKey="navigateToShippingPage"/>
-        <waitForPageLoad stepKey="waitForShippingPageLoad"/>
         <seeInCurrentUrl url="{{CheckoutShippingPage.url}}" stepKey="assertCheckoutShippingPageUrl"/>
     </actionGroup>
 </actionGroups>

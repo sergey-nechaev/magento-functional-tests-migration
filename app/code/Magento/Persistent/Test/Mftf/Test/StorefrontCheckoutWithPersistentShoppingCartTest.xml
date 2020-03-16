@@ -10,7 +10,7 @@
        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
     <test name="StorefrontCheckoutWithPersistentShoppingCartTest">
         <annotations>
-            <features value="Persistent"/>
+            <features value="Persistent Shopping Cart"/>
             <stories value="Shopping Cart Persistence"/>
             <title value="Checking behavior of Checkout with Persistent Shopping Cart when Clear Persistence on Sign Out is disabled"/>
             <description value="Checking behavior of Checkout with Persistent Shopping Cart when Clear Persistence on Sign Out is disabled"/>
@@ -19,7 +19,7 @@
             <group value="mtf_migrated"/>
         </annotations>
         <before>
-            <actionGroup ref="LoginAsAdmin" stepKey="loginToAdminPanel"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
             <!--Enable Persistence-->
             <createData entity="PersistentConfigEnabled" stepKey="enablePersistent"/>
             <createData entity="PersistentLogoutClearDisable" stepKey="persistentLogoutClearDisable"/>
@@ -38,15 +38,17 @@
                 <argument name="email" value="{{CustomerEntityOne.email}}"/>
             </actionGroup>
             <!-- Admin Logout -->
-            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="adminLogout"/>
             <!-- Delete Product -->
             <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
             <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
         </after>
         <!-- Register a new customer account -->
-        <actionGroup ref="SignUpNewUserFromStorefrontActionGroup" stepKey="SignUpNewUser">
-            <argument name="Customer" value="CustomerEntityOne"/>
+        <actionGroup ref="StorefrontOpenCustomerAccountCreatePageActionGroup" stepKey="openCreateAccountPage"/>
+        <actionGroup ref="StorefrontFillCustomerAccountCreationFormActionGroup" stepKey="fillCreateAccountForm">
+            <argument name="customer" value="CustomerEntityOne"/>
         </actionGroup>
+        <actionGroup ref="StorefrontClickCreateAnAccountCustomerAccountCreationFormActionGroup" stepKey="submitCreateAccountForm"/>
         <!-- Add simple product to cart -->
         <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart1">
             <argument name="product" value="$$createProduct$$"/>
@@ -54,6 +56,7 @@
         <!-- Sign Out -->
         <actionGroup ref="CustomerLogoutStorefrontByMenuItemsActionGroup" stepKey="storefrontCustomerLogout"/>
         <!-- Go to checkout -->
-        <actionGroup ref="StorefrontAssertFirstStepOnCheckoutIsAvailableActionGroup" stepKey="goToCheckoutPage"/>
+        <actionGroup ref="OpenStoreFrontCheckoutShippingPageActionGroup" stepKey="goToCheckoutPage"/>
+        <actionGroup ref="StorefrontAssertFirstStepOnCheckoutIsAvailableActionGroup" stepKey="assertCheckoutIsAvailable"/>
     </test>
 </tests>
