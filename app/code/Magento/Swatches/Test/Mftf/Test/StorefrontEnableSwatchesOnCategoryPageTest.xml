@@ -55,21 +55,11 @@
         <actionGroup ref="SaveConfigurableProductActionGroup" stepKey="saveProduct">
             <argument name="product" value="_defaultProduct"/>
         </actionGroup>
+        <!--Go to category page-->
+        <actionGroup ref="StorefrontNavigateCategoryPageActionGroup" stepKey="onCategoryPage">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
         <!-- Check swatches on the page -->
-        <actionGroup ref="StorefrontAssertSwatchAttributeOptionsOnProductListIsVisibleActionGroup" stepKey="seeSwatches">
-            <argument name="category" value="$$createCategory$$"/>
-        </actionGroup>
-    </test>
-    <test name="StorefrontDisableSwatchesOnCategoryPageTest" extends="StorefrontEnableSwatchesOnCategoryPageTest">
-        <annotations>
-            <title value="Check 'Show Swatches In Product List' configuration option impact on Category page when it is disabled"/>
-            <description value="Check 'Show Swatches In Product List' configuration option impact on Category page when it is disabled"/>
-        </annotations>
-        <before>
-            <magentoCLI command="config:set {{StorefrontSwatchesInProductListDisabledConfigData.path}} {{StorefrontSwatchesInProductListDisabledConfigData.value}}" stepKey="setSwatchesInProductListConfig"/>
-        </before>
-        <actionGroup ref="StorefrontAssertSwatchAttributeOptionsOnProductListIsNotVisibleActionGroup" stepKey="seeSwatches">
-            <argument name="category" value="$$createCategory$$"/>
-        </actionGroup>
+        <actionGroup ref="StorefrontAssertSwatchAttributeOptionsOnProductListIsVisibleActionGroup" stepKey="seeSwatches"/>
     </test>
 </tests>

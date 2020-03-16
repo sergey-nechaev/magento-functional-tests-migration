@@ -10,14 +10,8 @@
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="StorefrontAssertSwatchAttributeOptionsOnProductListIsNotVisibleActionGroup">
         <annotations>
-            <description>Go to the category page with configurable product and see that an element which contains product swatches is not present on the page</description>
+            <description>See that an element which contains product swatches is not present on the category page</description>
         </annotations>
-        <arguments>
-            <argument name="category"/>
-        </arguments>
-        <!--Go to category page-->
-        <amOnPage url="{{StorefrontCategoryPage.url(category.name)}}" stepKey="amOnCategoryWithConfigurableProductPage"/>
-        <waitForPageLoad stepKey="waitForConfigurableProductPage"/>
         <!-- Don't see a block with swatches -->
         <dontSeeElement selector="{{StorefrontProductInfoMainSection.swatchAttributeOptionsOnList}}" stepKey="doNotSeeElementWithSwatches"/>
     </actionGroup>
