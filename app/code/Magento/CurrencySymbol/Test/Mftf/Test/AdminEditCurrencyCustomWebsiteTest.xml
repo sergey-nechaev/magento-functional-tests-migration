@@ -40,6 +40,7 @@
                 <argument name="website" value="{{customWebsite.name}}"/>
             </actionGroup>
             <actionGroup ref="SaveProductFormActionGroup" stepKey="clickSaveButton"/>
+            <magentoCron stepKey="runCronIndex" groups="index"/>
         </before>
         <after>
             <magentoCLI command="config:set {{StorefrontDisableAddStoreCodeToUrls.path}} {{StorefrontDisableAddStoreCodeToUrls.value}}" stepKey="setAddStoreCodeToUrlsToNo"/>
