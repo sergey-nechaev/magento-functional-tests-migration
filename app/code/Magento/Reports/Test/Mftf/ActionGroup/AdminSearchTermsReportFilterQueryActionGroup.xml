@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminSearchTermsReportFilterQueryActionGroup">
+        <annotations>
+            <description>Filter the "Search Terms" report with Search Query</description>
+        </annotations>
+        <arguments>
+            <argument name="searchQuery" type="string"/>
+        </arguments>
+        <fillField userInput="{{searchQuery}}" selector="{{AdminSearchTermsReportFilterSection.searchQuery}}" stepKey="fillSearchQueryFilterField" />
+        <click selector="{{AdminSearchTermsReportFilterSection.searchButton}}" stepKey="clickSearchButton"/>
+    </actionGroup>
+</actionGroups>

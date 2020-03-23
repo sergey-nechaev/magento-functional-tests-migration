@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminReportsSearchTermsWithMultipleHitsTest">
+        <annotations>
+            <features value="Reports"/>
+            <stories value="Search Terms Report"/>
+            <title value="Search Terms Report when Search Term has multiple hits"/>
+            <description value="Check if Search Terms report displays correct result when Search Term has multiple hits"/>
+            <severity value="AVERAGE"/>
+            <group value="reports"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!-- Create a category -->
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <!-- Create a product -->
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+        </before>
+        <after>
+            <!-- Delete created data -->
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+            <!-- Delete created Search term -->
+            <actionGroup ref="AssertSearchTermSuccessDeleteMessageActionGroup" stepKey="deleteSearchTerm">
+                <argument name="searchQuery" value="$createProduct.name$"/>
+            </actionGroup>
+            <!-- Admin logout -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutAdmin"/>
+        </after>
+        <!-- Go to frontend -->
+        <actionGroup ref="StorefrontOpenHomePageActionGroup" stepKey="amOnHomePage"/>
+        <!-- Search the term on frontend first time -->
+        <actionGroup ref="StorefrontCheckQuickSearchStringActionGroup" stepKey="searchStorefrontFirstTime">
+            <argument name="phrase" value="$createProduct.name$"/>
+        </actionGroup>
+        <!-- Make sure that product was found -->
+        <actionGroup ref="StorefrontQuickSearchSeeProductByNameActionGroup" stepKey="seeProductInGrid">
+            <argument name="productName" value="$createProduct.name$"/>
+        </actionGroup>
+        <!-- Search the term on frontend second time -->
+        <actionGroup ref="StorefrontCheckQuickSearchStringActionGroup" stepKey="searchStorefrontSecondTime">
+            <argument name="phrase" value="$createProduct.name$"/>
+        </actionGroup>
+        <!-- Login to admin -->
+        <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
+        <!-- Open Search Terms Reports page in admin panel -->
+        <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="navigateToReportsSearchTermsPage">
+            <argument name="menuUiId" value="{{AdminMenuReports.dataUiId}}"/>
+            <argument name="submenuUiId" value="{{AdminMenuReportsSearchTerms.dataUiId}}"/>
+        </actionGroup>
+        <!-- Filter Reports with Search Term -->
+        <actionGroup ref="AdminSearchTermsReportFilterQueryActionGroup" stepKey="filterReportsGrid">
+            <argument name="searchQuery" value="$createProduct.name$"/>
+        </actionGroup>
+        <!-- Grab the search result values -->
+        <grabTextFrom selector="{{AdminSearchTermsReportMainSection.searchTermsReportsGridCell('1', 'Search Query')}}" stepKey="grabSearchQuery"/>
+        <grabTextFrom selector="{{AdminSearchTermsReportMainSection.searchTermsReportsGridCell('1', 'Results')}}" stepKey="grabResults"/>
+        <grabTextFrom selector="{{AdminSearchTermsReportMainSection.searchTermsReportsGridCell('1', 'Hits')}}" stepKey="grabHits"/>
+        <!-- Assert that values are correct -->
+        <assertEquals expected="$createProduct.name$" expectedType="string" actual="$grabSearchQuery" stepKey="assertSearchQueryCorrect"/>
+        <assertEquals expected="1" expectedType="string" actual="$grabResults" stepKey="assertNumResultsCorrect"/>
+        <assertEquals expected="2" expectedType="string" actual="$grabHits" stepKey="assertNumHitsCorrect"/>
+        <!-- Click on the filtered grid row -->
+        <actionGroup ref="AdminClickReportsGridRowActionGroup" stepKey="clickRowOnReportsGrid">
+            <argument name="rowNumber" value="1"/>
+        </actionGroup>
+        <!-- Grab the search result values from the form -->
+        <grabValueFrom selector="{{AdminSearchTermsReportFormSection.searchQueryInput}}" stepKey="grabFormSearchQuery"/>
+        <grabValueFrom selector="{{AdminSearchTermsReportFormSection.numberOfResultsInput}}" stepKey="grabFormResults"/>
+        <grabValueFrom selector="{{AdminSearchTermsReportFormSection.numberOfUsesInput}}" stepKey="grabFormHits"/>
+        <!-- Assert that values on form are correct -->
+        <assertEquals expected="$createProduct.name$" expectedType="string" actual="$grabFormSearchQuery" stepKey="assertSearchQueryOnFormCorrect"/>
+        <assertEquals expected="1" expectedType="string" actual="$grabFormResults" stepKey="assertNumResultsOnFormCorrect"/>
+        <assertEquals expected="2" expectedType="string" actual="$grabFormHits" stepKey="assertNumHitsOnFormCorrect"/>
+    </test>
+</tests>
