@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminReportsProductsInCartsWithTwoCartsTest" extends="AdminReportsProductsInCartsWithOneCartTest">
+        <annotations>
+            <title value="Products in Cart Reports - Variation with the product in two carts"/>
+            <description value="Verify that 'Products in Cart' Report show correct information when product was added to 2 carts"/>
+        </annotations>
+        <!-- Add product to cart as guest -->
+        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCartAsGuest" after="customerLogoutStorefront">
+            <argument name="product" value="$$createProduct$$"/>
+        </actionGroup>
+        <!-- Assert that Carts number in Grid are correct -->
+        <assertEquals expected="2" expectedType="string" actual="$grabCartsFromGrid" stepKey="assertCartsNumCorrect"/>
+    </test>
+</tests>
