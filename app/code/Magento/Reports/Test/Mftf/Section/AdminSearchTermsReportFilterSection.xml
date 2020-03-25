@@ -10,6 +10,6 @@
           xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
     <section name="AdminSearchTermsReportFilterSection">
         <element name="searchQuery" type="input" selector="#searchReportGrid_filter_query_text"/>
-        <element name="searchButton" type="button" selector="//button/span[text()='Search']"/>
+        <element name="searchButton" type="button" selector="//div[@id='searchReportGrid']//button[@data-action='grid-filter-apply']"/>
     </section>
 </sections>

@@ -18,9 +18,7 @@
             <group value="mtf_migrated"/>
         </annotations>
         <before>
-            <!-- Create a category -->
             <createData entity="_defaultCategory" stepKey="createCategory"/>
-            <!-- Create products -->
             <createData entity="_defaultProduct" stepKey="createFirstProduct">
                 <field key="name">{{SearchTermsData.productName1}}</field>
                 <requiredEntity createDataKey="createCategory"/>
@@ -83,7 +81,7 @@
         <assertEquals expected="3" expectedType="string" actual="$grabResults" stepKey="assertNumResultsCorrect"/>
         <assertEquals expected="1" expectedType="string" actual="$grabHits" stepKey="assertNumHitsCorrect"/>
         <!-- Click on the filtered grid row -->
-        <actionGroup ref="AdminClickReportsGridRowActionGroup" stepKey="clickRowOnReportsGrid">
+        <actionGroup ref="AdminSearchTermsReportGridClickRowActionGroup" stepKey="clickRowOnReportsGrid">
             <argument name="rowNumber" value="1"/>
         </actionGroup>
         <!-- Grab the search result values from the form -->
