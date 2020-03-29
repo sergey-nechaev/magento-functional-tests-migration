@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="StorefrontGoToSubCategory2PageActionGroup" extends="StorefrontGoToCategoryPageActionGroup">
+        <annotations>
+            <description>Goto Category->SubCategory1->SubCategory2</description>
+        </annotations>
+        <arguments>
+            <argument name="subCategory1Name" type="string"/>
+            <argument name="subCategory2Name" type="string"/>
+        </arguments>
+        <moveMouseOver selector="{{StorefrontHeaderSection.NavigationCategoryByName(categoryName)}}" stepKey="toCategory"/>
+        <moveMouseOver selector="{{StorefrontHeaderSection.NavigationCategoryByName(subCategory1Name)}}" stepKey="toSubCategory1" after="toCategory"/>
+        <click selector="{{StorefrontHeaderSection.NavigationCategoryByName(subCategory2Name)}}" stepKey="openSubCategory2" after="toSubCategory1"/>
+    </actionGroup>
+</actionGroups>

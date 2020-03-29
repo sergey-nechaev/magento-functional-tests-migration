@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="StoreFrontAssertCategoriesQtyInLayeredNavigationActionGroup">
+        <annotations>
+            <description> Assert categories qty in layered navigation </description>
+        </annotations>
+        <arguments>
+            <argument name="qty" type="string"/>
+        </arguments>
+
+        <grabTextFrom selector="//dl[@class='options']//ol[@class='items']//li[@class='item']//a[contains(text(),'{{category}}')]/following-sibling::span[@class='count']" stepKey="grabProductQty"/>
+
+        <assertEquals expected="{{qty}}" actual="$grabProductQty" stepKey="assertQty"/>
+    </actionGroup>
+</actionGroups>
