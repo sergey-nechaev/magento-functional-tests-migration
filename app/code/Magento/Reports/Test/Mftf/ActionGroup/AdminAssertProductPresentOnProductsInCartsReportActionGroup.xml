@@ -14,6 +14,6 @@
         <arguments>
             <argument name="productName" type="string"/>
         </arguments>
-        <seeElement selector="{{AdminProductsInCartsReportMainSection.productsInCartsReportsProductGridCell(productName)}}" stepKey="seeProductInReportGrid"/>
+        <seeElement selector="{{AdminReportProductsInCartsGridSection.productsInCartsReportsProductGridCell(productName)}}" stepKey="seeProductInReportGrid"/>
     </actionGroup>
 </actionGroups>

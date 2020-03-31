@@ -19,6 +19,7 @@
             <group value="mtf_migrated"/>
         </annotations>
         <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
             <createData entity="_defaultCategory" stepKey="createCategory"/>
             <createData entity="_defaultProduct" stepKey="createProduct">
                 <requiredEntity createDataKey="createCategory"/>
@@ -31,30 +32,18 @@
             <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
             <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutAdmin"/>
         </after>
-        <!-- Login as customer -->
         <actionGroup ref="LoginToStorefrontActionGroup" stepKey="logInFromCustomer">
             <argument name="Customer" value="$$createCustomer$$"/>
         </actionGroup>
-        <!-- Add product to cart -->
         <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart">
             <argument name="product" value="$$createProduct$$"/>
         </actionGroup>
-        <!-- Logout customer -->
         <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="customerLogoutStorefront"/>
-        <!-- Login to admin panel -->
-        <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
-        <!-- Go to Products in Cart Report -->
-        <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="navigateToReportsProductsInCartPage">
-            <argument name="menuUiId" value="{{AdminMenuReports.dataUiId}}"/>
-            <argument name="submenuUiId" value="{{AdminMenuReportsMarketingProductsInCarts.dataUiId}}"/>
-        </actionGroup>
-        <!-- Assert that element with product name exists on grid -->
+        <actionGroup ref="AdminOpenReportProductsInCartsPageActionGroup" stepKey="navigateToReportsProductsInCartPage"/>
         <actionGroup ref="AdminAssertProductPresentOnProductsInCartsReportActionGroup" stepKey="assertProductIsPresent">
             <argument name="productName" value="$$createProduct.name$$"/>
         </actionGroup>
-        <!-- Grab the search result values -->
-        <grabTextFrom selector="{{AdminProductsInCartsReportMainSection.productsInCartsReportsGridCell($$createProduct.name$$, 'Carts')}}" stepKey="grabCartsFromGrid"/>
-        <!-- Assert that Carts number in Grid are correct -->
-        <assertEquals expected="1" expectedType="string" actual="$grabCartsFromGrid" stepKey="assertCartsNumCorrect"/>
+        <grabTextFrom selector="{{AdminReportProductsInCartsGridSection.productsInCartsReportsGridCell($$createProduct.name$$, 'Carts')}}" stepKey="grabCartsNumberFromGrid"/>
+        <assertEquals expected="1" expectedType="string" actual="$grabCartsNumberFromGrid" stepKey="assertCartsNumberInGridIsCorrect"/>
     </test>
 </tests>

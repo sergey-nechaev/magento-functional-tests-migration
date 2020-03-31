@@ -8,7 +8,7 @@
 
 <sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
-    <section name="AdminProductsInCartsReportMainSection">
+    <section name="AdminReportProductsInCartsGridSection">
         <!-- Grid cell with a product name e.g. {{Section.productsInCartsReportsGridCell('ProductName')}} -->
         <element name="productsInCartsReportsProductGridCell" type="text" selector="//div[@id='gridProducts']//td[contains(., '{{productName}}')]" parameterized="true"/>
         <!-- Specific cell e.g. {{Section.productsInCartsReportsGridCell('ProductName', 'ColumnName')}} -->
