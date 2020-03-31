@@ -16,7 +16,7 @@
             <severity value="CRITICAL"/>
             <testCaseId value="MC-25622"/>
             <group value="catalog"/>
-            <group value="url_rewrite"/>
+            <group value="urlRewrite"/>
             <group value="mtf_migrated"/>
         </annotations>
         <before>
@@ -45,7 +45,7 @@
             <deleteData createDataKey="createSecondSimpleProduct" stepKey="deleteSecondSimpleProduct"/>
             <actionGroup ref="AdminDeleteStoreViewActionGroup" stepKey="deleteStoreView"/>
             <actionGroup ref="ClearFiltersAdminDataGridActionGroup" stepKey="clearWebsitesGridFilters"/>
-            <actionGroup ref="logout" stepKey="logoutFromAdmin"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
         </after>
 
         <!-- On the categories editing page change store view to created additional view -->

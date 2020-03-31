@@ -14,6 +14,7 @@
             <testCaseId value=""/>
             <severity value="CRITICAL"/>
             <group value="mtf_migrated"/>
+            <group value="urlRewrite"/>
         </annotations>
         <before>
             <actionGroup ref="LoginAsAdmin" stepKey="loginToAdminPanel"/>
@@ -21,7 +22,7 @@
         </before>
         <after>
             <deleteData createDataKey="category" stepKey="deleteCategory"/>
-            <actionGroup ref="logout" stepKey="logout"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
         </after>
 
         <!--Open Url Rewrite Index Page and update the Category Url Rewrite, Store, Request Path, Redirect Type and Description -->
