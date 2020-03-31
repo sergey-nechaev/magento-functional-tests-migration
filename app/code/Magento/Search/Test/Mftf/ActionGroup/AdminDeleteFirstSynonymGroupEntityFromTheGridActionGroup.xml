@@ -12,11 +12,11 @@
         <annotations>
             <description>Delete a first synonyms group from grid on Search Synonyms page.</description>
         </annotations>
-        <click selector="{{AdminSearchSynonymsGridSection.selectFirstRow}}" stepKey="clickOnCheckboxButton"/>
+        <click selector="{{AdminSearchSynonymsGridSection.firstRowCheckbox}}" stepKey="clickOnCheckboxButton"/>
         <click selector="{{AdminSearchSynonymsGridSection.actions}}" stepKey="clickActionsDropdown"/>
         <click selector="{{AdminSearchSynonymsGridSection.delete}}" stepKey="clickDelete"/>
-        <waitForElementVisible selector="{{AdminSearchSynonymsGridSection.ok}}" stepKey="waitForOkToVisible"/>
-        <click selector="{{AdminSearchSynonymsGridSection.ok}}" stepKey="clickOkConfirmationButton"/>
+        <waitForElementVisible selector="{{AdminSearchSynonymsGridSection.modalConfirmationButton}}" stepKey="waitForOkToVisible"/>
+        <click selector="{{AdminSearchSynonymsGridSection.modalConfirmationButton}}" stepKey="clickOkConfirmationButton"/>
         <waitForPageLoad stepKey="waitForResultLoad" time="30"/>
     </actionGroup>
 </actionGroups>

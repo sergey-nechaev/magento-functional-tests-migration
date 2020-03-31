@@ -9,11 +9,11 @@
 <sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
     <section name="AdminSearchSynonymsGridSection">
-        <element name="newSynonymGroupButton" type="button" selector=".page-actions-buttons .add"/>
+        <element name="newSynonymGroupButton" type="button" selector=".page-actions-buttons button#add"/>
         <element name="column" type="text" selector="//tr//td[count(//div[@data-role='grid-wrapper']//tr//th[contains(., '{{col}}')]/preceding-sibling::th) +1 ]" parameterized="true"/>
-        <element name="selectFirstRow" type="checkbox" selector="//td[@class='data-grid-checkbox-cell']"/>
+        <element name="firstRowCheckbox" type="checkbox" selector="//td[@class='data-grid-checkbox-cell']"/>
         <element name="actions" type="button" selector="//div[@class='col-xs-2']/div[@class='action-select-wrap']/button[@class='action-select']" timeout="30"/>
         <element name="delete" type="button" selector="//*[contains(@class,'admin__data-grid-header-row row row-gutter')]//*[text()='Delete']" timeout="30"/>
-        <element name="ok" type="button" selector="//button[@data-role='action']//span[text()='OK']" timeout="30"/>
+        <element name="modalConfirmationButton" type="button" selector="//button[@data-role='action']//span[text()='OK']" timeout="30"/>
     </section>
 </sections>

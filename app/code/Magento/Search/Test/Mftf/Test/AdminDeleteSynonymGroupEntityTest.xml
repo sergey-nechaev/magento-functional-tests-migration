@@ -10,32 +10,32 @@
        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
     <test name="AdminDeleteSynonymGroupEntityTest">
         <annotations>
-            <features value="Search"/>
-            <stories value="Admin delete synonym group"/>
-            <title value="Admin delete synonym group"/>
-            <description value="Admin delete synonym group"/>
+            <features value="Search Synonyms"/>
+            <stories value="Admin delete search synonym group"/>
+            <title value="Admin delete search synonym group"/>
+            <description value="Admin delete search synonym group"/>
             <group value="search"/>
             <group value="mtf_migrated"/>
         </annotations>
 
         <before>
-            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
         </before>
         <after>
-            <actionGroup ref="logout" stepKey="logout"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
         </after>
 
         <!-- Create Synonym Group-->
         <actionGroup ref="AdminOpenSearchSynonymsGridActionGroup" stepKey="openSearchSynonymsGrid"/>
         <actionGroup ref="AdminClickNewSynonymGroupButtonActionGroup" stepKey="clickNewSynonymGroupButton"/>
         <actionGroup ref="AdminFillNewSynonymGroupFormRequiredFieldsActionGroup" stepKey="fillNewSynonymsGroupForm">
-            <argument name="synonyms" value="{{search_group_1.synonyms}}"/>
+            <argument name="synonyms" value="{{searchSynonymGroup.synonyms}}"/>
         </actionGroup>
         <actionGroup ref="AdminClickSaveButtonOnSynonymGroupFormActionGroup" stepKey="saveSynonymGroup"/>
 
         <!-- Delete synonyms groups -->
         <actionGroup ref="AdminSearchSynonymGroupBySynonymsActionGroup" stepKey="searchForSynonymsGroup">
-            <argument name="text" value="{{search_group_1.synonyms}}"/>
+            <argument name="text" value="{{searchSynonymGroup.synonyms}}"/>
         </actionGroup>
         <actionGroup ref="AdminDeleteFirstSynonymGroupEntityFromTheGridActionGroup" stepKey="deleteSynonymsGroup"/>
         <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessDeleteMessage">
