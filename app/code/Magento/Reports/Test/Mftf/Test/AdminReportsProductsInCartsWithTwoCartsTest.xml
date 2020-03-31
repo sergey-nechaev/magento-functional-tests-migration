@@ -13,7 +13,7 @@
             <title value="Products in Cart Reports - Variation with the product in two carts"/>
             <description value="Verify that 'Products in Cart' Report show correct information when product was added to 2 carts"/>
         </annotations>
-        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCartAsGuest" after="customerLogoutStorefront">
+        <actionGroup ref="StorefrontAddSimpleProductToShoppingCartActionGroup" stepKey="addProductToCartAsGuest" after="customerLogoutStorefront">
             <argument name="product" value="$$createProduct$$"/>
         </actionGroup>
         <assertEquals expected="2" expectedType="string" actual="$grabCartsNumberFromGrid" stepKey="assertCartsNumberInGridIsCorrect"/>

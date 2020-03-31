@@ -35,7 +35,7 @@
         <actionGroup ref="LoginToStorefrontActionGroup" stepKey="logInFromCustomer">
             <argument name="Customer" value="$$createCustomer$$"/>
         </actionGroup>
-        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart">
+        <actionGroup ref="StorefrontAddSimpleProductToShoppingCartActionGroup" stepKey="addProductToCart">
             <argument name="product" value="$$createProduct$$"/>
         </actionGroup>
         <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="customerLogoutStorefront"/>
