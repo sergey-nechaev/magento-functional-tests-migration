@@ -8,16 +8,16 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <actionGroup name="StoreFrontAssertCategoriesQtyInLayeredNavigationActionGroup">
+    <actionGroup name="StoreFrontAssertAttributesQtyForShoppingOptionInLayeredNavigationActionGroup">
         <annotations>
-            <description> Assert categories qty in layered navigation </description>
+            <description> Assert attributes qty under specified shopping option in layered navigation </description>
         </annotations>
         <arguments>
             <argument name="qty" type="string"/>
+            <argument name="shoppingOption" type="string"/>
         </arguments>
 
-        <grabTextFrom selector="//dl[@class='options']//ol[@class='items']//li[@class='item']//a[contains(text(),'{{category}}')]/following-sibling::span[@class='count']" stepKey="grabProductQty"/>
+        <seeNumberOfElements selector="{{StorefrontLayeredNavigationSection.attributesForShoppingOption(shoppingOption)}}" userInput="{{qty}}" stepKey="qtyOfCategories"/>
 
-        <assertEquals expected="{{qty}}" actual="$grabProductQty" stepKey="assertQty"/>
     </actionGroup>
 </actionGroups>
