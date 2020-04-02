@@ -14,6 +14,7 @@
             <data name="category/data/category_products/dataset" xsi:type="string">configurableProduct::product_with_size</data>
             <data name="productsCount" xsi:type="string">0</data>
             <data name="disableFromProductsGreed" xsi:type="boolean">true</data>
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <constraint name="Magento\LayeredNavigation\Test\Constraint\AssertProductsCount" />
         </variation>
         <variation name="ProductsCountInLayeredNavigationTestVariation2" summary="Check configurable products count with disabled from edit page products">
@@ -23,6 +24,7 @@
             <data name="category/data/category_products/dataset" xsi:type="string">configurableProduct::product_with_size</data>
             <data name="productsCount" xsi:type="string">0</data>
             <data name="disableFromProductsGreed" xsi:type="boolean">false</data>
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <constraint name="Magento\LayeredNavigation\Test\Constraint\AssertProductsCount" />
         </variation>
     </testCase>
