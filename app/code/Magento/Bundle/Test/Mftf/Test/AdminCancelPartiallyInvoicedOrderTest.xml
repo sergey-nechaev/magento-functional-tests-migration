@@ -19,7 +19,9 @@
             <group value="bundle"/>
             <group value="mtf_migrated"/>
         </annotations>
+
         <before>
+            <!-- create test category and 4 simple products within it -->
             <createData entity="SimpleSubCategory" stepKey="testCategory"/>
             <createData entity="ApiSimpleProduct" stepKey="simpleProduct1">
                 <requiredEntity createDataKey="testCategory"/>
@@ -27,10 +29,18 @@
             <createData entity="ApiSimpleProduct" stepKey="simpleProduct2">
                 <requiredEntity createDataKey="testCategory"/>
             </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct3">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct4">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
 
+            <!-- Create bundle products with 1 dropdown and 1 multiselect options, assign simple products -->
             <createData entity="BundleProductPriceViewRange" stepKey="bundleProduct">
                 <requiredEntity createDataKey="testCategory"/>
             </createData>
+
             <createData entity="DropDownBundleOption" stepKey="bundleOptionDropdown">
                 <requiredEntity createDataKey="bundleProduct"/>
             </createData>
@@ -45,24 +55,45 @@
                 <requiredEntity createDataKey="simpleProduct2"/>
             </createData>
 
+            <createData entity="MultipleSelectOption" stepKey="bundleOptionMultiselect">
+                <requiredEntity createDataKey="bundleProduct"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink1Multiselect">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionMultiselect"/>
+                <requiredEntity createDataKey="simpleProduct3"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink2Multiselect">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionMultiselect"/>
+                <requiredEntity createDataKey="simpleProduct4"/>
+            </createData>
+
             <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
 
-            <!-- Grab bundle option name for Bundle Product -->
+            <!-- Grab bundle options names for Bundle Product -->
             <actionGroup ref="NavigateToCreatedProductEditPageActionGroup" stepKey="goToBundleProduct">
                 <argument name="product" value="$$bundleProduct$$"/>
             </actionGroup>
-            <grabTextFrom selector="{{AdminProductFormBundleSection.currentBundleOption}}" stepKey="grabBundleOption"/>
+
+            <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[1]" stepKey="grabBundleOption1"/>
             <assertNotEmpty stepKey="assertBundleOption1NotEmpty">
-                <actualResult type="const">$grabBundleOption</actualResult>
+                <actualResult type="const">$grabBundleOption1</actualResult>
+            </assertNotEmpty>
+
+            <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[2]" stepKey="grabBundleOption2"/>
+            <assertNotEmpty stepKey="assertBundleOption2NotEmpty">
+                <actualResult type="const">$grabBundleOption2</actualResult>
             </assertNotEmpty>
 
             <createData entity="Simple_US_Customer_CA" stepKey="testCustomer"/>
 
-            <createData entity="FlatRateShippingMethodDefault" stepKey="setDefaultFlatRateShippingMethod"/>
-            <createData entity="CashOnDeliveryPaymentMethodDefault" stepKey="cashOnDeliveryPaymentMethod"/>
+            <magentoCLI command="config:set {{EnableFlatRateConfigData.path}} {{EnableFlatRateConfigData.value}}" stepKey="enableFlatRate"/>
+            <magentoCLI command="config:set {{enabledCashOnDeliveryPayment.label}} {{enabledCashOnDeliveryPayment.value}}" stepKey="enableCashOnDelivery"/>
 
             <magentoCron stepKey="runCronReindex" groups="index"/>
 
+            <!-- Create new order and add bundle product in a qty of 2 -->
             <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="navigateToNewOrderWithExistingCustomer">
                 <argument name="customer" value="$$testCustomer$$"/>
             </actionGroup>
@@ -71,12 +102,32 @@
                 <argument name="productSKU" value="$$bundleProduct.sku$$"/>
             </actionGroup>
 
-           <actionGroup ref="AdminAddToOrderBundleProductActionGroup" stepKey="addBundleProductToOrder">
-                <argument name="option" value="{$grabBundleOption}"/>
-                <argument name="selectedProductName" value="$$simpleProduct1.name$$"/>
+            <actionGroup ref="AdminClickConfigureLinkOnCreateOrderPageActionGroup" stepKey="clickConfigure"/>
+
+            <actionGroup ref="AdminConfigureOptionOfBundleToOrderActionGroup" stepKey="configureOption1">
+                <argument name="option" value="{$grabBundleOption1}"/>
+                <argument name="productToSelect" value="$$simpleProduct1.name$$"/>
+            </actionGroup>
+
+            <actionGroup ref="AdminSetQtyOfBundleOptionToOrderActionGroup" stepKey="setQtyOfOption1">
+                <argument name="option" value="{$grabBundleOption1}"/>
                 <argument name="quantity" value="2"/>
             </actionGroup>
 
+            <actionGroup ref="AdminConfigureOptionOfBundleToOrderActionGroup" stepKey="configureOption2">
+                <argument name="option" value="{$grabBundleOption2}"/>
+                <argument name="productToSelect" value="$$simpleProduct4.name$$"/>
+            </actionGroup>
+
+            <actionGroup ref="AdminSetQtyOfProductToOrderOnConfigureProductTabActionGroup" stepKey="setQtyOfBundleToOrder">
+                <argument name="quantity" value="2"/>
+            </actionGroup>
+
+            <actionGroup ref="AdminClickOkOnConfigureProductTabActionGroup" stepKey="closeConfigureProductTab"/>
+
+            <actionGroup ref="AdminClickAddSelectedProductsToOrderActionGroup" stepKey="addToOrder"/>
+
+            <!-- Finalize and place order, check if order has been created -->
             <actionGroup ref="SelectCashOnDeliveryPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
             <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="orderSelectFlatRateShippingMethod"/>
             <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
@@ -87,20 +138,25 @@
         <after>
             <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutAsAdmin"/>
 
-            <deleteData createDataKey="cashOnDeliveryPaymentMethod" stepKey="deleteCashOnDeliveryPaymentMethod"/>
-            <deleteData createDataKey="orderSelectFlatRateShippingMethod" stepKey="deleteOrderSelectFlatRateShippingMethod"/>
+            <magentoCLI command="config:set {{DisableFlatRateConfigData.path}} {{DisableFlatRateConfigData.value}}" stepKey="disableFlatRate"/>
+            <magentoCLI command="config:set {{disabledCashOnDeliveryPayment.label}} {{disabledCashOnDeliveryPayment.value}}" stepKey="disableCashOnDelivery"/>
 
             <deleteData createDataKey="testCustomer" stepKey="deleteTestCustomer"/>
+
             <deleteData createDataKey="bundleProduct" stepKey="deleteBundleProduct"/>
 
             <deleteData createDataKey="simpleProduct1" stepKey="deleteSimpleProduct1"/>
-
             <deleteData createDataKey="simpleProduct2" stepKey="deleteSimpleProduct2"/>
+            <deleteData createDataKey="simpleProduct3" stepKey="deleteSimpleProduct3"/>
+            <deleteData createDataKey="simpleProduct4" stepKey="deleteSimpleProduct4"/>
+
             <deleteData createDataKey="testCategory" stepKey="deleteTestCategory"/>
 
             <magentoCron stepKey="runCronReindex" groups="index"/>
+
         </after>
 
+            <!-- Open created order and invoice 1 of 2 ordered products -->
             <grabTextFrom selector="|Order # (\d+)|" stepKey="getOrderId"/>
 
             <actionGroup ref="OpenOrderByIdActionGroup" stepKey="openOrder">
@@ -118,10 +174,30 @@
 
             <actionGroup ref="SubmitInvoiceActionGroup" stepKey="submitInvoice"/>
 
-            <!-- Cancel order -->
+            <!-- Cancel order and check if its status is "Processing" -->
             <actionGroup ref="CancelPendingOrderActionGroup" stepKey="cancelOrder">
                 <argument name="orderStatus" value="Processing"/>
             </actionGroup>
 
+            <!-- Check if there are both "Canceled.." and "Invoiced.." texts for each bundle option in the Items Ordered table -->
+            <actionGroup ref="AdminAssertTextInQtyCellOnOrderPageContainsActionGroup" stepKey="checkIfOrderedItem1Cancelled">
+                <argument name="productName" value="$$simpleProduct1.name$$"/>
+                <argument name="textFromQtyCell" value="Canceled 2"/>
+            </actionGroup>
+
+            <actionGroup ref="AdminAssertTextInQtyCellOnOrderPageContainsActionGroup" stepKey="checkIfOrderedItem1Invoiced">
+                <argument name="productName" value="$$simpleProduct1.name$$"/>
+                <argument name="textFromQtyCell" value="Invoiced 2"/>
+            </actionGroup>
+
+            <actionGroup ref="AdminAssertTextInQtyCellOnOrderPageContainsActionGroup" stepKey="checkIfOrderedItem2Cancelled">
+                <argument name="productName" value="$$simpleProduct4.name$$"/>
+                <argument name="textFromQtyCell" value="Canceled 1"/>
+            </actionGroup>
+
+            <actionGroup ref="AdminAssertTextInQtyCellOnOrderPageContainsActionGroup" stepKey="checkIfOrderedItem2Invoiced">
+                <argument name="productName" value="$$simpleProduct4.name$$"/>
+                <argument name="textFromQtyCell" value="Invoiced 1"/>
+            </actionGroup>
     </test>
 </tests>
