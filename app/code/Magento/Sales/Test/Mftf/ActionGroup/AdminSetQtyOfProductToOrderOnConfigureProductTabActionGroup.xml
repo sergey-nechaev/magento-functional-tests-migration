@@ -9,6 +9,9 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminSetQtyOfProductToOrderOnConfigureProductTabActionGroup">
+        <annotations>
+            <description>Set qty of bundle/configurable/simple with custom options product on the "Configure Product" tab</description>
+        </annotations>
         <arguments>
             <argument name="quantity" type="string"/>
         </arguments>

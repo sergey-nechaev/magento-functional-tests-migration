@@ -9,6 +9,9 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminClickOkOnConfigureProductTabActionGroup">
+        <annotations>
+            <description>Click the "OK" button on the "Configure Product" tab</description>
+        </annotations>
         <click selector="{{AdminOrderFormConfigureProductSection.ok}}" stepKey="clickOkConfigurablePopover"/>
     </actionGroup>
 </actionGroups>

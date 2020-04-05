@@ -9,6 +9,9 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminSetQtyOfBundleOptionToOrderActionGroup">
+        <annotations>
+            <description>Set qty of option of bundle product to be ordered</description>
+        </annotations>
         <arguments>
             <argument name="option" type="string"/>
             <argument name="quantity" type="string"/>

@@ -9,7 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminAssertTextInQtyCellOnOrderPageContainsActionGroup">
         <annotations>
-            <description>Change custom option file on admin order page.</description>
+            <description>Check if specified text is displayed in the "Qty" column fro particular product</description>
         </annotations>
         <arguments>
             <argument name="productName" type="string"/>
@@ -19,7 +19,7 @@
         <grabTextFrom selector="{{AdminOrderItemsOrderedSection.qtyColumnPerProduct(productName)}}" stepKey="grabTextFromQtyOfFirstOptionCellOfItemsOrderedGrid"/>
         <assertContains stepKey="assertRelatedProductName">
             <actualResult type="const">$grabTextFromQtyOfFirstOptionCellOfItemsOrderedGrid</actualResult>
-            <expectedResult type="string">{{textFromQtyCell}}</expectedResult>
+            <expectedResult type="string">{textFromQtyCell}}</expectedResult>
         </assertContains>
 
     </actionGroup>
