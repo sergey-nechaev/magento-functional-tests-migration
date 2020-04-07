@@ -17,14 +17,13 @@ use Magento\Framework\App\State;
 use Magento\Framework\View\ConfigInterface as ViewConfig;
 use Magento\Framework\Config\View;
 use Magento\Catalog\Model\ResourceModel\Product\Image as ProductImage;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Theme\Model\Config\Customization as ThemeCustomizationConfig;
 use Magento\Theme\Model\ResourceModel\Theme\Collection;
 use Magento\MediaStorage\Helper\File\Storage\Database;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
- * Class ImageResizeTest
- *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -119,7 +118,15 @@ class ImageResizeTest extends \PHPUnit\Framework\TestCase
      * @var string
      */
     private $testfilepath;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|StoreManagerInterface
+     */
+    private $storeManager;
 
+    /**
+     * @inheritDoc
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->testfilename = "image.jpg";
@@ -139,6 +146,7 @@ class ImageResizeTest extends \PHPUnit\Framework\TestCase
         $this->themeCollectionMock = $this->createMock(Collection::class);
         $this->filesystemMock = $this->createMock(Filesystem::class);
         $this->databaseMock = $this->createMock(Database::class);
+        $this->storeManager = $this->getMockForAbstractClass(StoreManagerInterface::class);
 
         $this->mediaDirectoryMock = $this->getMockBuilder(Filesystem::class)
             ->disableOriginalConstructor()
@@ -203,6 +211,16 @@ class ImageResizeTest extends \PHPUnit\Framework\TestCase
             ->method('getViewConfig')
             ->willReturn($this->viewMock);
 
+        $store = $this->getMockForAbstractClass(\Magento\Store\Api\Data\StoreInterface::class);
+        $store
+            ->expects($this->any())
+            ->method('getId')
+            ->willReturn(1);
+        $this->storeManager
+            ->expects($this->any())
+            ->method('getStores')
+            ->willReturn([$store]);
+
         $this->service = new \Magento\MediaStorage\Service\ImageResize(
             $this->appStateMock,
             $this->imageConfigMock,
@@ -214,7 +232,8 @@ class ImageResizeTest extends \PHPUnit\Framework\TestCase
             $this->themeCustomizationConfigMock,
             $this->themeCollectionMock,
             $this->filesystemMock,
-            $this->databaseMock
+            $this->databaseMock,
+            $this->storeManager
         );
     }
 
@@ -228,6 +247,9 @@ class ImageResizeTest extends \PHPUnit\Framework\TestCase
         $this->databaseMock->expects($this->any())
             ->method('checkDbUsage')
             ->will($this->returnValue(true));
+        $this->databaseMock->expects($this->any())
+            ->method('fileExists')
+            ->will($this->returnValue(false));
 
         $this->productImageMock->expects($this->any())
             ->method('getCountUsedProductImages')
@@ -268,6 +290,9 @@ class ImageResizeTest extends \PHPUnit\Framework\TestCase
         $this->databaseMock->expects($this->any())
             ->method('checkDbUsage')
             ->will($this->returnValue(true));
+        $this->databaseMock->expects($this->any())
+            ->method('fileExists')
+            ->will($this->returnValue(false));
 
         $this->mediaDirectoryMock->expects($this->any())
             ->method('isFile')
@@ -294,6 +319,67 @@ class ImageResizeTest extends \PHPUnit\Framework\TestCase
         $this->databaseMock->expects($this->once())
             ->method('saveFile')
             ->with($this->testfilepath);
+
+        $this->service->resizeFromImageName($this->testfilename);
+    }
+
+    public function testSkipResizingAlreadyResizedImageOnDisk()
+    {
+        $this->databaseMock->expects($this->any())
+            ->method('checkDbUsage')
+            ->will($this->returnValue(false));
+
+        $this->mediaDirectoryMock->expects($this->any())
+            ->method('isFile')
+            ->will($this->returnValue(true));
+
+        $this->themeCollectionMock->expects($this->any())
+            ->method('loadRegisteredThemes')
+            ->willReturn(
+                [ new DataObject(['id' => '0']) ]
+            );
+        $this->themeCustomizationConfigMock->expects($this->any())
+            ->method('getStoresByThemes')
+            ->willReturn(
+                ['0' => []]
+            );
+
+        $this->imageFactoryMock->expects($this->never())
+            ->method('create');
+
+        $this->service->resizeFromImageName($this->testfilename);
+    }
+
+    public function testSkipResizingAlreadyResizedImageInDatabase()
+    {
+        $this->databaseMock->expects($this->any())
+            ->method('checkDbUsage')
+            ->will($this->returnValue(true));
+        $this->databaseMock->expects($this->any())
+            ->method('fileExists')
+            ->will($this->returnValue(true));
+
+        $this->mediaDirectoryMock->expects($this->any())
+            ->method('isFile')
+            ->with($this->testfilepath)
+            ->willReturnOnConsecutiveCalls(
+                $this->returnValue(false),
+                $this->returnValue(true)
+            );
+
+        $this->themeCollectionMock->expects($this->any())
+            ->method('loadRegisteredThemes')
+            ->willReturn(
+                [ new DataObject(['id' => '0']) ]
+            );
+        $this->themeCustomizationConfigMock->expects($this->any())
+            ->method('getStoresByThemes')
+            ->willReturn(
+                ['0' => []]
+            );
+
+        $this->databaseMock->expects($this->never())
+            ->method('saveFile');
 
         $this->service->resizeFromImageName($this->testfilename);
     }
