@@ -8,13 +8,13 @@
 
 <tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
-    <test name="StoreFrontProductsCountInLayeredNavigationWithDisabledByMassactionProductsTest">
+    <test name="StorefrontProductsCountInLayeredNavigationWithDisabledFromProductEditPageProductsTest">
 
         <annotations>
             <features value="Layered Navigation"/>
-            <stories value="Check configurable products count with disabled by massaction products"/>
-            <title value="Check configurable products count with disabled by massaction products"/>
-            <description value="Storefront Layered navigation with disabled by massaction products configurable children"/>
+            <stories value="Check configurable products count with disabled from edit page products"/>
+            <title value="Check configurable products count with disabled from edit page products"/>
+            <description value="Storefront Layered navigation with disabled from edit page configurable children"/>
             <severity value="MAJOR"/>
             <testCaseId value="MAGETWO-90123"/>
             <group value="layeredNavigation"/>
@@ -48,15 +48,18 @@
 
             <!-- create 2 attributes -->
             <createData entity="productAttributeWithTwoOptions" stepKey="createConfigProduct1Attribute"/>
+
             <createData entity="productAttributeOption1" stepKey="createConfigProduct1AttributeOption1">
                 <requiredEntity createDataKey="createConfigProduct1Attribute"/>
             </createData>
             <createData entity="productAttributeOption2" stepKey="createConfigProduct1AttributeOption2">
                 <requiredEntity createDataKey="createConfigProduct1Attribute"/>
             </createData>
+
             <createData entity="AddToDefaultSet" stepKey="createConfigAddToAttributeSet">
                 <requiredEntity createDataKey="createConfigProduct1Attribute"/>
             </createData>
+
             <getData entity="ProductAttributeOptionGetter" index="1" stepKey="getConfig1AttributeOption1">
                 <requiredEntity createDataKey="createConfigProduct1Attribute"/>
             </getData>
@@ -109,33 +112,24 @@
             <magentoCron stepKey="runCronIndex" groups="index"/>
         </after>
 
-        <!--Go to Admin->Catalog->Products, filter grid by products turn by turn and disable them via bulk action-->
+
+        <!--Go to admin and open product edit page to disable children -->
         <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
-        <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="navigateToProductIndexPage"/>
 
-        <actionGroup ref="FilterProductGridBySkuActionGroup" stepKey="filterByProduct1">
-            <argument name="product" value="$$createConfig1ChildProduct1$$"/>
+        <actionGroup ref="AdminProductPageOpenByIdActionGroup" stepKey="openProductEditPage">
+            <argument name="productId" value="$$createConfigProduct1.id$$"/>
         </actionGroup>
 
-        <actionGroup ref="AdminSelectDeselectAllProductsInTheGridActionGroup" stepKey="selectAllProducts">
-            <argument name="action" value="Select All"/>
+        <!-- Disable each of the child products for All Store views -->
+        <actionGroup ref="AdminConfigurableProductDisableConfigurationsActionGroup" stepKey="disableChildProduct1">
+            <argument name="productName" value="$$getConfig1AttributeOption1.label$$"/>
         </actionGroup>
 
-        <actionGroup ref="AdminEnableDisableProductsViaBulkActionInProductGridActionGroup" stepKey="disableProduct1">
-            <argument name="action" value="Disable"/>
+        <actionGroup ref="AdminConfigurableProductDisableConfigurationsActionGroup" stepKey="disableChildProduct2">
+            <argument name="productName" value="$$getConfig1AttributeOption2.label$$"/>
         </actionGroup>
 
-        <actionGroup ref="FilterProductGridBySkuActionGroup" stepKey="filterByProduct2">
-            <argument name="product" value="$$createConfig1ChildProduct2$$"/>
-        </actionGroup>
-
-        <actionGroup ref="AdminSelectDeselectAllProductsInTheGridActionGroup" stepKey="selectAllProducts1">
-            <argument name="action" value="Select All"/>
-        </actionGroup>
-
-        <actionGroup ref="AdminEnableDisableProductsViaBulkActionInProductGridActionGroup" stepKey="disableProducts">
-            <argument name="action" value="Disable"/>
-        </actionGroup>
+        <actionGroup ref="AdminFormSaveAndCloseActionGroup" stepKey="saveProduct"/>
 
         <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
 
@@ -143,53 +137,47 @@
           - only    following subcategory is displayed
           - there are no products in following subcategory
           -->
-        <actionGroup ref="StorefrontGoToCategoryPageActionGroup" stepKey="openCategory1Page">
-            <argument name="categoryName" value="$$createCategory1.name$$"/>
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory1Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$"/>
         </actionGroup>
 
-        <actionGroup ref="StoreFrontAssertProductsQtyForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory2">
+        <actionGroup ref="AssertStorefrontProductsCountForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory2">
             <argument name="qty" value="0"/>
             <argument name="attributeName" value="$$createCategory2.name$$"/>
         </actionGroup>
 
-        <actionGroup ref="StoreFrontAssertAttributesQtyForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationQty1">
+        <actionGroup ref="AssertStorefrontAttributesCountForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationQty1">
             <argument name="qty" value="1"/>
             <argument name="shoppingOption" value="Category"/>
         </actionGroup>
 
-        <actionGroup ref="StorefrontGoToSubCategory2PageActionGroup" stepKey="openCategory3">
-            <argument name="categoryName" value="$$createCategory1.name$$"/>
-            <argument name="subCategory1Name" value="$$createCategory2.name$$"/>
-            <argument name="subCategory2Name" value="$$createCategory3.name$$"/>
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory3Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$/$$createCategory2.name$$/$$createCategory3.name$$"/>
         </actionGroup>
 
-        <actionGroup ref="StoreFrontAssertProductsQtyForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory4">
+        <actionGroup ref="AssertStorefrontProductsCountForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory4">
             <argument name="qty" value="0"/>
             <argument name="attributeName" value="$$createCategory4.name$$"/>
         </actionGroup>
 
-        <actionGroup ref="StoreFrontAssertAttributesQtyForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationQty2">
+        <actionGroup ref="AssertStorefrontAttributesCountForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationQty2">
             <argument name="qty" value="1"/>
             <argument name="shoppingOption" value="Category"/>
         </actionGroup>
 
         <!-- open anchored categories (Test2 and Test4):
           -      there are no products  -->
-        <actionGroup ref="StorefrontGoToSubCategoryPageActionGroup" stepKey="openCategory2">
-            <argument name="categoryName" value="$$createCategory1.name$$"/>
-            <argument name="subCategoryName" value="$$createCategory2.name$$"/>
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory2Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$/$$createCategory2.name$$"/>
         </actionGroup>
 
-        <actionGroup ref="StorefrontAssertCategoryIsEmptyActionGroup" stepKey="seeEmptyNoticeCategory2"/>
+        <actionGroup ref="AssertStorefrontCategoryIsEmptyActionGroup" stepKey="seeEmptyNoticeCategory2"/>
 
-        <actionGroup ref="StorefrontGoToSubCategory3PageActionGroup" stepKey="openCategory4">
-            <argument name="categoryName" value="$$createCategory1.name$$"/>
-            <argument name="subCategory1Name" value="$$createCategory2.name$$"/>
-            <argument name="subCategory2Name" value="$$createCategory3.name$$"/>
-            <argument name="subCategory3Name" value="$$createCategory4.name$$"/>
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory4Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$/$$createCategory2.name$$/$$createCategory3.name$$/$$createCategory4.name$$"/>
         </actionGroup>
 
-        <actionGroup ref="StorefrontAssertCategoryIsEmptyActionGroup" stepKey="seeEmptyNoticeCategory4"/>
+        <actionGroup ref="AssertStorefrontCategoryIsEmptyActionGroup" stepKey="seeEmptyNoticeCategory4"/>
 
     </test>
 </tests>
