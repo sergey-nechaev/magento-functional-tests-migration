@@ -130,12 +130,12 @@
         </actionGroup>
 
         <actionGroup ref="AssertStorefrontProductsCountForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory2">
-            <argument name="qty" value="0"/>
+            <argument name="count" value="0"/>
             <argument name="attributeName" value="$$createCategory2.name$$"/>
         </actionGroup>
 
         <actionGroup ref="AssertStorefrontAttributesCountForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationQty1">
-            <argument name="qty" value="1"/>
+            <argument name="count" value="1"/>
             <argument name="shoppingOption" value="Category"/>
         </actionGroup>
 
@@ -144,12 +144,12 @@
         </actionGroup>
 
         <actionGroup ref="AssertStorefrontProductsCountForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory4">
-            <argument name="qty" value="0"/>
+            <argument name="count" value="0"/>
             <argument name="attributeName" value="$$createCategory4.name$$"/>
         </actionGroup>
 
         <actionGroup ref="AssertStorefrontAttributesCountForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationQty2">
-            <argument name="qty" value="1"/>
+            <argument name="count" value="1"/>
             <argument name="shoppingOption" value="Category"/>
         </actionGroup>
 

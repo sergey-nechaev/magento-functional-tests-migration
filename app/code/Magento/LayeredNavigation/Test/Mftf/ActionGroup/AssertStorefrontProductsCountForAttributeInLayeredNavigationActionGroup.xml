@@ -10,18 +10,18 @@
         xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AssertStorefrontProductsCountForAttributeInLayeredNavigationActionGroup">
         <annotations>
-            <description> Assert products qty for attribute - takes qty displayed in layered navigation next to attribute</description>
+            <description> Assert products count for attribute - takes count displayed in layered navigation next to attribute</description>
         </annotations>
         <arguments>
-            <argument name="qty" type="string"/>
+            <argument name="count" type="string"/>
             <argument name="attributeName" type="string"/>
         </arguments>
 
-        <grabTextFrom selector="{{StorefrontLayeredNavigationSection.productsForAttribute(attributeName)}}" stepKey="grabProductQty"/>
+        <grabTextFrom selector="{{StorefrontLayeredNavigationSection.productsForAttribute(attributeName)}}" stepKey="grabProductCount"/>
 
-        <assertEquals stepKey="assertQty">
-           <actualResult type="const">$grabProductQty</actualResult>
-           <expectedResult type="string">{{qty}}</expectedResult>
+        <assertEquals stepKey="assertCount">
+           <actualResult type="const">$grabProductCount</actualResult>
+           <expectedResult type="string">{{count}}</expectedResult>
          </assertEquals>
 
     </actionGroup>
