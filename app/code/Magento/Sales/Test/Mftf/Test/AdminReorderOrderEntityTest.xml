@@ -44,12 +44,10 @@
 
         </before>
 
-        <!--Create new order for the customer-->
         <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="navigateToNewOrderWithExistingCustomer">
             <argument name="customer" value="$$simpleCustomer$$"/>
         </actionGroup>
 
-        <!--Add both simple products to the order-->
         <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSimpleProduct1ToOrder">
             <argument name="product" value="$$simpleProduct1$$"/>
         </actionGroup>
@@ -58,70 +56,53 @@
             <argument name="product" value="$$simpleProduct2$$"/>
         </actionGroup>
 
-        <!--Payment method = Check / Money Order-->
         <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
-
-        <!--Shipping method = Flat Rate Fixed-->
+        
         <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="orderSelectFlatRateShippingMethod"/>
-
-        <!--Apply Cart Price Rule with 10% discount-->
+        
         <actionGroup ref="AdminApplyCouponToOrderActionGroup" stepKey="applyCoupon">
             <argument name="couponCode" value="$$createCouponForCartPriceRule.code$$"/>
         </actionGroup>
 
-        <!--Submit Order-->
         <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
-
-        <!--Check if order is created -->
+        
         <actionGroup ref="VerifyCreatedOrderInformationActionGroup" stepKey="verifyCreatedOrderInformation"/>
 
         <grabTextFrom selector="|Order # (\d+)|" stepKey="getOrderId"/>
 
-        <!--Check available buttons-->
         <actionGroup ref="AssertOrderButtonsAvailableActionGroup" stepKey="verifyAllButtonsAvailable"/>
 
-        <!--Click Reorder-->
         <actionGroup ref="AdminOpenReorderPageActionGroup" stepKey="reorderOrder"/>
 
-        <!--Check if Create order page is displayed-->
         <actionGroup ref="AdminAssertPageTitleActionGroup" stepKey="checkPageTitle">
             <argument name="title" value="Create New Order"/>
         </actionGroup>
 
-        <!--Add one more product to reorder-->
         <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addOneMoreSimpleProduct1ToOrder">
             <argument name="product" value="$$simpleProduct1$$"/>
         </actionGroup>
 
-        <!--Select another billing address-->
         <actionGroup ref="AdminChangeBillingAddressOnCreateOrderPageActionGroup" stepKey="changeBillingAddress">
             <argument name="address" value="{{US_Address_NY_Not_Default_Address.state}}"/>
         </actionGroup>
 
-        <!--Shipping method = Flat Rate Fixed-->
         <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="selectFlatRateShippingMethodForReorder"/>
-
-        <!--Payment method = Check / Money Order-->
+        
         <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectPaymentMethodForReorder"/>
 
-        <!--Submit Reorder-->
         <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitReorder"/>
 
-        <!--Check if reorder is created -->
         <actionGroup ref="VerifyCreatedOrderInformationActionGroup" stepKey="verifyCreatedReorderInformation"/>
         <grabTextFrom selector="|Order # (\d+)|" stepKey="getReorderId"/>
 
-        <!--Check available buttons-->
         <actionGroup ref="AssertOrderButtonsAvailableActionGroup" stepKey="verifyAllButtonsAvailableForReorder"/>
 
-        <!-- Via Order Grid: check if order status and grand total are correct-->
         <actionGroup ref="AssertAdminCheckOrderStatusAndGrandTotalInOrdersGridActionGroup" stepKey="verifyOrderStatusAndGrandTotal">
             <argument name="orderId" value="$getOrderId"/>
             <argument name="status" value="Pending"/>
             <argument name="grandTotal" value="110.78"/>
         </actionGroup>
 
-        <!-- Via Order Grid: check if reorder status and grand total are correct-->
         <actionGroup ref="AssertAdminCheckOrderStatusAndGrandTotalInOrdersGridActionGroup" stepKey="verifyReorderStatusAndGrandTotal">
             <argument name="orderId" value="$getReorderId"/>
             <argument name="status" value="Pending"/>
