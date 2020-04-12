@@ -20,6 +20,5 @@
         <element name="downloadableInformation" type="block" selector="._show #catalog_product_composite_configure_fields_downloadable"/>
         <element name="checkLinkDownloadableProduct" type="checkbox" selector="//label[contains(text(),'{{link}}')]/preceding-sibling::input" parameterized="true"/>
         <element name="selectOption" type="select" selector="//form[@id='product_composite_configure_form']//select"/>
-        <element name="qtyOfOption" type="input" selector="//label/span[text()='{{bundleOption}}']/../following-sibling::div//input" parameterized="true"/>
     </section>
 </sections>
