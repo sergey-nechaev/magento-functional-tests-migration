@@ -8,8 +8,9 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <!--Select specified billing address on the Create Order page-->
+   
     <actionGroup name="AdminChangeBillingAddressOnCreateOrderPageActionGroup">
+        <annotation> Select specified billing address on the Create Order page </annotation>
         <arguments>
             <argument name="address" type="string"/>
         </arguments>
