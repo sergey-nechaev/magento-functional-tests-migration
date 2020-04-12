@@ -22,8 +22,7 @@
         </annotations>
 
         <before>
-            <!-- Create four categories assigned in ascending order:
-             Category 1 (non-anchor) -> Category 2 (anchor) -> Category 3 (non-anchor) -> Category 4 (anchor)-->
+
             <createData entity="SubCategoryNonAnchor" stepKey="createCategory1">
                 <field key="name">Test1</field>
                 <field key="parent_id">0</field>
@@ -41,12 +40,10 @@
                 <requiredEntity createDataKey="createCategory3"/>
             </createData>
 
-            <!--create configurable product and assign it to Category4 ('Test4')-->
             <createData entity="ApiConfigurableProduct" stepKey="createConfigProduct1">
                 <requiredEntity createDataKey="createCategory4"/>
             </createData>
 
-            <!-- create 2 attributes -->
             <createData entity="productAttributeWithTwoOptions" stepKey="createConfigProduct1Attribute"/>
 
             <createData entity="productAttributeOption1" stepKey="createConfigProduct1AttributeOption1">
@@ -67,7 +64,6 @@
                 <requiredEntity createDataKey="createConfigProduct1Attribute"/>
             </getData>
 
-            <!-- Create the 2 children that will be a part of the configurable product -->
             <createData entity="ApiSimpleOne" stepKey="createConfig1ChildProduct1">
                 <requiredEntity createDataKey="createConfigProduct1Attribute"/>
                 <requiredEntity createDataKey="getConfig1AttributeOption1"/>
@@ -77,7 +73,6 @@
                 <requiredEntity createDataKey="getConfig1AttributeOption2"/>
             </createData>
 
-            <!-- Assign the two products to the configurable product -->
             <createData entity="ConfigurableProductTwoOptions" stepKey="createConfigProduct1Option1">
                 <requiredEntity createDataKey="createConfigProduct1"/>
                 <requiredEntity createDataKey="createConfigProduct1Attribute"/>
@@ -112,15 +107,12 @@
             <magentoCron stepKey="runCronIndex" groups="index"/>
         </after>
 
-
-        <!--Go to admin and open product edit page to disable children -->
         <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
 
         <actionGroup ref="AdminProductPageOpenByIdActionGroup" stepKey="openProductEditPage">
             <argument name="productId" value="$$createConfigProduct1.id$$"/>
         </actionGroup>
 
-        <!-- Disable each of the child products for All Store views -->
         <actionGroup ref="AdminConfigurableProductDisableConfigurationsActionGroup" stepKey="disableChildProduct1">
             <argument name="productName" value="$$getConfig1AttributeOption1.label$$"/>
         </actionGroup>
@@ -133,10 +125,6 @@
 
         <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
 
-        <!-- check non-anchored categories (Test1 and Test3):
-          - only    following subcategory is displayed
-          - there are no products in following subcategory
-          -->
         <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory1Page">
             <argument name="categoryURL" value="$$createCategory1.name$$"/>
         </actionGroup>
@@ -165,8 +153,6 @@
             <argument name="shoppingOption" value="Category"/>
         </actionGroup>
 
-        <!-- open anchored categories (Test2 and Test4):
-          -      there are no products  -->
         <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory2Page">
             <argument name="categoryURL" value="$$createCategory1.name$$/$$createCategory2.name$$"/>
         </actionGroup>
