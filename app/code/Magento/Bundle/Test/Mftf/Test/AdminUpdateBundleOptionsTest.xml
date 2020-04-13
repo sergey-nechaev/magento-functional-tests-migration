@@ -121,8 +121,8 @@
             <deleteData createDataKey="simpleProduct5" stepKey="deleteSimpleProduct5"/>
             <deleteData createDataKey="simpleProduct6" stepKey="deleteSimpleProduct6"/>
             <deleteData createDataKey="simpleProduct7" stepKey="deleteSimpleProduct7"/>
-            <deleteData createDataKey="simpleProduct6" stepKey="deleteSimpleProduct8"/>
-            <deleteData createDataKey="simpleProduct7" stepKey="deleteSimpleProduct9"/>
+            <deleteData createDataKey="simpleProduct8" stepKey="deleteSimpleProduct8"/>
+            <deleteData createDataKey="simpleProduct9" stepKey="deleteSimpleProduct9"/>
 
             <deleteData createDataKey="testCategory" stepKey="deleteTestCategory"/>
 
