@@ -57,7 +57,7 @@
         <actionGroup ref="AdminRoleGridFilterByNameActionGroup" stepKey="searchTheRole">
             <argument name="roleName" value="$$user_role.rolename$$"/>
         </actionGroup>
-        <actionGroup ref="AdminRoleGridOpenFirstActionGroup" stepKey="clickToFirstRow"/>
+        <actionGroup ref="AdminRoleGridOpenFirstRowActionGroup" stepKey="clickToFirstRow"/>
         <actionGroup ref="AssertImpossibleDeleteYourOwnRoleActionGroup" stepKey="assertErrorMessage"/>
         <actionGroup ref="AdminRoleOpenGridActionGroup" stepKey="openRoleGridSecondTime"/>
         <actionGroup ref="AdminRoleGridFilterByNameActionGroup" stepKey="searchTheRoleSecondTime">
