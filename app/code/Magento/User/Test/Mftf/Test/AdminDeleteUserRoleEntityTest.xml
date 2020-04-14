@@ -12,72 +12,77 @@
         <annotations>
             <features value="User"/>
             <stories value="Delete User Role"/>
-            <title value="Admin user is able to delete the role which is not assigned to any users"/>
-            <description value="Admin user is able to delete the role which is not assigned to any users"/>
+            <title value="Admin user is able to delete the role"/>
+            <description value="Admin user is able to delete the role"/>
             <group value="user"/>
             <group value="mtf_migrated"/>
         </annotations>
 
         <before>
-           <actionGroup ref="LoginAsAdmin" stepKey="logIn"/>
+            <executeJS function="return '{{DefaultAdminUser.password}}'" stepKey="adminPassword"/>
+            <createData entity="NewAdminUser" stepKey="user">
+                <field key="current_password">{$adminPassword}</field>
+            </createData>
+            <createData entity="roleAdministrator" stepKey="user_role">
+                <field key="current_password">{$adminPassword}</field>
+            </createData>
+           <actionGroup ref="AdminLoginActionGroup" stepKey="logIn"/>
         </before>
         <after>
-            <actionGroup ref="logout" stepKey="logOut"/>
+            <actionGroup ref="AdminDeleteUserViaCurlActionGroup" stepKey="deleteUser">
+                <argument name="user" value="$$user$$" />
+            </actionGroup>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logOut"/>
         </after>
 
-        <!--Create New User-->
-        <actionGroup ref="AdminOpenNewUserPageActionGroup" stepKey="goToNewUserPage"/>
-        <actionGroup ref="AdminFillNewUserFormRequiredFieldsActionGroup" stepKey="fillNewUserForm">
-            <argument name="user" value="NewAdminUser"/>
-        </actionGroup>
-        <actionGroup ref="AdminClickSaveButtonOnUserFormActionGroup" stepKey="saveNewUser"/>
-
-        <!--Create New Role-->
-        <actionGroup ref="AdminOpenCreateRolePageActionGroup" stepKey="goToNewRolePage"/>
-        <actionGroup ref="AdminFillUserRoleFormActionGroup" stepKey="fillNewRoleForm">
-            <argument name="role" value="roleSales"/>
-        </actionGroup>
-        <actionGroup ref="AdminClickSaveButtonOnUserRoleFormActionGroup" stepKey="saveNewRole"/>
-
-        <!--Assign New Role-->
+        <!--Assign new role-->
         <actionGroup ref="AdminOpenUserEditPageActionGroup" stepKey="openUserEditPage">
-            <argument name="user" value="NewAdminUser"/>
+            <argument name="user" value="$$user$$"/>
         </actionGroup>
-        <actionGroup ref="AdminUpdateUserRoleActionGroup" stepKey="assignNewUserRole">
-            <argument name="roleName" value="{{roleSales.name}}"/>
+        <actionGroup ref="AdminUpdateUserRoleUsingCustomAdminPasswordActionGroup" stepKey="assignNewUserRole">
+            <argument name="roleName" value="$$user_role.rolename$$"/>
         </actionGroup>
         <actionGroup ref="AdminClickSaveButtonOnUserFormActionGroup" stepKey="saveUser"/>
-        <actionGroup ref="logout" stepKey="logOutAsDefaultAdminUser"/>
-        <actionGroup ref="LoginAsAdmin" stepKey="loginAsNewUser">
-            <argument name="adminUser" value="NewAdminUser"/>
+
+        <!--Log in as admin user with new role-->
+        <actionGroup ref="AdminLogoutActionGroup" stepKey="logOutAsDefaultAdminUser"/>
+        <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsNewUser">
+            <argument name="username" value="$$user.username$$"/>
+            <argument name="password" value="$$user.password$$"/>
+            <argument name="adminUser" value="$$user$$"/>
         </actionGroup>
 
         <!--Assert Impossible Delete Your Own Role-->
-        <actionGroup ref="AdminOpenRoleEditPageActionGroup" stepKey="openRoleEditPage">
-            <argument name="roleName" value="{{roleSales.name}}"/>
+        <actionGroup ref="AdminRoleOpenGridActionGroup" stepKey="openRoleGrid"/>
+        <actionGroup ref="AdminRoleGridFilterByNameActionGroup" stepKey="searchTheRole">
+            <argument name="roleName" value="$$user_role.rolename$$"/>
         </actionGroup>
+        <actionGroup ref="AdminRoleGridOpenFirstActionGroup" stepKey="clickToFirstRow"/>
         <actionGroup ref="AssertImpossibleDeleteYourOwnRoleActionGroup" stepKey="assertErrorMessage"/>
-        <actionGroup ref="AssertRoleInGridActionGroup" stepKey="assertRoleInGrid">
-            <argument name="roleName" value="{{roleSales.name}}"/>
+        <actionGroup ref="AdminRoleOpenGridActionGroup" stepKey="openRoleGridSecondTime"/>
+        <actionGroup ref="AdminRoleGridFilterByNameActionGroup" stepKey="searchTheRoleSecondTime">
+            <argument name="roleName" value="$$user_role.rolename$$"/>
+        </actionGroup>
+        <actionGroup ref="AssertAdminUserRoleInGridActionGroup" stepKey="assertRoleInGrid">
+        <argument name="roleName" value="$$user_role.rolename$$"/>
         </actionGroup>
 
-        <actionGroup ref="logout" stepKey="logOutAsNewUser"/>
-        <actionGroup ref="LoginAsAdmin" stepKey="loginAsDefaultAdminUser"/>
+        <!--Log in as default admin user-->
+        <actionGroup ref="AdminLogoutActionGroup" stepKey="logOutAsNewUser"/>
+        <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsDefaultAdminUser"/>
 
         <!--Delete New Role-->
-        <actionGroup ref="AdminDeleteUserRoleActionGroup" stepKey="deleteCustomRole">
-            <argument name="roleName" value="{{roleSales.name}}"/>
+        <actionGroup ref="AdminDeleteRoleByRoleNameActionGroup" stepKey="deleteRole">
+            <argument name="role" value="roleAdministrator"/>
         </actionGroup>
         <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="assertSuccessMessage">
             <argument name="message" value="You deleted the role."/>
         </actionGroup>
-        <actionGroup ref="AssertRoleNotGridActionGroup" stepKey="assertRoleNotGrid">
-            <argument name="roleName" value="{{roleSales.name}}"/>
+        <actionGroup ref="AdminRoleGridFilterByNameActionGroup" stepKey="searchTheRoleThirdTime">
+            <argument name="roleName" value="$$user_role.rolename$$"/>
         </actionGroup>
-
-        <!--Delete New User-->
-        <actionGroup ref="AdminDeleteCustomUserActionGroup" stepKey="deleteNewUser">
-            <argument name="user" value="NewAdminUser"/>
+        <actionGroup ref="AssertAdminUserRoleNotInGridActionGroup" stepKey="assertRoleNotInGrid">
+            <argument name="roleName" value="$$user_role.rolename$$"/>
         </actionGroup>
     </test>
 </tests>
