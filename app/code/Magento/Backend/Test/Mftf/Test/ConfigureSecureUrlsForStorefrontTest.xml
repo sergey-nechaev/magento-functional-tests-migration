@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ConfigureSecureUrlsForStorefrontTest">
+        <annotations>
+            <features value="Security"/>
+            <stories value="Configure secure urls for storefront"/>
+            <title value="Storefront should be accessible with secure url"/>
+            <description value="Storefront should be accessible with secure url"/>
+            <group value="backend"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <amOnPage url="/" stepKey="goToHomePage"/>
+            <executeJS function="return window.location.host" stepKey="hostname"/>
+            <magentoCLI command="config:set web/secure/base_url https://{$hostname}/" stepKey="setSecureBaseURL"/>
+            <magentoCLI command="config:set web/secure/use_in_frontend 1" stepKey="useSecureURLsOnStorefront"/>
+            <magentoCLI command="setup:static-content:deploy -f" stepKey="staticContentDeploy"/>
+            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+        </before>
+        <after>
+            <magentoCLI command="config:set web/secure/use_in_frontend 0" stepKey="dontUseSecureURLsOnStorefront"/>
+            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+        </after>
+        <executeJS function="return window.location.host" stepKey="hostname"/>
+        <amOnUrl url="http://{$hostname}/" stepKey="goToHomepage"/>
+        <seeCurrentUrlEquals url="https://{$hostname}/" stepKey="seeSecureURL"/>
+        <dontSeeJsError stepKey="dontSeeJsError"/>
+    </test>
+</tests>

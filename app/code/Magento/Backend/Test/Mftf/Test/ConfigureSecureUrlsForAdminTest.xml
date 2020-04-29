@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ConfigureSecureUrlsForAdminTest">
+        <annotations>
+            <features value="Security"/>
+            <stories value="Configure secure urls for admin"/>
+            <title value="Admin panel should be accessible with secure url"/>
+            <description value="Admin panel should be accessible with secure url"/>
+            <group value="backend"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <amOnPage url="/" stepKey="goToHomePage"/>
+            <executeJS function="return window.location.host" stepKey="hostname"/>
+            <magentoCLI command="config:set web/secure/base_url https://{$hostname}/" stepKey="setSecureBaseURL"/>
+            <magentoCLI command="config:set web/secure/use_in_adminhtml 1" stepKey="useSecureURLsOnBackend"/>
+            <magentoCLI command="setup:static-content:deploy -f" stepKey="staticContentDeploy"/>
+            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+        </before>
+        <after>
+            <magentoCLI command="config:set web/secure/use_in_adminhtml 0" stepKey="dontUseSecureURLsOnBackend"/>
+            <magentoCLI command="cache:flush" stepKey="flushCache"/>
+        </after>
+        <executeJS function="return window.location.host" stepKey="hostname"/>
+        <amOnUrl url="http://{$hostname}/{{_ENV.MAGENTO_BACKEND_NAME}}/" stepKey="goToBackend"/>
+        <seeCurrentUrlEquals url="https://{$hostname}/{{_ENV.MAGENTO_BACKEND_NAME}}/" stepKey="seeSecureURL"/>
+        <dontSeeJsError stepKey="dontSeeJsError"/>
+    </test>
+</tests>
