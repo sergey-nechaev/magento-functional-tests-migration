@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="RefreshStatisticsGridSection">
+        <element name="report" type="checkbox" selector="//td[contains(text(),'{{reportName}}')]" parameterized="true"/>
+        <element name="actionsSelect" type="select" selector="//select[@id='gridRefreshStatistics_massaction-select']"/>
+        <element name="actionsSelectOption" type="select" selector="//select[@id='gridRefreshStatistics_massaction-select']/option[contains(text(), '{{optionName}}')]" parameterized="true"/>
+        <element name="submitButton" type="button" selector="//button[@title='Submit']"/>
+    </section>
+</sections>

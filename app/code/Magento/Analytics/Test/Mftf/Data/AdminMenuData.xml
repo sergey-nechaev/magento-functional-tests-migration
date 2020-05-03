@@ -18,4 +18,9 @@
         <data key="title">AdvancedReporting</data>
         <data key="dataUiId">magento-analytics-advanced-reporting</data>
     </entity>
+    <entity name="AdminMenuBestsellersReports">
+    <data key="pageTitle">Bestsellers Report</data>
+    <data key="title">Bestsellers</data>
+    <data key="dataUiId">magento-reports-report-products-bestsellers</data>
+    </entity>
 </entities>

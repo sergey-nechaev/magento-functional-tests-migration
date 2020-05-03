@@ -14,6 +14,7 @@
             <data name="bestsellerReport/to" xsi:type="string">m/d/Y</data>
             <data name="bestsellerReport/show_empty_rows" xsi:type="string">No</data>
             <data name="date" xsi:type="string">Y</data>
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <constraint name="Magento\Reports\Test\Constraint\AssertBestsellerReportResult" />
         </variation>
         <variation name="BestsellerProductsReportEntityTestVariation2">
@@ -23,6 +24,7 @@
             <data name="bestsellerReport/to" xsi:type="string">m/d/Y</data>
             <data name="bestsellerReport/show_empty_rows" xsi:type="string">Yes</data>
             <data name="date" xsi:type="string">n/Y</data>
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <constraint name="Magento\Reports\Test\Constraint\AssertBestsellerReportResult" />
         </variation>
         <variation name="BestsellerProductsReportEntityTestVariation3">
@@ -32,6 +34,7 @@
             <data name="bestsellerReport/to" xsi:type="string">m/d/Y +1 day</data>
             <data name="bestsellerReport/show_empty_rows" xsi:type="string">No</data>
             <data name="date" xsi:type="string">M d, Y</data>
+            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <constraint name="Magento\Reports\Test\Constraint\AssertBestsellerReportResult" />
         </variation>
     </testCase>

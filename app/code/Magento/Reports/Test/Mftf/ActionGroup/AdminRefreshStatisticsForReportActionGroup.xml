@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminRefreshStatisticsForReportActionGroup">
+        <annotations>
+            <description>Check needed report and refresh for specified period</description>
+        </annotations>
+        <arguments>
+            <argument name="reportName" type="string" defaultValue="Bestsellers"/>
+            <argument name="period" type="string" defaultValue="Refresh Lifetime Statistics"/>
+        </arguments>
+
+        <click selector="{{RefreshStatisticsGridSection.report(reportName)}}" stepKey="checkBestsellers"/>
+        <click selector="{{RefreshStatisticsGridSection.actionsSelect}}" stepKey="clickActionsSelect"/>
+        <click selector="{{RefreshStatisticsGridSection.actionsSelectOption('Refresh Lifetime Statistics')}}" stepKey="selectLifetimePeriod"/>
+        <click selector="{{RefreshStatisticsGridSection.submitButton}}" stepKey="clickSubmitOnRefreshStatisticsForm"/>
+        <waitForElementVisible selector="{{AdminConfirmationModalSection.ok}}" stepKey="waitingForInformationModal"/>
+        <click selector="{{AdminConfirmationModalSection.ok}}" stepKey="clickOkOnConfirmationPopup"/>
+        <waitForPageLoad stepKey="waitForPageReloaded"/>
+
+    </actionGroup>
+</actionGroups>

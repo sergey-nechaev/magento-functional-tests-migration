@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminGenerateBestsellersReportActionGroup">
+        <annotations>
+            <description>Bestsellers report page. Enters the provided Order From/To Dates. Clicks on 'Show Report' button.</description>
+        </annotations>
+        <arguments>
+            <argument name="orderFromDate" type="string"/>
+            <argument name="orderToDate" type="string"/>
+            <argument name="period" type="string" defaultValue="Day"/>
+        </arguments>
+
+        <click selector="{{BestsellersReportFilterSection.periodSelect}}" stepKey="clickPeriodSelect"/>
+        <click selector="{{BestsellersReportFilterSection.periodSelectOption(period)}}" stepKey="selectPeriod"/>
+        <fillField selector="{{BestsellersReportFilterSection.dateFrom}}" userInput="{{orderFromDate}}" stepKey="fillFromDate"/>
+        <fillField selector="{{BestsellersReportFilterSection.dateTo}}" userInput="{{orderToDate}}" stepKey="fillToDate"/>
+        <click selector="{{BestsellersReportFilterSection.buttonShowReport}}" stepKey="clickShowReport"/>
+        <waitForPageLoad stepKey="waitForReport"/>
+
+    </actionGroup>
+</actionGroups>
