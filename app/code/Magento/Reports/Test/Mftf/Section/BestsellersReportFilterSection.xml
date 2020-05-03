@@ -14,5 +14,8 @@
         <element name="dateFrom" type="input" selector="//input[@name='from']"/>
         <element name="dateTo" type="input" selector="//input[@name='to']"/>
         <element name="buttonShowReport" type="button" selector="//button[@id='filter_form_submit']"/>
+        <element name="showEmptyRowsSelect" type="select" selector="//select[@id='sales_report_show_empty_rows']"/>
+        <element name="showEmptyRowsSelectOption" type="select" selector="//select[@id='sales_report_show_empty_rows']/option[contains(text(),'{{showEmptyRows}}')]" parameterized="true"/>
+
     </section>
 </sections>

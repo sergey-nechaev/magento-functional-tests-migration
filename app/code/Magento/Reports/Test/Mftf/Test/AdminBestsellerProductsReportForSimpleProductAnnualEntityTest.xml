@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminBestsellerProductsReportForSimpleProductAnnualEntityTest">
+        <annotations>
+            <title value="MAGETWO-28222: Check Bestsellers report for recently ordered simple product (annual, do not show empty rows)"/>
+            <stories value="Check Bestsellers report for recently ordered simple product (annual, do not show empty rows)"/>
+            <description value="Check Bestsellers report for recently ordered simple product (annual, do not show empty rows)"/>
+            <features value="Reports"/>
+            <severity value="MAJOR"/>
+            <group value="reports, mftf_migrated"/>
+        </annotations>
+
+        <before>
+
+            <magentoCLI command="config:set {{EnableFlatRateConfigData.path}} {{EnableFlatRateConfigData.value}}" stepKey="enableFlatRate"/>
+            <magentoCLI command="config:set {{enabledCashOnDeliveryPayment.label}} {{enabledCashOnDeliveryPayment.value}}" stepKey="enableCashOnDelivery"/>
+
+            <createData entity="Simple_US_Customer_Two_Addresses" stepKey="simpleCustomer"/>
+
+            <createData entity="SimpleProduct2" stepKey="simpleProduct">
+                <field key="price">50.99</field>
+            </createData>
+
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+
+            <magentoCron stepKey="runCronIndex" groups="index"/>
+
+        </before>
+
+        <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="navigateToNewOrderWithExistingCustomer">
+            <argument name="customer" value="$$simpleCustomer$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSimpleProductToOrder">
+            <argument name="product" value="$$simpleProduct$$"/>
+            <argument name="productQty" value="999"/>
+        </actionGroup>
+
+        <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
+
+        <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="orderSelectFlatRateShippingMethod"/>
+
+        <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
+
+        <actionGroup ref="VerifyCreatedOrderInformationActionGroup" stepKey="verifyCreatedOrderInformation"/>
+
+        <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="openRefreshStatisticsPage">
+            <argument name="menuUiId" value="{{AdminMenuReports.dataUiId}}"/>
+            <argument name="submenuUiId" value="{{AdminMenuReportsStatisticsRefreshStatistics.dataUiId}}"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminRefreshStatisticsForReportActionGroup" stepKey="refreshStatisticsForBestsellers">
+            <argument name="Bestsellers"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="navigateToBestsellersPage">
+            <argument name="menuUiId" value="{{AdminMenuReports.dataUiId}}"/>
+            <argument name="submenuUiId" value="{{AdminMenuReportsProductsBestsellers.dataUiId}}"/>
+        </actionGroup>
+
+        <generateDate stepKey="generateStartDate" date="-1 year" format="m/d/Y"/>
+        <generateDate stepKey="generateEndDate" date="+1 minute" format="m/d/Y"/>
+
+        <actionGroup ref="AdminGenerateBestsellersReportActionGroup" stepKey="filterBestsellers">
+            <argument name="orderFromDate" value="$generateStartDate"/>
+            <argument name="orderToDate" value="$generateEndDate"/>
+            <argument name="period" value="Year"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminSeeProductInBestsellersReportActionGroup" stepKey="seeProductInBestsellersReport">
+            <argument name="productName" value="$$simpleProduct.name$$"/>
+        </actionGroup>
+
+        <after>
+
+            <magentoCLI command="config:set {{DisableFlatRateConfigData.path}} {{DisableFlatRateConfigData.value}}" stepKey="disableFlatRate"/>
+            <magentoCLI command="config:set {{disabledCashOnDeliveryPayment.label}} {{disabledCashOnDeliveryPayment.value}}" stepKey="disableCashOnDelivery"/>
+
+            <deleteData createDataKey="simpleCustomer" stepKey="deleteSimpleCustomer"/>
+            <deleteData createDataKey="simpleProduct" stepKey="deleteSimpleProduct"/>
+
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="adminLogout"/>
+
+        </after>
+    </test>
+</tests>

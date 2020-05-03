@@ -13,12 +13,12 @@
         </annotations>
         <arguments>
             <argument name="reportName" type="string" defaultValue="Bestsellers"/>
-            <argument name="period" type="string" defaultValue="Refresh Lifetime Statistics"/>
+            <argument name="period" type="string" defaultValue="Refresh Statistics for the Last Day"/>
         </arguments>
 
         <click selector="{{RefreshStatisticsGridSection.report(reportName)}}" stepKey="checkBestsellers"/>
         <click selector="{{RefreshStatisticsGridSection.actionsSelect}}" stepKey="clickActionsSelect"/>
-        <click selector="{{RefreshStatisticsGridSection.actionsSelectOption('Refresh Lifetime Statistics')}}" stepKey="selectLifetimePeriod"/>
+        <click selector="{{RefreshStatisticsGridSection.actionsSelectOption(period)}}" stepKey="selectLifetimePeriod"/>
         <click selector="{{RefreshStatisticsGridSection.submitButton}}" stepKey="clickSubmitOnRefreshStatisticsForm"/>
         <waitForElementVisible selector="{{AdminConfirmationModalSection.ok}}" stepKey="waitingForInformationModal"/>
         <click selector="{{AdminConfirmationModalSection.ok}}" stepKey="clickOkOnConfirmationPopup"/>

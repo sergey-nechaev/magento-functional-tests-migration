@@ -8,11 +8,11 @@
 
 <tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
-    <test name="AdminBestsellerProductsReportForSimpleProductAnnualEntityTest">
+    <test name="AdminBestsellerProductsReportForSimpleProductDailyEntityTest">
         <annotations>
-            <title value="MAGETWO-28222: Check if Bestsellers report data are proper"/>
-            <stories value="Check if annual Bestsellers report displays recently ordered simple product"/>
-            <description value="Check if annual Bestsellers report displays recently ordered simple product"/>
+            <title value="MAGETWO-28222: Check Bestsellers report for recently ordered simple product (daily, do not show empty rows)"/>
+            <stories value="Check Bestsellers report for recently ordered simple product (daily, do not show empty rows)"/>
+            <description value="Check Bestsellers report for recently ordered simple product (daily, do not show empty rows)"/>
             <features value="Reports"/>
             <severity value="MAJOR"/>
             <group value="reports, mftf_migrated"/>
@@ -66,13 +66,13 @@
             <argument name="submenuUiId" value="{{AdminMenuReportsProductsBestsellers.dataUiId}}"/>
         </actionGroup>
 
-        <generateDate stepKey="generateStartDate" date="-1 year" format="m/d/Y"/>
+        <generateDate stepKey="generateStartDate" date="-1 day" format="m/d/Y"/>
         <generateDate stepKey="generateEndDate" date="+1 minute" format="m/d/Y"/>
 
         <actionGroup ref="AdminGenerateBestsellersReportActionGroup" stepKey="filterBestsellers">
             <argument name="orderFromDate" value="$generateStartDate"/>
             <argument name="orderToDate" value="$generateEndDate"/>
-            <argument name="period" value="Year"/>
+            <argument name="period" value="Day"/>
         </actionGroup>
 
         <actionGroup ref="AdminSeeProductInBestsellersReportActionGroup" stepKey="seeProductInBestsellersReport">

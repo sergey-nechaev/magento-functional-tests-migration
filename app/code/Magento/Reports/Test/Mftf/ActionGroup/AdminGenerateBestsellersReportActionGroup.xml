@@ -15,12 +15,15 @@
             <argument name="orderFromDate" type="string"/>
             <argument name="orderToDate" type="string"/>
             <argument name="period" type="string" defaultValue="Day"/>
+            <argument name="showEmptyRows" type="string" defaultValue="No"/>
         </arguments>
 
         <click selector="{{BestsellersReportFilterSection.periodSelect}}" stepKey="clickPeriodSelect"/>
         <click selector="{{BestsellersReportFilterSection.periodSelectOption(period)}}" stepKey="selectPeriod"/>
         <fillField selector="{{BestsellersReportFilterSection.dateFrom}}" userInput="{{orderFromDate}}" stepKey="fillFromDate"/>
         <fillField selector="{{BestsellersReportFilterSection.dateTo}}" userInput="{{orderToDate}}" stepKey="fillToDate"/>
+        <click selector="{{BestsellersReportFilterSection.showEmptyRowsSelect}}" stepKey="clickShowEmptyRowsSelect"/>
+        <click selector="{{BestsellersReportFilterSection.showEmptyRowsSelectOption(showEmptyRows)}}" stepKey="setShowEmptyRowsSelectValue"/>
         <click selector="{{BestsellersReportFilterSection.buttonShowReport}}" stepKey="clickShowReport"/>
         <waitForPageLoad stepKey="waitForReport"/>
 
