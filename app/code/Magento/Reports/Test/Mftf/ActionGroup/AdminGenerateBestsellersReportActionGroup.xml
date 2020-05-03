@@ -9,7 +9,7 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminGenerateBestsellersReportActionGroup">
         <annotations>
-            <description>Bestsellers report page. Enters the provided Order From/To Dates. Clicks on 'Show Report' button.</description>
+            <description>Bestsellers report page. Enters the provided Order From/To Dates, Period, Show Empty Rows select value. Clicks on 'Show Report' button.</description>
         </annotations>
         <arguments>
             <argument name="orderFromDate" type="string"/>
