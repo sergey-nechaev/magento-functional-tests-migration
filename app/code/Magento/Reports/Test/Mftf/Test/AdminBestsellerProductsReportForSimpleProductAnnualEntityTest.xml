@@ -58,7 +58,7 @@
         </actionGroup>
 
         <actionGroup ref="AdminRefreshStatisticsForReportActionGroup" stepKey="refreshStatisticsForBestsellers">
-            <argument name="Bestsellers"/>
+            <argument name="reportName" value="Bestsellers"/>
         </actionGroup>
 
         <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="navigateToBestsellersPage">
