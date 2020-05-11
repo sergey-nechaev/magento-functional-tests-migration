@@ -7,7 +7,6 @@
 -->
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <!--Check status and grand total for order number via order grid-->
     <actionGroup name="AssertAdminCheckOrderStatusAndGrandTotalInOrdersGridActionGroup"  extends="FilterOrderGridByIdActionGroup">
         <arguments>
             <argument name="status" type="string"/>
