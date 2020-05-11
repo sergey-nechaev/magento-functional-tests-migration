@@ -17,8 +17,6 @@
             <argument name="ruleName" type="string"/>
         </arguments>
 
-        <amOnPage url="{{AdminCartPriceRulesPage.url}}" stepKey="amOnCartPriceList"/>
-
         <conditionalClick selector="{{AdminDataGridHeaderSection.clearFilters}}" dependentSelector="{{AdminDataGridHeaderSection.clearFilters}}" visible="true" stepKey="clickClearFilters"/>
         <fillField selector="{{AdminCartPriceRulesSection.filterByNameInput}}" userInput="{{ruleName}}" stepKey="filterByName"/>
         <click selector="{{AdminCartPriceRulesSection.searchButton}}" stepKey="doFilter"/>

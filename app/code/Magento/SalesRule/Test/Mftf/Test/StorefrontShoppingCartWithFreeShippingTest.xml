@@ -87,7 +87,7 @@
 
         <actionGroup ref="StorefrontCartEstimateShippingAndTaxActionGroup" stepKey="expandEstimateShippingAndTax"/>
 
-        <actionGroup ref="StorefrontAssertShippingMethodNotPresentInCartActionGroup" stepKey="assertShippingMethodFreeShippingIsNotPresentInCart">
+        <actionGroup ref="AssertStorefrontShippingMethodNotPresentInCartActionGroup" stepKey="assertShippingMethodFreeShippingIsNotPresentInCart">
             <argument name="shippingMethod" value="Free Shipping"/>
         </actionGroup>
 
