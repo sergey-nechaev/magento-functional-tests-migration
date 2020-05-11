@@ -19,7 +19,6 @@
 
         <amOnPage url="{{AdminCartPriceRulesPage.url}}" stepKey="amOnCartPriceList"/>
 
-        <!-- open existing Cart Price Rule -->
         <conditionalClick selector="{{AdminDataGridHeaderSection.clearFilters}}" dependentSelector="{{AdminDataGridHeaderSection.clearFilters}}" visible="true" stepKey="clickClearFilters"/>
         <fillField selector="{{AdminCartPriceRulesSection.filterByNameInput}}" userInput="{{ruleName}}" stepKey="filterByName"/>
         <click selector="{{AdminCartPriceRulesSection.searchButton}}" stepKey="doFilter"/>
