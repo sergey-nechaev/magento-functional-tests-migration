@@ -10,7 +10,6 @@
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
    
     <actionGroup name="AdminChangeBillingAddressOnCreateOrderPageActionGroup">
-        <annotation> Select specified billing address on the Create Order page </annotation>
         <arguments>
             <argument name="address" type="string"/>
         </arguments>
