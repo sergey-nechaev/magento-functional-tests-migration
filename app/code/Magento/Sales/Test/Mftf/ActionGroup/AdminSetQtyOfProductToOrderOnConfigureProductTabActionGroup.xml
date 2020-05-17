@@ -18,7 +18,3 @@
         <fillField userInput="{{quantity}}" selector="{{AdminOrderFormConfigureProductSection.quantity}}" stepKey="fillQty"/>
     </actionGroup>
 </actionGroups>
-
-
-
-
