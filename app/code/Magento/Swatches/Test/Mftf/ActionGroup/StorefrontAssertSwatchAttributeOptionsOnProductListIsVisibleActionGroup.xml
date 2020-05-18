@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="StorefrontAssertSwatchAttributeOptionsOnProductListIsVisibleActionGroup">
+        <annotations>
+            <description>See that an element which contains product swatches is present on the category page</description>
+        </annotations>
+        <!-- See a block with swatches -->
+        <seeElement selector="{{StorefrontProductInfoMainSection.swatchAttributeOptionsOnList}}" stepKey="seeElementWithSwatches"/>
+    </actionGroup>
+</actionGroups>
