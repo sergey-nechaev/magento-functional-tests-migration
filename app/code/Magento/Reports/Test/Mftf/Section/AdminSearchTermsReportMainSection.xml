@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminSearchTermsReportMainSection">
+        <element name="gridRow" type="text" selector=".data-grid tbody > tr:nth-of-type({{row}})" parameterized="true"/>
+        <!--Specific cell e.g. {{Section.searchTermsReportsGridCell('1', 'Name')}}-->
+        <element name="searchTermsReportsGridCell" type="text" selector="//tr[{{row}}]//td[count(//*[@id='searchReportGrid']//tr//th[contains(., '{{column}}')]/preceding-sibling::th) +1 ]" parameterized="true"/>
+    </section>
+</sections>

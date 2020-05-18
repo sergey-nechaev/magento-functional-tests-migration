@@ -83,4 +83,9 @@
         <data key="title">Views</data>
         <data key="dataUiId">magento-reports-report-products-viewed</data>
     </entity>
+    <entity name="AdminMenuReportsSearchTerms">
+        <data key="pageTitle">Search Terms</data>
+        <data key="title">Search Terms</data>
+        <data key="dataUiId">magento-search-report-search-term</data>
+    </entity>
 </entities>
