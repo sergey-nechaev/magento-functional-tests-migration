@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontCheckoutWithPersistentShoppingCartTest">
+        <annotations>
+            <features value="Persistent Shopping Cart"/>
+            <stories value="Shopping Cart Persistence"/>
+            <title value="Checking behavior of Checkout with Persistent Shopping Cart when Clear Persistence on Sign Out is disabled"/>
+            <description value="Checking behavior of Checkout with Persistent Shopping Cart when Clear Persistence on Sign Out is disabled"/>
+            <severity value="MAJOR"/>
+            <group value="persistent"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
+            <!--Enable Persistence-->
+            <createData entity="PersistentConfigEnabled" stepKey="enablePersistent"/>
+            <createData entity="PersistentLogoutClearDisable" stepKey="persistentLogoutClearDisable"/>
+            <!-- Prepare Product -->
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+        </before>
+        <after>
+            <!--Roll-back Persistence-->
+            <createData entity="PersistentConfigDefault" stepKey="setDefaultPersistentState"/>
+            <createData entity="PersistentLogoutClearEnabled" stepKey="persistentLogoutClearEnabled"/>
+            <!-- Delete created customer -->
+            <actionGroup ref="DeleteCustomerByEmailActionGroup" stepKey="deleteNewUser">
+                <argument name="email" value="{{CustomerEntityOne.email}}"/>
+            </actionGroup>
+            <!-- Admin Logout -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="adminLogout"/>
+            <!-- Delete Product -->
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
+        </after>
+        <!-- Register a new customer account -->
+        <actionGroup ref="StorefrontOpenCustomerAccountCreatePageActionGroup" stepKey="openCreateAccountPage"/>
+        <actionGroup ref="StorefrontFillCustomerAccountCreationFormActionGroup" stepKey="fillCreateAccountForm">
+            <argument name="customer" value="CustomerEntityOne"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontClickCreateAnAccountCustomerAccountCreationFormActionGroup" stepKey="submitCreateAccountForm"/>
+        <!-- Add simple product to cart -->
+        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart1">
+            <argument name="product" value="$$createProduct$$"/>
+        </actionGroup>
+        <!-- Sign Out -->
+        <actionGroup ref="CustomerLogoutStorefrontByMenuItemsActionGroup" stepKey="storefrontCustomerLogout"/>
+        <!-- Go to checkout -->
+        <actionGroup ref="OpenStoreFrontCheckoutShippingPageActionGroup" stepKey="goToCheckoutPage"/>
+        <actionGroup ref="StorefrontAssertFirstStepOnCheckoutIsAvailableActionGroup" stepKey="assertCheckoutIsAvailable"/>
+    </test>
+</tests>
