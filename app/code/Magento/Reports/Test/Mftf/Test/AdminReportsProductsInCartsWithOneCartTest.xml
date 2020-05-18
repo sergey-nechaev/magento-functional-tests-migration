@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminReportsProductsInCartsWithOneCartTest">
+        <annotations>
+            <features value="Reports"/>
+            <stories value="Products in Cart Reports"/>
+            <title value="Products in Cart Reports - Variation with the product in one cart"/>
+            <description value="Verify that 'Products in Cart' Report show correct information when product was added to one cart"/>
+            <severity value="AVERAGE"/>
+            <group value="reports"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="Simple_US_Customer" stepKey="createCustomer"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createCustomer" stepKey="deleteCustomer"/>
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutAdmin"/>
+        </after>
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="logInFromCustomer">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAddSimpleProductToShoppingCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createProduct$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="customerLogoutStorefront"/>
+        <actionGroup ref="AdminOpenReportProductsInCartsPageActionGroup" stepKey="navigateToReportsProductsInCartPage"/>
+        <actionGroup ref="AdminAssertProductPresentOnProductsInCartsReportActionGroup" stepKey="assertProductIsPresent">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <grabTextFrom selector="{{AdminReportProductsInCartsGridSection.productsInCartsReportsGridCell($$createProduct.name$$, 'Carts')}}" stepKey="grabCartsNumberFromGrid"/>
+        <assertEquals expected="1" expectedType="string" actual="$grabCartsNumberFromGrid" stepKey="assertCartsNumberInGridIsCorrect"/>
+    </test>
+</tests>

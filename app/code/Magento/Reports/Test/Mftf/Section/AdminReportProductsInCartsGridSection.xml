@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminReportProductsInCartsGridSection">
+        <!-- Grid cell with a product name e.g. {{Section.productsInCartsReportsGridCell('ProductName')}} -->
+        <element name="productsInCartsReportsProductGridCell" type="text" selector="//div[@id='gridProducts']//td[contains(., '{{productName}}')]" parameterized="true"/>
+        <!-- Specific cell e.g. {{Section.productsInCartsReportsGridCell('ProductName', 'ColumnName')}} -->
+        <element name="productsInCartsReportsGridCell" type="text" selector="//div[@id='gridProducts']//td[contains(., '{{productName}}')]/ancestor::tr//td[count(//th[contains(., '{{columnName}}')]/preceding-sibling::th) + 1]" parameterized="true"/>
+    </section>
+</sections>
