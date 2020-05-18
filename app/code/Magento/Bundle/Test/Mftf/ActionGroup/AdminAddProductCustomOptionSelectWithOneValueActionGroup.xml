@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Add Custom Options In Bundle Product -->
+    <actionGroup name="AdminAddProductCustomOptionSelectWithOneValueActionGroup">
+        <arguments>
+            <argument name="option"/>
+        </arguments>
+        <conditionalClick selector="{{AdminProductCustomizableOptionsSection.customizableOptions}}" dependentSelector="{{AdminProductCustomizableOptionsSection.addOptionBtn}}" visible="false" stepKey="openCustomOptionSection"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.addOptionBtn}}" stepKey="clickAddOption"/>
+        <waitForElementVisible selector="{{AdminProductCustomizableOptionsSection.lastOptionTitle}}" stepKey="waitForOption"/>
+        <fillField selector="{{AdminProductCustomizableOptionsSection.lastOptionTitle}}" userInput="{{option.optionTitle}}" stepKey="fillOptionTitle"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.lastOptionTypeParent}}" stepKey="openTypeSelect"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.optionType(option.optionType)}}" stepKey="selectTypeFile"/>
+        <click selector="{{AdminProductCustomizableOptionsSection.addValue}}" stepKey="addFirstValue"/>
+        <waitForElementVisible selector="{{AdminProductCustomizableOptionsSection.valueTitle}}" stepKey="waitForElements"/>
+        <fillField selector="{{AdminProductCustomizableOptionsSection.valueTitle}}" userInput="{{option.valueTitle}}" stepKey="fillValueTitle"/>
+        <fillField selector="{{AdminProductCustomizableOptionsSection.valuePrice}}" userInput="{{option.valuePrice}}" stepKey="fillPrice"/>
+        <selectOption selector="{{AdminProductFormBundleSection.priceTypeOptionValue}}" userInput="{{option.valuePriceType}}" stepKey="selectPriceTypeForValue"/>
+        <fillField selector="{{AdminProductFormBundleSection.skuOptionValue}}" userInput="{{option.valueSku}}" stepKey="fillSkuValue"/>
+    </actionGroup>
+</actionGroups>

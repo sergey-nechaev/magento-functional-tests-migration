@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Add Bundle Product to Cart from Product Page with Custom And Bundle Options-->
+    <actionGroup name="StorefrontAddBundleProductWithCustomOptionsToCartActionGroup">
+        <arguments>
+            <argument name="product"/>
+            <argument name="bundleOptionItem"/>
+            <argument name="customBundleOptionValueTitle"/>
+        </arguments>
+        <amOnPage url="{{product.urlKey}}.html" stepKey="navigateToProductPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+        <click selector="{{StorefrontBundledSection.addToCart}}" stepKey="clickCustomizeAndAddToCart"/>
+        <waitForElementVisible selector="{{StorefrontBundledSection.bundleOptionsItemSelect(bundleOptionItem)}}" stepKey="waitForElementVisible"/>
+        <selectOption selector="{{StorefrontBundledSection.bundleOptionsItemSelect(bundleOptionItem)}}" userInput="{{bundleOptionItem}}" stepKey="selectBundleOptionItem"/>
+        <selectOption selector="{{StorefrontBundledSection.bundleCustomOption(customBundleOptionValueTitle)}}" userInput="{{customBundleOptionValueTitle}}" stepKey="selectBundleCustomOption"/>
+        <click selector="{{StorefrontBundledSection.addToCartConfigured}}" stepKey="clickAddBundleProductToCart"/>
+        <waitForElementVisible selector="{{StorefrontMinicartSection.productCount}}" stepKey="waitProductCount"/>
+        <see userInput="You added {{product.name}} to your shopping cart." selector="{{StorefrontMessagesSection.success}}" stepKey="seeSuccessMessage"/>
+    </actionGroup>
+</actionGroups>

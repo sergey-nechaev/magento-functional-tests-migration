@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+    <entity name="bundleFixed100" type="priceRange">
+        <data key="priceFrom">110.00</data>
+        <data key="priceTo">120.00</data>
+    </entity>
+    <entity name="bundleFixed51" type="priceRange">
+        <data key="priceFrom">51.00</data>
+        <data key="priceTo">52.00</data>
+        <data key="regularPrice">135.00</data>
+    </entity>
+    <entity name="bundleFixed110" type="priceRange">
+        <data key="priceFrom">159.00</data>
+        <data key="priceTo">164.00</data>
+        <data key="cartPrice">159.00</data>
+    </entity>
+    <entity name="bundleFixed10" type="priceRange">
+        <data key="priceFrom">10.00</data>
+        <data key="priceTo">100.00</data>
+        <data key="cartPrice">80.00</data>
+    </entity>
+    <entity name="bundleFixed15" type="priceRange">
+        <data key="priceFrom">15.00</data>
+        <data key="priceTo">16.00</data>
+        <data key="cartPrice">80.00</data>
+    </entity>
+</entities>

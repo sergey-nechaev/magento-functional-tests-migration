@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Open Product Form and Assert Product SKU, Name, Price And Bundle Option Title, Type, Products -->
+    <actionGroup name="AssertProductFormInAdminWithBundleOptionActionGroup" extends="filterProductGridBySku">
+        <arguments>
+            <argument name="product" defaultValue="_defaultProduct"/>
+            <argument name="x" type="string"/>
+            <argument name="optionTitle" type="string"/>
+            <argument name="inputType" type="string"/>
+            <argument name="prodOneSku" type="string"/>
+            <argument name="prodTwoSku" type="string"/>
+        </arguments>
+        <click selector="{{AdminProductGridSection.productGridNameProduct(product.name)}}" stepKey="openProductForm"/>
+        <waitForPageLoad stepKey="waitForPageProductFormLoad"/>
+        <seeInField selector="{{AdminProductFormSection.productName}}"
+                    userInput="{{product.name}}" stepKey="seeProductName"/>
+        <seeInField selector="{{AdminProductFormSection.productSku}}"
+                    userInput="{{product.sku}}" stepKey="seeProductSku"/>
+        <seeInField selector="{{AdminProductFormSection.productPrice}}"
+                    userInput="{{product.price}}" stepKey="seeProductPrice"/>
+        <seeInField selector="{{AdminProductFormBundleSection.bundleOptionXTitle(x)}}" userInput="{{optionTitle}}" stepKey="seeBundleOptionTitle"/>
+        <seeOptionIsSelected selector="{{AdminProductFormBundleSection.bundleOptionXInputType(x)}}" userInput="{{inputType}}" stepKey="seeBundleOptionType"/>
+        <see selector="{{AdminProductFormBundleSection.bundleOptionsTable}}" userInput="{{prodOneSku}}" stepKey="seeBundleOptionFirstProduct"/>
+        <see selector="{{AdminProductFormBundleSection.bundleOptionsTable}}" userInput="{{prodTwoSku}}" stepKey="seeBundleOptionSecondProduct"/>
+    </actionGroup>
+</actionGroups>

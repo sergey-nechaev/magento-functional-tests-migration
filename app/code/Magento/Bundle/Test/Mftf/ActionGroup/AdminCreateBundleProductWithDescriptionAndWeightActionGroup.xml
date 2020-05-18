@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Fill Product Description, Disable Dynamic Weight And Fill Filed -->
+    <actionGroup name="AdminCreateBundleProductWithDescriptionAndWeightActionGroup" extends="AdminCreateBundleProductActionGroup">
+        <scrollTo selector="{{AdminProductFormBundleSection.weightField}}" stepKey="scrollWeightField"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicWeightToggle}}" dependentSelector="{{AdminProductFormBundleSection.dynamicWeightToggleOff}}" visible="false" stepKey="disableDynamicWeight"/>
+        <fillField selector="{{AdminProductFormBundleSection.weightField}}" userInput="{{bundleProduct.weight}}" stepKey="fillProductWeight"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.contentDropDown}}" dependentSelector="{{AdminProductFormBundleSection.shortDescription}}" visible="false" stepKey="openContentTabIfClosed"/>
+        <fillField userInput="{{bundleProduct.description}}" selector="{{AdminProductFormBundleSection.shortDescription}}" stepKey="FillDescription"/>
+    </actionGroup>
+</actionGroups>

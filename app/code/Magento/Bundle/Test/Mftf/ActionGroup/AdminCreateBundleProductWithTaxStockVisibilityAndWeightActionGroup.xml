@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Select Tax Class, Stock Status, Visibility, Disable Dynamic Weight And Fill Filed -->
+    <actionGroup name="AdminCreateBundleProductWithTaxStockVisibilityAndWeightActionGroup" extends="AdminCreateBundleProductActionGroup">
+        <selectOption selector="{{AdminProductFormBundleSection.taxClassDropDown}}" userInput="{{bundleProduct.tax_class_id}}" stepKey="selectTaxClass"/>
+        <selectOption selector="{{AdminProductFormBundleSection.stockStatusField}}" userInput="{{bundleProduct.status}}" stepKey="selectStockStatus"/>
+        <selectOption selector="{{AdminProductFormBundleSection.visibilityDropDown}}" userInput="{{bundleProduct.visibility}}" stepKey="selectVisibility"/>
+        <conditionalClick selector="{{AdminProductFormBundleSection.dynamicWeightToggle}}" dependentSelector="{{AdminProductFormBundleSection.dynamicWeightToggleOff}}" visible="false" stepKey="disableDynamicWeight"/>
+        <fillField selector="{{AdminProductFormBundleSection.weightField}}" userInput="{{bundleProduct.weight}}" stepKey="fillProductWeight"/>
+    </actionGroup>
+</actionGroups>

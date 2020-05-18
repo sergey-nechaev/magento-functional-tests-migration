@@ -152,4 +152,144 @@
         <requiredEntity type="custom_attribute">CustomAttributeFixWeight</requiredEntity>
         <requiredEntity type="custom_attribute">CustomAttributeFixSku</requiredEntity>
     </entity>
+    <entity name="BundleProductFixedPriceAndSku" type="product">
+        <data key="name" unique="suffix">Bundle Fixed</data>
+        <data key="sku" unique="suffix">sku_bundle_fixed_</data>
+        <data key="type_id">bundle</data>
+        <data key="attribute_set_id">4</data>
+        <data key="status">1</data>
+        <data key="urlKey" unique="suffix">bundle-product-</data>
+        <data key="default_quantity">100</data>
+        <data key="quantity">100</data>
+        <data key="set">4</data>
+        <data key="type">bundle</data>
+        <data key="price">10</data>
+        <data key="fixedPriceFormatted">$10.00</data>
+        <data key="defaultAttribute">Default</data>
+    </entity>
+    <entity name="BundleProductFixedPriceAndSku100Dollars" type="product">
+        <data key="name" unique="suffix">Bundle Fixed</data>
+        <data key="sku" unique="suffix">sku_bundle_fixed_</data>
+        <data key="type_id">bundle</data>
+        <data key="attribute_set_id">4</data>
+        <data key="status">1</data>
+        <data key="urlKey" unique="suffix">bundle-product-</data>
+        <data key="default_quantity">100</data>
+        <data key="quantity">100</data>
+        <data key="set">4</data>
+        <data key="type">bundle</data>
+        <data key="price">100</data>
+        <data key="special_price">20.00</data>
+        <data key="tax_class_id">2</data>
+        <data key="fixedPriceFormatted">$100.00</data>
+        <data key="defaultAttribute">Default</data>
+    </entity>
+    <entity name="BundleProductFixedPriceAndSku110Dollars" type="product">
+        <data key="name" unique="suffix">Bundle Fixed</data>
+        <data key="sku" unique="suffix">sku_bundle_fixed_</data>
+        <data key="type_id">bundle</data>
+        <data key="attribute_set_id">4</data>
+        <data key="status">1</data>
+        <data key="urlKey" unique="suffix">bundle-product-</data>
+        <data key="default_quantity">100</data>
+        <data key="quantity">100</data>
+        <data key="set">4</data>
+        <data key="type">bundle</data>
+        <data key="price">110</data>
+        <data key="fixedPriceFormatted">$110.00</data>
+        <data key="defaultAttribute">Default</data>
+    </entity>
+    <entity name="BundleProductOutOfStock" type="product">
+        <data key="name" unique="suffix">Bundle Product </data>
+        <data key="sku" unique="suffix">bundle_sku_</data>
+        <data key="type_id">bundle</data>
+        <data key="attribute_set_id">4</data>
+        <data key="visibility">2</data>
+        <data key="status">0</data>
+        <data key="weight">10</data>
+        <data key="storefrontStatus">OUT OF STOCK</data>
+        <data key="urlKey" unique="suffix">bundle-product-</data>
+        <data key="default_quantity">100</data>
+        <data key="quantity">100</data>
+        <data key="set">4</data>
+        <data key="type">bundle</data>
+        <data key="price">10</data>
+        <data key="tax_class_id">2</data>
+        <data key="fixedPriceFormatted">$10.00</data>
+        <data key="defaultAttribute">Default</data>
+    </entity>
+    <entity name="BundleProduct10Dollars" type="product">
+        <data key="name" unique="suffix">Bundle Product </data>
+        <data key="sku" unique="suffix">bundle_sku_</data>
+        <data key="type_id">bundle</data>
+        <data key="attribute_set_id">4</data>
+        <data key="status">1</data>
+        <data key="weight">10</data>
+        <data key="urlKey" unique="suffix">bundle-product-</data>
+        <data key="default_quantity">100</data>
+        <data key="quantity">100</data>
+        <data key="set">4</data>
+        <data key="type">bundle</data>
+        <data key="price">10</data>
+        <data key="description">Bundle Product Fixed Required</data>
+        <data key="fixedPriceFormatted">$10.00</data>
+        <data key="defaultAttribute">Default</data>
+    </entity>
+    <!-- Data For Using Simple Products in Tests -->
+    <entity name="SimpleProduct100Dollars" type="product">
+        <data key="sku" unique="suffix">Simple_Product_100_Dollars</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="name" unique="suffix">Simple Product 100 Dollars</data>
+        <data key="price">100.00</data>
+        <data key="visibility">4</data>
+        <data key="status">1</data>
+        <data key="quantity">100</data>
+        <data key="urlKey" unique="suffix">simple-product-100-dollars</data>
+        <data key="weight">1</data>
+        <requiredEntity type="product_extension_attribute">EavStock100</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
+    <entity name="SimpleProduct40Dollars" type="product">
+        <data key="sku" unique="suffix">Simple_Product_40_Dollars</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="name" unique="suffix">Simple Product 40 Dollars</data>
+        <data key="price">40.00</data>
+        <data key="visibility">4</data>
+        <data key="status">1</data>
+        <data key="quantity">100</data>
+        <data key="urlKey" unique="suffix">simple-product-40-dollars</data>
+        <data key="weight">1</data>
+        <requiredEntity type="product_extension_attribute">EavStock100</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
+    <entity name="SimpleProduct10Dollars" type="product">
+        <data key="sku" unique="suffix">Simple_Product_10_Dollars</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="name" unique="suffix">Simple Product 10 Dollars</data>
+        <data key="price">10.00</data>
+        <data key="visibility">4</data>
+        <data key="status">1</data>
+        <data key="quantity">100</data>
+        <data key="urlKey" unique="suffix">simple-product-10-dollars</data>
+        <data key="weight">1</data>
+        <requiredEntity type="product_extension_attribute">EavStock100</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
+    <entity name="SimpleProductOutOfStock" type="product">
+        <data key="sku" unique="suffix">Simple_Product_Out_Of_Stock</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="name" unique="suffix">Simple Product Out Of Stock</data>
+        <data key="price">40.00</data>
+        <data key="visibility">4</data>
+        <data key="status">0</data>
+        <data key="quantity">100</data>
+        <data key="urlKey" unique="suffix">simple-product-out-of-stock</data>
+        <data key="weight">1</data>
+        <requiredEntity type="product_extension_attribute">EavStock100</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
 </entities>
