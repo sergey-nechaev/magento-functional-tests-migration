@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="CreateDuplicateUrlCmsPageEntityTest">
+        <annotations>
+            <features value="Cms"/>
+            <title value="Create Duplicate Url CMS Content Page"/>
+            <description value="Create Duplicate Url CMS Content Page"/>
+            <group value="cMSContent"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <actionGroup ref="LoginActionGroup" stepKey="loginGetFromGeneralFile"/>
+        </before>
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+        <actionGroup ref="CreateNewPageWithDuplicateUrlActionGroup" stepKey="CreateNewPageWithDuplicateUrlActionGroup">
+            <argument name="PageTitle" value="Page title"/>
+            <argument name="UrlKey" value="no-route"/>
+        </actionGroup>
+        <actionGroup ref="VerifySaveCMSPageFailureOnDuplicationUrlActionGroup" stepKey="FailureSavedCMSPageMsgOnGrid"/>
+    </test>
+</tests>
