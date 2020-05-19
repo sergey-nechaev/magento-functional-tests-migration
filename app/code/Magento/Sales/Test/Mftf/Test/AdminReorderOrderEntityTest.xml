@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminReorderOrderEntityTest">
+
+        <annotations>
+            <title value="Reorder Order from Admin for Offline Payment Methods"/>
+            <stories value="Reorder Order from Admin for Offline Payment Methods"/>
+            <description value="Reorder placed order (update products, billing address)."/>
+            <features value="Sales"/>
+            <severity value="MAJOR"/>
+            <group value="Sales, mftf_migrated"/>
+        </annotations>
+
+        <before>
+            <magentoCLI command="config:set {{EnableFlatRateConfigData.path}} {{EnableFlatRateConfigData.value}}" stepKey="enableFlatRate"/>
+            <magentoCLI command="config:set {{enabledCashOnDeliveryPayment.label}} {{enabledCashOnDeliveryPayment.value}}" stepKey="enableCashOnDelivery"/>
+
+            <createData entity="Simple_US_Customer_Two_Addresses" stepKey="simpleCustomer"/>
+
+            <createData entity="SimpleProduct2" stepKey="simpleProduct1">
+                <field key="price">50.99</field>
+            </createData>
+            <createData entity="SimpleProduct2" stepKey="simpleProduct2">
+                <field key="price">60.99</field>
+            </createData>
+
+            <createData entity="ApiSalesRule" stepKey="createCartPriceRule"/>
+
+            <createData entity="SimpleSalesRuleCoupon" stepKey="createCouponForCartPriceRule">
+                <requiredEntity createDataKey="createCartPriceRule"/>
+            </createData>
+
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+
+            <magentoCron stepKey="runCronIndex" groups="index"/>
+
+        </before>
+
+        <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="navigateToNewOrderWithExistingCustomer">
+            <argument name="customer" value="$$simpleCustomer$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSimpleProduct1ToOrder">
+            <argument name="product" value="$$simpleProduct1$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSimpleProduct2ToOrder">
+            <argument name="product" value="$$simpleProduct2$$"/>
+        </actionGroup>
+
+        <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
+
+        <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="orderSelectFlatRateShippingMethod"/>
+
+        <actionGroup ref="AdminApplyCouponToOrderActionGroup" stepKey="applyCoupon">
+            <argument name="couponCode" value="$$createCouponForCartPriceRule.code$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
+
+        <actionGroup ref="VerifyCreatedOrderInformationActionGroup" stepKey="verifyCreatedOrderInformation"/>
+
+        <grabTextFrom selector="|Order # (\d+)|" stepKey="getOrderId"/>
+
+        <actionGroup ref="AssertOrderButtonsAvailableActionGroup" stepKey="verifyAllButtonsAvailable"/>
+
+        <actionGroup ref="AdminOpenReorderPageActionGroup" stepKey="reorderOrder"/>
+
+        <actionGroup ref="AdminAssertPageTitleActionGroup" stepKey="checkPageTitle">
+            <argument name="title" value="Create New Order"/>
+        </actionGroup>
+
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addOneMoreSimpleProduct1ToOrder">
+            <argument name="product" value="$$simpleProduct1$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminChangeBillingAddressOnCreateOrderPageActionGroup" stepKey="changeBillingAddress">
+            <argument name="address" value="{{US_Address_NY_Not_Default_Address.state}}"/>
+        </actionGroup>
+
+        <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="selectFlatRateShippingMethodForReorder"/>
+
+        <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectPaymentMethodForReorder"/>
+
+        <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitReorder"/>
+
+        <actionGroup ref="VerifyCreatedOrderInformationActionGroup" stepKey="verifyCreatedReorderInformation"/>
+        <grabTextFrom selector="|Order # (\d+)|" stepKey="getReorderId"/>
+
+        <actionGroup ref="AssertOrderButtonsAvailableActionGroup" stepKey="verifyAllButtonsAvailableForReorder"/>
+
+        <actionGroup ref="AssertAdminCheckOrderStatusAndGrandTotalInOrdersGridActionGroup" stepKey="verifyOrderStatusAndGrandTotal">
+            <argument name="orderId" value="$getOrderId"/>
+            <argument name="status" value="Pending"/>
+            <argument name="grandTotal" value="110.78"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertAdminCheckOrderStatusAndGrandTotalInOrdersGridActionGroup" stepKey="verifyReorderStatusAndGrandTotal">
+            <argument name="orderId" value="$getReorderId"/>
+            <argument name="status" value="Pending"/>
+            <argument name="grandTotal" value="161.67"/>
+        </actionGroup>
+
+        <after>
+
+            <magentoCLI command="config:set {{DisableFlatRateConfigData.path}} {{DisableFlatRateConfigData.value}}" stepKey="disableFlatRate"/>
+            <magentoCLI command="config:set {{disabledCashOnDeliveryPayment.label}} {{disabledCashOnDeliveryPayment.value}}" stepKey="disableCashOnDelivery"/>
+
+            <deleteData createDataKey="simpleCustomer" stepKey="deleteSimpleCustomer"/>
+            <deleteData createDataKey="simpleProduct1" stepKey="deleteSimpleProduct1"/>
+            <deleteData createDataKey="simpleProduct2" stepKey="deleteSimpleProduct2"/>
+
+            <deleteData createDataKey="createCartPriceRule" stepKey="deleteCartPriceRule"/>
+
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="adminLogout"/>
+        </after>
+    </test>
+</tests>
