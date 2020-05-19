@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAssertProductIsPresentInCustomerBackendWishlistActionGroup">
+        <arguments>
+            <argument name="customer" type="entity"/>
+            <argument name="product" type="entity"/>
+        </arguments>
+        <amOnPage url="{{AdminEditCustomerPage.url(customer.id)}}" stepKey="amOnCustomersPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad"/>
+        <click selector="{{WishlistGeneralSection.WishlistTab}}" stepKey="clickWishlistTab"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <see selector="{{WishlistGeneralSection.productNameInGrid}}" userInput="{{product.name}}" stepKey="seeProductInWishlist"/>
+    </actionGroup>
+</actionGroups>
