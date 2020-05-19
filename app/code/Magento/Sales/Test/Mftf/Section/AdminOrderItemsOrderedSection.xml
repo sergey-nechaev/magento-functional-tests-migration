@@ -32,6 +32,7 @@
         <element name="originalPriceColumn" type="text" selector=".edit-order-table .col-original-price .price"/>
         <element name="priceColumn" type="text" selector=".edit-order-table .col-price .price"/>
         <element name="qtyColumn" type="text" selector=".edit-order-table .col-ordered-qty .qty-table"/>
+        <element name="qtyColumnPerProduct" type="text" selector="//div[contains(text(),'{{product}}')]/parent::td[@class='col-product']/following-sibling::td[@class='col-ordered-qty']" parameterized="true"/>
         <element name="subtotalColumn" type="text" selector=".edit-order-table .col-subtotal .price"/>
         <element name="taxAmountColumn" type="text" selector=".edit-order-table .col-tax-amount .price"/>
         <element name="taxPercentColumn" type="text" selector=".edit-order-table .col-tax-percent"/>
