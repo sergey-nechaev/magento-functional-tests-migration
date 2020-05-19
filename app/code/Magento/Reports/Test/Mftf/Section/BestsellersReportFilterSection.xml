@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="BestsellersReportFilterSection">
+        <element name="periodSelect" type="select" selector="//select[@id='sales_report_period_type']"/>
+        <element name="periodSelectOption" type="select" selector="//select[@id='sales_report_period_type']/option[contains(text(),'{{period}}')]" parameterized="true"/>
+        <element name="dateFrom" type="input" selector="//input[@name='from']"/>
+        <element name="dateTo" type="input" selector="//input[@name='to']"/>
+        <element name="buttonShowReport" type="button" selector="//button[@id='filter_form_submit']"/>
+        <element name="showEmptyRowsSelect" type="select" selector="//select[@id='sales_report_show_empty_rows']"/>
+        <element name="showEmptyRowsSelectOption" type="select" selector="//select[@id='sales_report_show_empty_rows']/option[contains(text(),'{{showEmptyRows}}')]" parameterized="true"/>
+
+    </section>
+</sections>
