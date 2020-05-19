@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontProductsCountInLayeredNavigationWithDisabledFromProductEditPageProductsTest">
+
+        <annotations>
+            <features value="Layered Navigation"/>
+            <stories value="Check configurable products count with disabled from edit page products"/>
+            <title value="Check configurable products count with disabled from edit page products"/>
+            <description value="Storefront Layered navigation with disabled from edit page configurable children"/>
+            <severity value="MAJOR"/>
+            <testCaseId value="MAGETWO-90123"/>
+            <group value="layeredNavigation"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+
+            <createData entity="SubCategoryNonAnchor" stepKey="createCategory1">
+                <field key="name">Test1</field>
+                <field key="parent_id">0</field>
+            </createData>
+            <createData entity="SubCategoryWithParent" stepKey="createCategory2">
+                <field key="name">Test2</field>
+                <requiredEntity createDataKey="createCategory1"/>
+            </createData>
+            <createData entity="SubCategoryNonAnchor" stepKey="createCategory3">
+                <field key="name">Test3</field>
+                <requiredEntity createDataKey="createCategory2"/>
+            </createData>
+            <createData entity="SubCategoryWithParent" stepKey="createCategory4">
+                <field key="name">Test4</field>
+                <requiredEntity createDataKey="createCategory3"/>
+            </createData>
+
+            <createData entity="ApiConfigurableProduct" stepKey="createConfigProduct1">
+                <requiredEntity createDataKey="createCategory4"/>
+            </createData>
+
+            <createData entity="productAttributeWithTwoOptions" stepKey="createConfigProduct1Attribute"/>
+
+            <createData entity="productAttributeOption1" stepKey="createConfigProduct1AttributeOption1">
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+            </createData>
+            <createData entity="productAttributeOption2" stepKey="createConfigProduct1AttributeOption2">
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+            </createData>
+
+            <createData entity="AddToDefaultSet" stepKey="createConfigAddToAttributeSet">
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+            </createData>
+
+            <getData entity="ProductAttributeOptionGetter" index="1" stepKey="getConfig1AttributeOption1">
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+            </getData>
+            <getData entity="ProductAttributeOptionGetter" index="2" stepKey="getConfig1AttributeOption2">
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+            </getData>
+
+            <createData entity="ApiSimpleOne" stepKey="createConfig1ChildProduct1">
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+                <requiredEntity createDataKey="getConfig1AttributeOption1"/>
+            </createData>
+            <createData entity="ApiSimpleTwo" stepKey="createConfig1ChildProduct2">
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+                <requiredEntity createDataKey="getConfig1AttributeOption2"/>
+            </createData>
+
+            <createData entity="ConfigurableProductTwoOptions" stepKey="createConfigProduct1Option1">
+                <requiredEntity createDataKey="createConfigProduct1"/>
+                <requiredEntity createDataKey="createConfigProduct1Attribute"/>
+                <requiredEntity createDataKey="getConfig1AttributeOption1"/>
+                <requiredEntity createDataKey="getConfig1AttributeOption2"/>
+            </createData>
+            <createData entity="ConfigurableProductAddChild" stepKey="createConfigProduct1AddChild1">
+                <requiredEntity createDataKey="createConfigProduct1"/>
+                <requiredEntity createDataKey="createConfig1ChildProduct1"/>
+            </createData>
+            <createData entity="ConfigurableProductAddChild" stepKey="createConfigProduct1AddChild2">
+                <requiredEntity createDataKey="createConfigProduct1"/>
+                <requiredEntity createDataKey="createConfig1ChildProduct2"/>
+            </createData>
+
+            <magentoCron stepKey="runCronIndex" groups="index"/>
+
+        </before>
+
+        <after>
+            <deleteData createDataKey="createCategory4" stepKey="deleteCategory4"/>
+            <deleteData createDataKey="createCategory3" stepKey="deleteCategory3"/>
+            <deleteData createDataKey="createCategory2" stepKey="deleteCategory2"/>
+            <deleteData createDataKey="createCategory1" stepKey="deleteCategory1"/>
+
+            <deleteData createDataKey="createConfigProduct1" stepKey="deleteProduct1"/>
+            <deleteData createDataKey="createConfig1ChildProduct1" stepKey="deleteConfig1ChildProduct1"/>
+            <deleteData createDataKey="createConfig1ChildProduct2" stepKey="deleteConfig1ChildProduct2"/>
+
+            <deleteData createDataKey="createConfigProduct1Attribute" stepKey="deleteConfigProductAttribute"/>
+
+            <magentoCron stepKey="runCronIndex" groups="index"/>
+        </after>
+
+        <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+
+        <actionGroup ref="AdminProductPageOpenByIdActionGroup" stepKey="openProductEditPage">
+            <argument name="productId" value="$$createConfigProduct1.id$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminConfigurableProductDisableConfigurationsActionGroup" stepKey="disableChildProduct1">
+            <argument name="productName" value="$$getConfig1AttributeOption1.label$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminConfigurableProductDisableConfigurationsActionGroup" stepKey="disableChildProduct2">
+            <argument name="productName" value="$$getConfig1AttributeOption2.label$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminFormSaveAndCloseActionGroup" stepKey="saveProduct"/>
+
+        <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory1Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontProductsCountForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory2">
+            <argument name="count" value="0"/>
+            <argument name="attributeName" value="$$createCategory2.name$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontAttributesCountForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationCount1">
+            <argument name="count" value="1"/>
+            <argument name="shoppingOption" value="Category"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory3Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$/$$createCategory2.name$$/$$createCategory3.name$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontProductsCountForAttributeInLayeredNavigationActionGroup" stepKey="checkNoProductsInCategory4">
+            <argument name="count" value="0"/>
+            <argument name="attributeName" value="$$createCategory4.name$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontAttributesCountForShoppingOptionInLayeredNavigationActionGroup" stepKey="checkCategoriesInLayeredNavigationCount2">
+            <argument name="count" value="1"/>
+            <argument name="shoppingOption" value="Category"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory2Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$/$$createCategory2.name$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontCategoryIsEmptyActionGroup" stepKey="seeEmptyNoticeCategory2"/>
+
+        <actionGroup ref="StorefrontOpenCategoryPageByURLActionGroup" stepKey="openCategory4Page">
+            <argument name="categoryURL" value="$$createCategory1.name$$/$$createCategory2.name$$/$$createCategory3.name$$/$$createCategory4.name$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontCategoryIsEmptyActionGroup" stepKey="seeEmptyNoticeCategory4"/>
+
+    </test>
+</tests>
