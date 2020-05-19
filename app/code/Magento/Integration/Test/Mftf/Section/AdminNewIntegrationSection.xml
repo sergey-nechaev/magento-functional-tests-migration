@@ -16,6 +16,7 @@
         <element name="save" type="button" selector=".page-actions-buttons .save"/>
         <element name="allow" type="button" selector=".page-actions-buttons .action-primary"/>
         <element name="resourcesPopup" type="block" selector="#modal-content-17 #integration-popup-container"/>
+        <element name="tokensPopup" type="block" selector="#modal-content-20 #integration_token_base_fieldset"/>
         <element name="consumerKey" type="input" selector=".admin__field-control.control #integration_token_consumer_key"/>
         <element name="consumerSecret" type="input" selector=".admin__field-control.control #integration_token_consumer_secret"/>
         <element name="accessToken" type="input" selector=".admin__field-control.control #integration_token_token"/>

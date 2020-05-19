@@ -13,4 +13,9 @@
         <data key="resourceAccess">All</data>
         <data key="resources">[]</data>
     </entity>
+    <entity name="IntegrationConstant">
+        <data key="name">Test Integration</data>
+        <data key="resourceAccess">All</data>
+        <data key="resources">[]</data>
+    </entity>
 </entities>
