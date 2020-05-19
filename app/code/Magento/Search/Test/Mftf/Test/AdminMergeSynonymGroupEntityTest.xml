@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminMergeSynonymGroupEntityTest">
+        <annotations>
+            <features value="Search"/>
+            <title value="Admin merge synonym group test"/>
+            <description value="Convert merge synonym group test"/>
+            <group value="search"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <!-- Login as admin -->
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+        <after>
+            <!-- Logout -->
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+        <!-- Create synonym -->
+        <actionGroup ref="AdminCreateSynonymWithMergeActionGroup" stepKey="CreateSynonym"/>
+        <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="checkSynonymSuccess1">
+            <argument name="message" value="You saved the synonym group."/>
+        </actionGroup>
+        <!-- Create duplicate synonym -->
+        <actionGroup ref="AdminCreateSynonymWithMergeActionGroup" stepKey="CreateMergeSynonym"/>
+        <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="checkSynonymSuccess2">
+            <argument name="message" value="You saved the synonym group."/>
+        </actionGroup>
+        <!-- Save duplicate synonym without marge -->
+        <actionGroup ref="AdminCreateSynonymActionGroup" stepKey="CreateDuplicatedSynonym"/>
+        <actionGroup ref="AssertMessageInAdminPanelActionGroup" stepKey="checkSynonymFail" >
+            <argument name="messageType" value="error" />
+            <argument name="message" value='The terms you entered, (test), belong to 1 existing synonym group, (test).
+            Select the "Merge existing synonyms" checkbox so the terms can be merged.' />
+        </actionGroup>
+    </test>
+</tests>
