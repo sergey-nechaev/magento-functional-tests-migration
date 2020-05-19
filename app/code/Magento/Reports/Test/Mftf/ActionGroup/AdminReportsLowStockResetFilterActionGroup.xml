@@ -1,0 +1,15 @@
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!--Reset the product grid to the default view-->
+    <actionGroup name="AdminReportsLowStockResetFilterActionGroup">
+        <click selector="{{LowStockReportFilterSection.resetButton}}" stepKey="clickClearFilters"/>
+        <waitForPageLoad stepKey="waitForProductGridLoad"/>
+    </actionGroup>
+</actionGroups>

@@ -15,5 +15,6 @@
         <element name="qtyTo" type="input" selector="#gridLowstock_filter_qty_to"/>
         <element name="searchButton" type="button" selector="//button/span[text()='Search']"/>
         <element name="resetButton" type="button" selector="//button/span[text()='Reset Filter']"/>
+        <element name="gridTable" type="text" selector="#gridLowstock_table"/>
     </section>
 </sections>
