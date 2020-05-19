@@ -7,12 +7,14 @@
 -->
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <actionGroup name="StorefrontAddProductReviewActionGroup">
+    <actionGroup name="StorefrontAddProductReviewAsCustomerActionGroup">
+        <annotations>
+            <description>Adds a product review as a customer</description>
+        </annotations>
         <arguments>
-            <argument name="review" type="entity" defaultValue="simpleProductReview"/>
+            <argument name="review" defaultValue="simpleProductReviewAsCustomer"/>
         </arguments>
         <click selector="{{StorefrontProductReviewsSection.reviewsTab}}" stepKey="openReviewTab"/>
-        <fillField selector="{{StorefrontProductReviewsSection.nicknameField}}" userInput="{{review.nickname}}" stepKey="fillNicknameField"/>
         <fillField selector="{{StorefrontProductReviewsSection.summaryField}}" userInput="{{review.title}}" stepKey="fillSummaryField"/>
         <fillField selector="{{StorefrontProductReviewsSection.reviewField}}" userInput="{{review.detail}}" stepKey="fillReviewField"/>
         <click selector="{{StorefrontProductReviewsSection.submitReview}}" stepKey="clickSubmitReview"/>

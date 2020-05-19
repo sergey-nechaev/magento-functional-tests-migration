@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+
+    <test name="AdminCreateActiveProductRatingTest">
+        <annotations>
+            <features value="Review"/>
+            <stories value="Create custom active product rating in admin"/>
+            <title value="Create custom active product rating in admin"/>
+            <description value="Create custom active product rating in admin"/>
+            <severity value="MAJOR"/>
+            <testCaseId value=""/>
+            <group value="review"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+            <createData entity="SimpleProductWithDescription" stepKey="createProduct"/>
+            <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+        </after>
+
+        <actionGroup ref="AdminOpenNewRatingFormActionGroup" stepKey="openNewRatingForm" />
+
+        <actionGroup ref="AdminFillInActiveRatingActionGroup" stepKey="fillInRating"/>
+        <grabValueFrom selector="{{AdminNewRatingSection.ratingCode}}" stepKey="grabRatingCode"/>
+        <actionGroup ref="AdminSaveProductRatingActionGroup" stepKey="saveRating"/>
+
+        <actionGroup ref="AdminSearchForRatingCodeInGridActionGroup" stepKey="searchForRatingCodeInGrid">
+            <argument name="ratingCode" value="{$grabRatingCode}" />
+        </actionGroup>
+        <see selector="{{AdminRatingGridSection.firstRow}}" userInput="{$grabRatingCode}"
+             stepKey="seeRatingCodeInGrid"/>
+
+        <actionGroup ref="logout" stepKey="logout"/>
+
+        <actionGroup ref="StorefrontOpenProductPageReviewsActionGroup" stepKey="openProductPageReviewsTab">
+            <argument name="productUrl" value="$$createProduct.custom_attributes[url_key]$$"/>
+        </actionGroup>
+        <seeElement selector="#{$grabRatingCode}_rating_label" stepKey="seeProductRating"/>
+
+        <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        <actionGroup ref="AdminDeleteProductRatingActionGroup" stepKey="deleteProductRating">
+            <argument name="productRatingTitle" value="{$grabRatingCode}" />
+        </actionGroup>
+        <actionGroup ref="logout" stepKey="logoutAfterDeletingRating"/>
+
+    </test>
+
+</tests>

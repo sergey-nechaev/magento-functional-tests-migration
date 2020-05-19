@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminNewRatingSection">
+        <element name="ratingCode" type="input" selector="#rating_code"/>
+        <element name="stores" type="multiselect" selector="#stores" />
+        <element name="isActive" type="checkbox" selector="#is_active" />
+        <element name="position" type="input" selector="#position"/>
+        <element name="backButton" type="button" selector="#back"/>
+        <element name="resetButton" type="button" selector="#reset"/>
+        <element name="saveButton" type="button" selector="#save"/>
+    </section>
+</sections>
