@@ -8,16 +8,16 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <actionGroup name="AdminSetQtyToInvoiceActionGroup">
+    <actionGroup name="AssertStorefrontBundleOptionsNameActionGroup">
         <annotations>
-            <description>Set qty of product to invoice</description>
+            <description> Check if option's name matches specified in arguments </description>
         </annotations>
         <arguments>
-            <argument name="product"/>
-            <argument name="quantity" type="string" defaultValue="1"/>
+            <argument name="index" type="string" defaultValue="1"/>
+            <argument name="optionName" type="string"/>
         </arguments>
 
-        <fillField selector="{{AdminInvoiceItemsSection.qtyToInvoiceColumn}}" userInput="{{quantity}}" stepKey="ChangeQtyToInvoice"/>
+        <see selector="{{StorefrontBundledSection.nthItemOptionsTitleXPath(index)}}" userInput="{{optionName}}" stepKey="seeOptionName"/>
 
     </actionGroup>
 </actionGroups>

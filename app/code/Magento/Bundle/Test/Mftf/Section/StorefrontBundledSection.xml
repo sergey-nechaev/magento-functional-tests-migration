@@ -22,6 +22,7 @@
         <element name="customizableBundleItemOption2" type="text" selector="//div[@class='field choice'][2]//input[@type='checkbox']"/>
         <element name="nthOptionDiv" type="block" selector="#product-options-wrapper div.field.option:nth-of-type({{var}})" parameterized="true"/>
         <element name="nthItemOptionsTitle" type="text" selector="dl.item-options dt:nth-of-type({{var}})" parameterized="true"/>
+        <element name="nthItemOptionsTitleXPath" type="text" selector="(//*[contains(@class,'field option')]/label)[{{var}}]" parameterized="true"/>
         <element name="nthItemOptionsValue" type="text" selector="dl.item-options dd:nth-of-type({{var}})" parameterized="true"/>
         <element name="bundleProductName" type="text" selector="//*[@id='maincontent']//span[@itemprop='name']"/>
         <element name="pageNotFound" type="text" selector="//h1[@class='page-title']//span[contains(., 'Whoops, our bad...')]"/>
@@ -44,3 +45,4 @@
         <element name="bundleOptionRequired" type="block" selector="//div[@class='field option  required']//span[contains(string(), '{{optionName}}')]" parameterized="true"/>
     </section>
 </sections>
+

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminUpdateBundleOptionsTest">
+        <annotations>
+            <features value="Bundle"/>
+            <stories value="Update bundle's options"/>
+            <title value="Update bundle's options"/>
+            <description value="It is possible update bundle's options, updates are reflected on Storefront"/>
+            <severity value="MAJOR"/>
+            <testCaseId value="MAGETWO-26195"/>
+            <group value="bundle"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+
+        <before>
+
+            <createData entity="SimpleSubCategory" stepKey="testCategory"/>
+
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct1">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct2">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct3">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct4">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct5">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct6">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct7">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct8">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+            <createData entity="ApiSimpleProduct" stepKey="simpleProduct9">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+
+            <createData entity="BundleProductPriceViewRange" stepKey="bundleProduct">
+                <requiredEntity createDataKey="testCategory"/>
+            </createData>
+
+            <createData entity="DropDownBundleOption" stepKey="bundleOptionDropdown">
+                <requiredEntity createDataKey="bundleProduct"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink1Dropdown">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionDropdown"/>
+                <requiredEntity createDataKey="simpleProduct1"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink2Dropdown">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionDropdown"/>
+                <requiredEntity createDataKey="simpleProduct2"/>
+            </createData>
+
+            <createData entity="MultipleSelectOption" stepKey="bundleOptionMultiselect">
+                <requiredEntity createDataKey="bundleProduct"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink1Multiselect">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionMultiselect"/>
+                <requiredEntity createDataKey="simpleProduct3"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink2Multiselect">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionMultiselect"/>
+                <requiredEntity createDataKey="simpleProduct4"/>
+            </createData>
+
+            <createData entity="RadioButtonsOption" stepKey="bundleOptionRadioButtons">
+                <requiredEntity createDataKey="bundleProduct"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink1RadioButton">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionRadioButtons"/>
+                <requiredEntity createDataKey="simpleProduct5"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink2RadioButton">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionRadioButtons"/>
+                <requiredEntity createDataKey="simpleProduct6"/>
+            </createData>
+            <createData entity="ApiBundleLink" stepKey="createBundleLink3RadioButton">
+                <requiredEntity createDataKey="bundleProduct"/>
+                <requiredEntity createDataKey="bundleOptionRadioButtons"/>
+                <requiredEntity createDataKey="simpleProduct7"/>
+            </createData>
+
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+
+            <magentoCron stepKey="runCronReindex" groups="index"/>
+
+        </before>
+
+        <after>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutAsAdmin"/>
+
+            <deleteData createDataKey="bundleProduct" stepKey="deleteBundleProduct"/>
+
+            <deleteData createDataKey="simpleProduct1" stepKey="deleteSimpleProduct1"/>
+            <deleteData createDataKey="simpleProduct2" stepKey="deleteSimpleProduct2"/>
+            <deleteData createDataKey="simpleProduct3" stepKey="deleteSimpleProduct3"/>
+            <deleteData createDataKey="simpleProduct4" stepKey="deleteSimpleProduct4"/>
+            <deleteData createDataKey="simpleProduct5" stepKey="deleteSimpleProduct5"/>
+            <deleteData createDataKey="simpleProduct6" stepKey="deleteSimpleProduct6"/>
+            <deleteData createDataKey="simpleProduct7" stepKey="deleteSimpleProduct7"/>
+            <deleteData createDataKey="simpleProduct8" stepKey="deleteSimpleProduct8"/>
+            <deleteData createDataKey="simpleProduct9" stepKey="deleteSimpleProduct9"/>
+
+            <deleteData createDataKey="testCategory" stepKey="deleteTestCategory"/>
+
+            <magentoCron stepKey="runCronReindex" groups="index"/>
+
+        </after>
+
+        <actionGroup ref="NavigateToCreatedProductEditPageActionGroup" stepKey="goToBundleProduct">
+            <argument name="product" value="$$bundleProduct$$"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminCatalogInventoryChangeManageStockActionGroup" stepKey="clickOnAdvancedInventoryLink">
+            <argument name="manageStock" value="No"/>
+        </actionGroup>
+
+        <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[1]" stepKey="grabBundleOption1"/>
+        <assertNotEmpty stepKey="assertBundleOption1NotEmpty">
+            <actualResult type="const">$grabBundleOption1</actualResult>
+        </assertNotEmpty>
+
+        <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[2]" stepKey="grabBundleOption2"/>
+        <assertNotEmpty stepKey="assertBundleOption2NotEmpty">
+            <actualResult type="const">$grabBundleOption2</actualResult>
+        </assertNotEmpty>
+
+        <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[3]" stepKey="grabBundleOption3"/>
+        <assertNotEmpty stepKey="assertBundleOption3NotEmpty">
+            <actualResult type="const">$grabBundleOption3</actualResult>
+        </assertNotEmpty>
+
+        <actionGroup ref="AdminRenameBundleOptionActionGroup" stepKey="renameFirstOption">
+            <argument name="optionIndex" value="1"/>
+            <argument name="newOptionName" value="updatedOption"/>
+        </actionGroup>
+
+        <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[1]" stepKey="grabBundleUpdatedOption1"/>
+        <assertNotEmpty stepKey="assertBundleUpdatedOption1NotEmpty">
+            <actualResult type="const">$grabBundleUpdatedOption1</actualResult>
+        </assertNotEmpty>
+
+        <actionGroup ref="AddBundleOptionWithTwoProductsActionGroup" stepKey="addOption">
+            <argument name="x" value="3"/>
+            <argument name="n" value="4"/>
+            <argument name="prodOneSku" value="$$simpleProduct8.sku$$"/>
+            <argument name="prodTwoSku" value="$$simpleProduct9.sku$$"/>
+            <argument name="optionTitle" value="addedOption"/>
+            <argument name="inputType" value="{{RadioButtonsOption.type}}"/>
+        </actionGroup>
+
+        <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[4]" stepKey="grabBundleAddedOption"/>
+        <assertNotEmpty stepKey="assertBundleAddedOptionNotEmpty">
+            <actualResult type="const">$grabBundleAddedOption</actualResult>
+        </assertNotEmpty>
+
+        <actionGroup ref="SaveProductFormActionGroup" stepKey="saveUpdatedProduct"/>
+
+        <actionGroup ref="OpenStoreFrontProductPageActionGroup" stepKey="openProductPage">
+            <argument name="productUrlKey" value="$$bundleProduct.custom_attributes[url_key]$$"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontSelectCustomizeAndAddToTheCartButtonActionGroup" stepKey="clickCustomizeAndAddToTheCart"/>
+
+        <actionGroup ref="AssertStorefrontBundleOptionsNameActionGroup" stepKey="check1stOption">
+            <argument name="index" value="1"/>
+            <argument name="optionName" value="$grabBundleUpdatedOption1"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontBundleOptionsNameActionGroup" stepKey="check2ndOption">
+            <argument name="index" value="2"/>
+            <argument name="optionName" value="$grabBundleOption2"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontBundleOptionsNameActionGroup" stepKey="check3dOption">
+            <argument name="index" value="3"/>
+            <argument name="optionName" value="$grabBundleOption3"/>
+        </actionGroup>
+
+        <actionGroup ref="AssertStorefrontBundleOptionsNameActionGroup" stepKey="check4thOption">
+            <argument name="index" value="4"/>
+            <argument name="optionName" value="$grabBundleAddedOption"/>
+        </actionGroup>
+
+    </test>
+</tests>

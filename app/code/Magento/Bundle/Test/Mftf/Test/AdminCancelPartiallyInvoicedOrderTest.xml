@@ -21,7 +21,7 @@
         </annotations>
 
         <before>
-
+            <!-- create test category and 4 simple products within it -->
             <createData entity="SimpleSubCategory" stepKey="testCategory"/>
             <createData entity="ApiSimpleProduct" stepKey="simpleProduct1">
                 <requiredEntity createDataKey="testCategory"/>
@@ -36,6 +36,7 @@
                 <requiredEntity createDataKey="testCategory"/>
             </createData>
 
+            <!-- Create bundle products with 1 dropdown and 1 multiselect options, assign simple products -->
             <createData entity="BundleProductPriceViewRange" stepKey="bundleProduct">
                 <requiredEntity createDataKey="testCategory"/>
             </createData>
@@ -70,12 +71,9 @@
 
             <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
 
+            <!-- Grab bundle options names for Bundle Product -->
             <actionGroup ref="NavigateToCreatedProductEditPageActionGroup" stepKey="goToBundleProduct">
                 <argument name="product" value="$$bundleProduct$$"/>
-            </actionGroup>
-
-            <actionGroup ref="AdminCatalogInventoryChangeManageStockActionGroup" stepKey="clickOnAdvancedInventoryLink">
-                <argument name="manageStock" value="No"/>
             </actionGroup>
 
             <grabTextFrom selector="({{AdminProductFormBundleSection.currentBundleOption}})[1]" stepKey="grabBundleOption1"/>
@@ -95,6 +93,7 @@
 
             <magentoCron stepKey="runCronReindex" groups="index"/>
 
+            <!-- Create new order and add bundle product in a qty of 2 -->
             <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="navigateToNewOrderWithExistingCustomer">
                 <argument name="customer" value="$$testCustomer$$"/>
             </actionGroup>
@@ -128,6 +127,7 @@
 
             <actionGroup ref="AdminClickAddSelectedProductsToOrderActionGroup" stepKey="addToOrder"/>
 
+            <!-- Finalize and place order, check if order has been created -->
             <actionGroup ref="SelectCashOnDeliveryPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
             <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="orderSelectFlatRateShippingMethod"/>
             <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
@@ -156,6 +156,7 @@
 
         </after>
 
+            <!-- Open created order and invoice 1 of 2 ordered products -->
             <grabTextFrom selector="|Order # (\d+)|" stepKey="getOrderId"/>
 
             <actionGroup ref="OpenOrderByIdActionGroup" stepKey="openOrder">
@@ -173,10 +174,12 @@
 
             <actionGroup ref="SubmitInvoiceActionGroup" stepKey="submitInvoice"/>
 
+            <!-- Cancel order and check if its status is "Processing" -->
             <actionGroup ref="CancelPendingOrderActionGroup" stepKey="cancelOrder">
                 <argument name="orderStatus" value="Processing"/>
             </actionGroup>
 
+            <!-- Check if there are both "Canceled.." and "Invoiced.." texts for each bundle option in the Items Ordered table -->
             <actionGroup ref="AdminAssertTextInQtyCellOnOrderPageContainsActionGroup" stepKey="checkIfOrderedItem1Cancelled">
                 <argument name="productName" value="$$simpleProduct1.name$$"/>
                 <argument name="textFromQtyCell" value="Canceled 2"/>

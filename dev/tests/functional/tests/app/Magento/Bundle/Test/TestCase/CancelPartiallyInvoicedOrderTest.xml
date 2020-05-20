@@ -23,7 +23,6 @@
             </data>
             <data name="configData" xsi:type="string">cashondelivery</data>
             <data name="status" xsi:type="string">Processing</data>
-            <data name="tag" xsi:type="string">mftf_migrated:yes</data>
             <constraint name="Magento\Sales\Test\Constraint\AssertOrderCancelSuccessMessage" />
             <constraint name="Magento\Sales\Test\Constraint\AssertOrderInOrdersGrid" />
         </variation>
