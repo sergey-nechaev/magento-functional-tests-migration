@@ -12,4 +12,12 @@
         <data key="scope">0</data>
         <data key="synonyms" unique="suffix">synonym_</data>
     </entity>
+    <entity name="search_group_1">
+        <data key="scope">0</data>
+        <data key="synonyms" unique="suffix">synonym_</data>
+    </entity>
+    <entity name="search_group_2">
+        <data key="scope">Default Store View</data>
+        <data key="synonyms" unique="suffix">shoes,foot wear,mens shoes,women shoes_</data>
+    </entity>
 </entities>
